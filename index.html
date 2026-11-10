@@ -5368,7 +5368,7 @@ function openProfile(tab) {
   const tabs = [["life", "THIS LIFE"], ["ach", `ACHIEVEMENTS ${nA}/${ACH.length}`], ["lives", "PAST LIVES"], ["friends", "FRIENDS"], ["acct", "PROFILE"]];
   openModal(`<div class="pmhead"><svg width="112" height="144" viewBox="0 0 14 18" id="pmHero"></svg><div><h2>${escH(G.look.name)}</h2><p>Age ${G.age} · LV ${G.level} ${TITLES[Math.min(TITLES.length - 1, G.level - 1)]}</p><p>Profile <b style="color:var(--gold)">${escH(ME ? ME.name : "GUEST")}</b> · ${nA} achievements · ${ME ? ME.lives.length : 0} lives finished</p></div></div>
     <div class="tabs3" role="tablist">${tabs.map(([k, l]) => `<button role="tab" data-pmt="${k}" aria-selected="${k === pmTab}">${l}</button>`).join("")}</div>
-    <div class="pmbody">${body}</div><div class="mfoot"><button class="btn gold" id="pmClose">CLOSE</button></div>`, "wide prof");
+    <div class="pmbody">${body}</div><div class="mfoot">${isTester() ? `<button class="btn" id="pmDev">TESTER TOOLS</button>` : ""}<button class="btn gold" id="pmClose">CLOSE</button></div>`, "wide prof");
   drawSprite($("pmHero"), G.look);
   $("mbox").querySelectorAll("[data-life]").forEach(s => drawSprite(s, ME.lives[+s.dataset.life].look));
   $("mbox").querySelectorAll("[data-pmt]").forEach(b => b.onclick = () => openProfile(b.dataset.pmt));
@@ -5377,7 +5377,7 @@ function openProfile(tab) {
       tip.innerHTML = `<b class="${on ? "on" : ""}">${a[3]}</b><span>${a[4]}</span><small>${on ? "UNLOCKED " + dateStr(on).toUpperCase() : a[5] > 1 ? "PROGRESS " + (a[5] >= 1000 ? money(Math.round(v)) + " / " + money(a[5]) : Math.floor(v) + " / " + a[5]) : "LOCKED"} · ${a[1]}</small>`; };
     t.onmouseenter = show; t.onfocus = show; t.onclick = show; });
   if (pmTab === "friends" && typeof friendsWire === "function") friendsWire();
-  $("pmClose").onclick = closeModal;
+  $("pmClose").onclick = closeModal; const dv = $("pmDev"); if (dv) dv.onclick = openDevTools;
   const sw = $("pmSwitch"); if (sw) sw.onclick = () => { closeModalSilent(); logout(); };
   const po = $("pmOut"); if (po) po.onclick = () => { closeModalSilent(); acctSignOut(); };
   const del = $("pmDel"); if (del) del.onclick = () => { del.textContent = "TAP AGAIN: DELETES SAVES AND ACHIEVEMENTS"; del.onclick = () => {
@@ -5598,7 +5598,7 @@ function offlineMode() { ACCT = null; $("authBox").hidden = true; $("profGrid").
 async function acctEnter(u) {
   const how = (u.providerData[0] || {}).providerId === "google.com" ? "google" : "user";
   const name = how === "google" ? (u.displayName || u.email || "PLAYER") : (u.email || "").split("@")[0];
-  ACCT = { uid: u.uid, name: String(name).toUpperCase().slice(0, 24), how };
+  ACCT = { uid: u.uid, name: String(name).toUpperCase().slice(0, 24), how, login: String(how === "google" ? u.email || "" : (u.email || "").split("@")[0]).toLowerCase() };
   $("authBox").hidden = true; $("loginSub").textContent = "LOADING YOUR SAVES..."; $("profGrid").hidden = true;
   try { await Cloud.pull(); } catch (e) { console.warn(e); toast("COULDN'T REACH THE CLOUD. PLAYING ON THIS DEVICE'S COPY."); }
   if (!ACCT || ACCT.uid !== u.uid) return;
@@ -5677,6 +5677,35 @@ function friendsWire() {
     catch (x) { er.textContent = "Couldn't reach the server. Try again."; } };
   const pending = (ME.friends || []).some(c => !Friends.cache[c]);
   if (pending) Friends.load().then(() => { if (pmTab === "friends" && !$("modal").hidden) openProfile("friends"); });
+}
+
+/* ================= v12: TESTER TOOLS (accounts listed in window.HDB_TESTERS, see firebase-config.js) ================= */
+function isTester() { const T = (window.HDB_TESTERS || []).map(x => String(x).toLowerCase()); return !!(ACCT && ACCT.login && T.includes(ACCT.login)); }
+function openDevTools() {
+  if (!isTester() || !G) return;
+  const B = (id, l) => `<button class="btn" data-dev="${id}">${l}</button>`;
+  openModal(`<h2 style="margin:0">TESTER TOOLS</h2><p style="margin:0;color:var(--muted)">Only accounts on the tester list see this. Changes apply to the life you're playing now and save like normal progress.</p>
+    <div class="row2" style="display:flex;flex-wrap:wrap;gap:8px">${B("cash", "+ S$1,000,000 CASH")}${B("savings", "+ S$500,000 SAVINGS")}${B("stats", "MAX HEALTH, HAPPY, ZERO STRESS")}${B("energy", "REFILL ENERGY")}${B("know", "+500 KNOWLEDGE")}${B("level", "+5 LEVELS")}${B("debt", "CLEAR ALL DEBT")}${B("pets", "GET ALL EXOTIC PETS")}${B("ach", "UNLOCK ALL ACHIEVEMENTS")}</div>
+    <h3 style="margin:8px 0 0;font:9px/1.4 var(--pixel);color:var(--gold)">PREVIEW CUTSCENES</h3>
+    <div class="row2" style="display:flex;flex-wrap:wrap;gap:8px">${Object.keys(PET_STORY).map(k => B("pet:" + k, PETS[k].name + " (" + (EXO_NAME[PETS[k].exotic] || PETS[k].exotic) + ")")).join("")}${B("p:4d", "4D 1ST PRIZE")}${B("p:toto", "TOTO JACKPOT")}${B("p:scratch", "SCRATCH TOP PRIZE")}</div>
+    <div class="mfoot"><button class="btn gold" id="devClose">CLOSE</button></div>`, "wide");
+  $("devClose").onclick = closeModal;
+  $("mbox").querySelectorAll("[data-dev]").forEach(b => b.onclick = () => {
+    const d = b.dataset.dev, done = m => { renderHUD(); save(); toast(m); };
+    if (d === "cash") { why && why("Tester tools"); G.cash += 1000000; done("+ S$1,000,000 CASH"); }
+    else if (d === "savings") { G.savings += 500000; done("+ S$500,000 SAVINGS"); }
+    else if (d === "stats") { G.health = 100; G.happy = 100; G.stress = 0; done("STATS MAXED"); }
+    else if (d === "energy") { G.energy = G.maxEnergy; done("ENERGY REFILLED"); }
+    else if (d === "know") { G.knowledge += 500; done("+500 KNOWLEDGE"); }
+    else if (d === "level") { addXP(Array.from({ length: 5 }, (_, i) => (G.level + i) * 100).reduce((a, c) => a + c, 0) - G.xp); done("LEVELLED UP"); }
+    else if (d === "debt") { G.debt = 0; G.loan = 0; done("DEBT CLEARED"); }
+    else if (d === "pets") { petLink(); let n = 0; Object.keys(PETS).filter(k => PETS[k].exotic && !G.pets.some(x => x.kind === k)).forEach(k => { petAdd(k, PETS[k].name); n++; }); done(n ? `+${n} EXOTIC PETS` : "YOU HAVE THEM ALL"); }
+    else if (d === "ach") { ACH.forEach(a => { if (!ME.ach[a[0]]) ME.ach[a[0]] = Date.now(); }); profSave(); done("ALL ACHIEVEMENTS UNLOCKED"); }
+    else if (d.startsWith("pet:")) { closeModalSilent(); const k = d.slice(4); playPetStory(k, PETS[k].name, openDevTools); }
+    else if (d === "p:4d") playPrize("4d", 1, 2000, { num: "8888" }, openDevTools);
+    else if (d === "p:toto") playPrize("toto", 1, 1000000, { balls: [4, 8, 16, 23, 38, 42].map(n => ({ n, hit: 1 })).concat([{ n: 7, hit: 0, c: "#8EC5E8" }]) }, openDevTools);
+    else if (d === "p:scratch") playPrize("scratch", 1, 10000, { cells: [10000, 5, 10000, 2, 20, 10000, 100, 2, 5].map(v => ({ t: money(v), hit: v === 10000 })) }, openDevTools);
+  });
 }
 
 /* ================= v12: PET STORY CUTSCENES (LEGENDARY / MYTHIC / SECRET) ================= */

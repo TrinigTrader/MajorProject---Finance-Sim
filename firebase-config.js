@@ -10,3 +10,7 @@ window.FIREBASE_CONFIG = {
   appId: "1:79008101358:web:613226df165cc7960a54ff",
   measurementId: "G-PE48LL7K96"
 };
+
+// Accounts that get the TESTER TOOLS button (in the profile window).
+// Use the username for username accounts, or the full email for Google accounts. Lowercase.
+window.HDB_TESTERS = ["hdb_master"];
