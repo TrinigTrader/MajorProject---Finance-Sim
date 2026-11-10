@@ -4,6 +4,16 @@ A pixel-art life sim set in a Singapore HDB estate that teaches young adults abo
 
 Play it at **https://trinigtrader.github.io/MajorProject---Finance-Sim/** (GitHub Pages, from `main`).
 
+## What's new in v13
+
+- **The Gilded Vault** (bank): deposit or withdraw any amount, stash bag items in vault slots, and credit cards from age 21.
+- **Credit cards**: five made-up cards with different rewards, fees and income rules, plus a card page for balance, interest, limit, spending and statements.
+- **Stock Exchange order ticket**: buy or sell a number of shares at market or limit prices, with a live order book and a 0.1% brokerage fee.
+- **Titles**: unlock titles as you play and equip one in Profile > Titles. It shows on Lifegram and in the top bar. Tester accounts get 5 chroma staff tags.
+- **Pet store**: hatch 10 exotic eggs at once.
+- **Home store**: buying furniture sends it to storage, and a showroom previews each item in a styled room you can copy in one purchase.
+- **Tester accounts**: unlimited job applications.
+
 ## Files
 
 - `index.html`: the whole game in one file
