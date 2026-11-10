@@ -3,7 +3,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Jacquarda+Bastarda+9&family=Pixelify+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Pixelify+Sans:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: navy pixel panels over a night HDB skyline; the hub is a fixed 1280x720 stage scaled to fit. Single dark look by design. */
 :root {
@@ -1291,6 +1291,140 @@ button.mode:hover, .mode.multi:hover { border-color: var(--gold); box-shadow: 0 
 .trow .utag { justify-self: start; margin-left: 0; font-size: 8px; padding: 4px 6px 3px; }
 .pmhead h2 .utag { font-size: 8px; }
 .post .who .utag { margin-right: 2px; }
+/* ================= v14 ================= */
+/* plainer bank: no blackletter, no dungeon stone, calm navy */
+.vt, .cc-stamp { --st0: #0F1626; --st1: #16213A; --st2: #1E2B48; --gd: #E8C25A; --gd2: #2E3D62; --gd3: #FFF4D6; --ink2: #141826; --fh: "Pixelify Sans", var(--body); }
+.vt { background: linear-gradient(180deg, #17223B, #0E1526); }
+.vt::after { display: none; }
+.vt-head { background: #18233D; border-bottom: 2px solid #2E3D62; box-shadow: none; }
+.vt-crest, .vt-crest.card { width: 44px; height: 44px; clip-path: none; border-radius: 8px; box-shadow: none; display: grid; place-items: center;
+  background: linear-gradient(#E8C25A, #E8C25A) 50% 26%/30px 4px no-repeat, linear-gradient(#E8C25A, #E8C25A) 50% 82%/32px 4px no-repeat,
+  repeating-linear-gradient(90deg, #E8C25A 0 4px, transparent 4px 9px) 50% 56%/27px 18px no-repeat, #1E4C9E; }
+.vt-kicker { color: #8EC5E8; letter-spacing: .2em; }
+.vt-title { font: 700 clamp(22px, 3vw, 32px)/1.1 var(--fx); color: #FFFFFF; text-shadow: none; letter-spacing: .02em; }
+.vt-side, .vt-panel { background: #18233D; border: 2px solid #2E3D62; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.vt-side::before, .vt-panel::before { display: none; }
+.vt-panel > h2 { font: 700 22px/1.15 var(--fx); color: #FFFFFF; text-shadow: none; }
+.vt-panel > h2 em { color: #8EC5E8; }
+.vt-panel > p.sub, .vt-hint { color: #A9B6D0; }
+.vt-plate { background: #22305A; color: #DCE6F7; box-shadow: none; }
+.vt-coin { background: #0F1626; border-color: #2E3D62; box-shadow: none; }
+.vt-coin small { color: #8EA0C4; }
+.vt-seg { background: #0F1626; border-color: #2E3D62; }
+.vt-seg button { color: #A9B6D0; }
+.vt-seg button[aria-pressed="true"] { background: #E8C25A; color: #141826; box-shadow: none; }
+.vt-seg button.out[aria-pressed="true"] { background: #5A8EE0; color: #fff; box-shadow: none; }
+.vt-field { background: #0F1626; border-color: #2E3D62; box-shadow: none; }
+.vt-field:focus-within { border-color: #E8C25A; box-shadow: 0 0 0 3px rgba(232,194,90,.18); }
+.vt-quick button { background: #1E2B48; border-color: #2E3D62; color: #DCE6F7; }
+.vt-btn { background: #E8C25A; color: #141826; box-shadow: 0 3px 0 #9A7A2A; letter-spacing: .1em; text-shadow: none; }
+.vt-btn:active:not(:disabled) { box-shadow: 0 1px 0 #9A7A2A; }
+.vt-btn.ghost { background: #1E2B48; color: #DCE6F7; box-shadow: inset 0 0 0 2px #2E3D62; }
+.vt-btn.blue { background: #5A8EE0; color: #fff; box-shadow: 0 3px 0 #2E5A9A; }
+.vt-btn.red { background: #E26A5A; color: #fff; box-shadow: 0 3px 0 #8A2A1E; }
+.vt-stat { border-bottom: 1px solid #24324F; color: #B8C4DC; }
+.vt-locked { background: #141E33; border-color: #2E3D62; color: #A9B6D0; }
+.vt-locked .chain { font-family: var(--fx); color: #5A6A8A; }
+.vt-flow, .vt-quick button { border-color: #2E3D62; }
+
+/* LEARN: full-screen reader with bigger text */
+#scr-web.fullpg { display: flex; flex-direction: column; overflow: hidden; height: 100dvh; padding-bottom: 0; }
+#scr-web > .head, #scr-web > .foot { flex: none; }
+#scr-web > .foot { position: static; }
+#scr-web .browser { flex: 1 1 auto; min-height: 0; }
+#scr-web .urlbar { font-size: 10px; padding: 10px 14px; }
+#scr-web .webpage { max-height: none; min-height: 0; overflow-y: auto; overscroll-behavior: contain; font-size: clamp(23px, 1.9vw, 28px); line-height: 1.45; gap: 16px; padding: clamp(18px, 3vw, 40px) clamp(16px, 6vw, 96px); }
+#scr-web .webpage > * { width: 100%; max-width: 980px; justify-self: center; }
+#scr-web .webpage h2 { font-size: clamp(14px, 1.4vw, 20px); line-height: 1.55; }
+#scr-web .webpage h3 { font-size: clamp(11px, 1vw, 14px); margin-top: 14px; }
+#scr-web .webpage li { margin: 6px 0; }
+#scr-web .webpage .art { font-size: 22px; padding: 14px 16px; grid-template-columns: 48px 1fr auto; }
+#scr-web .webpage .art b { font-size: 10px; }
+#scr-web .webpage .tag, #scr-web .webpage .read { font-size: 8px; }
+#scr-web .webpage .note { font-size: 22px; }
+#scr-web .srcnote { font-size: 18px; }
+
+/* home edit: storage side panel */
+.hinv { position: absolute; right: 0; top: var(--hth, 56px); bottom: var(--trh, 0px); width: 300px; z-index: 2; background: rgba(11,15,34,.96); border-left: 2px solid var(--gold); display: flex; flex-direction: column; gap: 8px; padding: 10px; color: var(--ink); }
+.hinv[hidden] { display: none; }
+.hihead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.hihead b { font: 9px var(--pixel); color: var(--gold); font-weight: normal; } .hihead small { color: var(--muted); font-size: 16px; }
+.hisort { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: center; font: 8px var(--pixel); color: var(--muted); }
+.hisort select { font: 18px var(--body); background: var(--night); color: var(--ink); border: 2px solid var(--border); padding: 4px 6px; cursor: pointer; }
+.hicats { display: flex; flex-wrap: wrap; gap: 4px; }
+.hicats button { font: 7px/1 var(--pixel); padding: 6px 7px; background: var(--panel-2); color: var(--muted); border: 1px solid var(--border); cursor: pointer; }
+.hicats button[aria-pressed="true"] { color: #141826; background: var(--gold); border-color: var(--gold); }
+.hlist { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: grid; gap: 6px; align-content: start; touch-action: pan-y; padding-right: 4px; scrollbar-width: thin; scrollbar-color: var(--gold) transparent; }
+.hitem { display: grid; grid-template-columns: 56px 1fr auto; gap: 8px; align-items: center; text-align: left; background: var(--panel-2); border: 2px solid var(--border); color: var(--ink); padding: 6px 8px; cursor: grab; font-family: var(--body); font-size: 16px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.hitem:hover { border-color: #8EC5E8; } .hitem:active { cursor: grabbing; }
+.hitem[aria-pressed="true"] { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(232,194,90,.35); }
+.hitem canvas { image-rendering: pixelated; max-width: 52px; max-height: 44px; justify-self: center; pointer-events: none; }
+.hitem b { display: block; font: 7px/1.5 var(--pixel); font-weight: normal; } .hitem small { color: var(--muted); font-size: 15px; } .hitem em { font: 9px var(--pixel); color: var(--gold); font-style: normal; }
+.hitip, .hiempty { margin: 0; font-size: 15px; color: var(--muted); }
+.hdragchip { position: fixed; z-index: 60; pointer-events: none; font: 8px var(--pixel); background: var(--coral); color: #141826; padding: 6px 8px; transform: translate(14px, 14px); white-space: nowrap; }
+.hdragchip.ok { background: var(--gold); }
+.htray { max-height: none; }
+.homescr.editing .hmsg { right: calc(var(--rw, 0px) + 12px); width: min(420px, calc(100% - 260px - var(--rw, 0px))); }
+@media (max-width: 900px) { .hinv { width: min(250px, 48vw); padding: 8px; } .hitem { grid-template-columns: 40px 1fr; padding: 5px 6px; } .hitem canvas { max-width: 38px; } .hitem em { grid-column: 2; }
+  .hguide { display: none !important; } .homescr.editing .hmsg { width: calc(100% - var(--rw, 0px) - 24px); left: 12px; } }
+
+/* exotic egg pity */
+.pitybox { display: grid; gap: 8px; width: 100%; max-width: 520px; }
+.pitybox > small { color: var(--muted); font-size: 16px; }
+.pity { display: grid; gap: 4px; }
+.pity span { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.pity b { font: 8px var(--pixel); color: var(--c); font-weight: normal; } .pity small { font-size: 16px; color: var(--muted); }
+.pity i { display: block; height: 10px; background: var(--night); border: 2px solid var(--border); }
+.pity u { display: block; height: 100%; background: var(--c); }
+
+/* phone: messages with real friends */
+.psec { margin: 6px 0 2px; font: 8px/1 var(--pixel); color: var(--gold); letter-spacing: .1em; }
+.friend .fnm { font: 9px/1.5 var(--pixel); font-weight: normal; display: block; }
+.friend .fnm .utag { font-size: 6px; }
+.freq { display: grid; grid-template-columns: auto 1fr auto auto; gap: 8px; align-items: center; background: var(--panel-2); border: 1px solid var(--gold); padding: 8px; }
+.freq b { font: 8px/1.4 var(--pixel); font-weight: normal; display: block; } .freq small { color: var(--muted); font-size: 15px; }
+.freq button { font: 7px var(--pixel); padding: 8px; background: var(--gold); color: #141826; border: 0; cursor: pointer; }
+.freq button.ghost { background: none; color: var(--muted); border: 1px solid var(--border); }
+.pview { margin-left: auto; font: 7px var(--pixel); padding: 6px 8px; background: none; border: 1px solid var(--border); color: var(--muted); cursor: pointer; }
+.pchat { display: flex; gap: 6px; position: sticky; bottom: 0; background: var(--panel); padding-top: 6px; }
+.pchat input { flex: 1; min-width: 0; font: 18px var(--body); padding: 8px 10px; background: var(--night); color: var(--ink); border: 2px solid var(--border); border-radius: 10px; }
+.pchat input:focus { border-color: var(--gold); outline: none; }
+.pchat button { font: 8px var(--pixel); padding: 0 12px; background: var(--gold); color: #141826; border: 0; cursor: pointer; border-radius: 10px; }
+.pnote { margin: 0; color: var(--muted); font-size: 15px; }
+
+/* friends tab, friend profile, admin */
+.fcard.fclick { cursor: pointer; text-align: left; font-family: var(--body); color: var(--ink); width: 100%; }
+.fcard.fclick:hover, .fcard.fclick:focus-visible, .fcard.on { border-color: var(--gold); outline: none; }
+.fcard .fbtns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.fcard .fbtns button.gold { background: var(--gold); color: #141826; border-color: var(--gold); }
+.fcard b .utag { font-size: 6px; }
+.mbox.prof.fview { grid-template-rows: auto minmax(0, 1fr) auto; }
+.fvgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.mbox.prof .tabs3 { grid-template-columns: repeat(6, 1fr); }
+@media (max-width: 720px) { .mbox.prof .tabs3 { grid-template-columns: repeat(3, 1fr); } }
+.pmname { align-items: center; }
+.pmname label { font: 8px var(--pixel); color: var(--gold); flex-basis: 100%; }
+.admres { max-height: 260px; overflow: auto; }
+.admpanel { display: grid; gap: 10px; background: var(--night); border: 2px solid var(--gold); padding: 14px; }
+.admpanel h3 { margin: 0; font: 9px/1.5 var(--pixel); color: var(--muted); font-weight: normal; } .admpanel h3 b { color: var(--gold); font-weight: normal; }
+.admrow { display: grid; grid-template-columns: 90px minmax(160px, 260px) 1fr; gap: 8px; align-items: center; }
+.admrow label { font: 8px var(--pixel); color: var(--muted); }
+.admrow .namefield { width: 100%; box-sizing: border-box; text-transform: none; }
+.admbtns { display: flex; flex-wrap: wrap; gap: 6px; } .admbtns .btn { font-size: 8px; padding: 8px 10px; }
+.admpanel .hint { margin: 0; color: var(--muted); font-size: 16px; }
+@media (max-width: 720px) { .admrow { grid-template-columns: 1fr; } }
+
+/* new chroma tags */
+.utag.cjk { font: 700 12px/1 "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; letter-spacing: .12em; padding: 3px 6px 2px; }
+.utag.c-gamble { background-image: linear-gradient(90deg, #8A0F0F, #FF3A2A, #FFD700, #FFF6C0, #FF3A2A, #8A0F0F); filter: drop-shadow(0 0 3px rgba(255,58,42,.6)); }
+.utag.c-jade { background-image: linear-gradient(90deg, #0B5D3B, #2ECC71, #E8FFF4, #1ABC9C, #0B5D3B); filter: drop-shadow(0 0 3px rgba(46,204,113,.55)); }
+.utag.c-aura { background-image: linear-gradient(90deg, #00E5FF, #7A5CFF, #FFFFFF, #FF4FD8, #00E5FF); animation: chroma 1.6s linear infinite, aurapulse 1.6s ease-in-out infinite; }
+@keyframes aurapulse { 0%, 100% { filter: drop-shadow(0 0 2px rgba(122,92,255,.8)); } 50% { filter: drop-shadow(0 0 7px rgba(0,229,255,1)); } }
+.utag.c-smelly { background-image: linear-gradient(90deg, #6B8E23, #A3B83A, #C9B458, #7A5A2A, #6B8E23); animation: chroma 3.4s linear infinite, stink 1.1s steps(2) infinite; }
+@keyframes stink { 50% { transform: translateY(-1px) rotate(-2deg); } }
+.utag.c-money { background-image: linear-gradient(90deg, #0E6B3A, #3DDC84, #F4C94A, #FFFFFF, #3DDC84, #0E6B3A); filter: drop-shadow(0 0 3px rgba(61,220,132,.6)); }
+@media (prefers-reduced-motion: reduce) { .utag.c-aura, .utag.c-smelly { animation: none; } }
+
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -1499,7 +1633,7 @@ button.mode:hover, .mode.multi:hover { border-color: var(--gold); box-shadow: 0 
   <section class="scr vt" id="scr-vault" aria-label="Bank vault" hidden>
     <header class="vt-head">
       <span class="vt-crest" aria-hidden="true"></span>
-      <div><p class="vt-kicker">NEIGHBOURHOOD BANK</p><h1 class="vt-title">The Gilded Vault</h1></div>
+      <div><p class="vt-kicker">SAVINGS · STORAGE · CARDS</p><h1 class="vt-title">Neighbourhood Bank</h1></div>
       <div class="vt-purse" id="vtPurse"></div>
     </header>
     <div class="vt-grid">
@@ -1510,7 +1644,7 @@ button.mode:hover, .mode.multi:hover { border-color: var(--gold); box-shadow: 0 
         <p class="vt-hint">Click a stored item to take it back to your bag. Items in the vault are safe, but passive items only work while they're in your bag.</p>
       </aside>
     </div>
-    <footer class="vt-foot"><button class="vt-btn ghost" id="vtBack">&lt; LEAVE THE VAULT</button><span>Savings earn 2.5% a year in this game. Real bank rates change, so compare before you open an account.</span></footer>
+    <footer class="vt-foot"><button class="vt-btn ghost" id="vtBack">&lt; LEAVE THE BANK</button><span>Savings earn 2.5% a year in this game. Real bank rates change, so compare before you open an account.</span></footer>
     <div class="vt-tip" id="vtTip" hidden></div>
   </section>
 
@@ -1522,7 +1656,7 @@ button.mode:hover, .mode.multi:hover { border-color: var(--gold); box-shadow: 0 
       <div class="vt-purse" id="ccPurse"></div>
     </header>
     <div class="cc-body" id="ccBody"></div>
-    <footer class="vt-foot"><button class="vt-btn ghost" id="ccBack">&lt; BACK TO THE VAULT</button><span>Card names are made up. Real cards charge about 26–28% a year on any unpaid balance.</span></footer>
+    <footer class="vt-foot"><button class="vt-btn ghost" id="ccBack">&lt; BACK TO THE BANK</button><span>Card names are made up. Real cards charge about 26–28% a year on any unpaid balance.</span></footer>
   </section>
 
 
@@ -1550,6 +1684,7 @@ button.mode:hover, .mode.multi:hover { border-color: var(--gold); box-shadow: 0 
     <div class="hmsg" id="homeMsg" hidden></div>
     <div class="hjoy" id="homeJoy" aria-hidden="true"><i></i></div><button class="hA" id="homeA" aria-label="Look">A</button>
     <div class="htray" id="homeTray" hidden></div>
+    <aside class="hinv" id="homeInv" hidden aria-label="Furniture in storage"></aside>
     <aside class="hguide" id="homeGuide" hidden></aside>
     <div class="htour" id="homeTourBar" hidden></div>
     <div class="hsleep" id="homeSleep" hidden><span>Z</span><span>z</span><span>z</span></div>
@@ -2097,7 +2232,7 @@ function fx(d) {
 }
 const SAVE_KEY = "hdblife-save-v2";
 const sKey = () => SAVE_KEY + (ME ? ":" + ME.id : ""), pKey = () => PARTY_KEY + (ME ? ":" + ME.id : "");
-function save() { try { if (PARTY) { PARTY.players[PARTY.cur] = G; LSs(pKey(), JSON.stringify(PARTY)); LSd(sKey()); } else if (G) { LSs(sKey(), JSON.stringify(G)); LSd(pKey()); } } catch (e) {} try { achCheck(); } catch (e) {} }
+function save() { try { if (PARTY) { PARTY.players[PARTY.cur] = G; LSs(pKey(), JSON.stringify(PARTY)); LSd(sKey()); } else if (G) { LSs(sKey(), JSON.stringify(G)); LSd(pKey()); } } catch (e) {} try { achCheck(); } catch (e) {} try { if (ACCT && ME && ME.code && G && !PARTY) Friends.publishSoon(); } catch (e) {} }
 function load() { try { const p = localStorage.getItem(pKey()); if (p) { const P = JSON.parse(p); P.players.forEach(armCash); return P.players[P.cur] ? Object.assign(P.players[P.cur], { __party: P }) : null; } const s = localStorage.getItem(sKey()); return s ? armCash(JSON.parse(s)) : null; } catch (e) { return null; } }
 function clearSave() { LSd(sKey()); LSd(pKey()); }
 
@@ -2279,7 +2414,7 @@ const TOWN = [
       act("NEW PHONE ON INSTALMENTS", "S$1,800, 0% for 12 months. Sounds free…", 1, 0, () => { G.debt += 1800; fx({ happy: 10 }); unlock("debt"); return "Shiny! But you now owe S$1,800 on your card. Pay it off before the 0% ends."; }),
       act("BRANDED BAG SALE", "S$2,000. 'Investment piece'.", 1, 2000, () => { fx({ cash: -2000, happy: 12 }); return "It's beautiful. It will not pay your rent."; })
     ] },
-  { id: "bank", name: "NEIGHBOURHOOD BANK", x: 120, y: 306, w: 46, h: 36, tip: "The Gilded Vault: deposit, withdraw, store items, credit cards.", draw(r) {
+  { id: "bank", name: "NEIGHBOURHOOD BANK", x: 120, y: 306, w: 46, h: 36, tip: "Neighbourhood Bank: deposit, withdraw, store items, credit cards.", draw(r) {
       r(0, 12, 46, 24, K); r(1, 13, 44, 22, "#3A78D8"); r(0, 0, 46, 14, K); r(1, 1, 44, 12, "#1E4C9E"); r(1, 12, 44, 1, "#E8C25A"); icon(r, "key", 17, 1);
       r(15, 19, 16, 17, K); r(16, 20, 14, 15, "#E8C25A"); r(18, 22, 10, 13, "#5BA0D8"); r(22, 22, 2, 13, "#E8C25A");
       win(r, 3, 19, 10, 10, 0); r(34, 19, 9, 14, K); r(35, 20, 7, 12, "#C9D3F2"); r(36, 21, 5, 3, "#2B3A67"); r(36, 26, 5, 1, "#3A4466"); r(0, 35, 46, 1, K);
@@ -2539,7 +2674,7 @@ function layoutBlds() {
 addEventListener("resize", fitStage);
 function BGM(n) { try { Music.play(n); } catch (e) {} }
 function JINGLE(n) { try { Music.jingle(n || "fanfare"); } catch (e) {} }
-function enterHub() { BGM("town"); show("hub"); buildHub(); renderHUD(); fitStage(); setTimeout(tutHub, 350); }
+function enterHub() { BGM("town"); show("hub"); buildHub(); renderHUD(); fitStage(); setTimeout(tutHub, 350); try { Social.pump(); } catch (e) {} }
 
 /* ===== modal ===== */
 let curB = null;
@@ -2652,7 +2787,7 @@ function openPools(b, tab, result) {
       lottoWin(prize); if (prize) stat("fourdWins");
       const tier = ["1ST", "2ND", "3RD"][idx] || (idx >= 3 && idx < 13 ? "STARTER" : idx >= 13 ? "CONSOLATION" : "");
       save(); const fin4 = () => openPools(b, "4d", `Your number <b>${mine}</b>. Draw: 1st <b>${arr[0]}</b> · 2nd <b>${arr[1]}</b> · 3rd <b>${arr[2]}</b> + 20 more. ${prize ? `<b>${tier} PRIZE! +${money(prize)}</b>` : "No win this time."}`);
-      if (idx >= 0 && idx < 3) playPrize("4d", idx + 1, prize, { num: mine }, fin4); else fin4();
+      if (idx >= 0 && idx < 3) playPrize("4d", idx + 1, prize, { num: mine }, fin4); else { if (prize) SFXW(); fin4(); }
     });
   } else if (tab === "toto") {
     $("mbox").querySelectorAll("[data-n]").forEach(k => k.addEventListener("click", () => {
@@ -2670,7 +2805,7 @@ function openPools(b, tab, result) {
       lottoWin(prize); if (prize) stat("totoWins");
       const balls = win6.map(n => `<span class="ball ${lp.toto.includes(n) ? "hit" : ""}">${n}</span>`).join("") + `<span class="ball add ${ha ? "hit" : ""}">${add}</span>`;
       save(); const finT = () => openPools(b, "toto", `<div class="balls">${balls}</div><br>You matched <b>${m}</b>${ha ? " + the additional number" : ""}. ${prize ? `<b>${wins} winning bet${wins > 1 ? "s" : ""}! +${money(prize)}</b>` : `No win this time. You spent ${money(cost)}.`}`);
-      if (grp <= 3) playPrize("toto", grp, prize, { balls: win6.map(n => ({ n, hit: lp.toto.includes(n) })).concat([{ n: add, hit: ha, c: "#8EC5E8" }]) }, finT); else finT();
+      if (grp <= 3) playPrize("toto", grp, prize, { balls: win6.map(n => ({ n, hit: lp.toto.includes(n) })).concat([{ n: add, hit: ha, c: "#8EC5E8" }]) }, finT); else { if (prize) SFXW(); finT(); }
     });
   } else {
     $("buyScratch").addEventListener("click", () => {
@@ -2688,7 +2823,7 @@ function openPools(b, tab, result) {
         if (c.classList.contains("open")) return;
         c.classList.add("open"); c.textContent = money(cells[+c.dataset.c]); opened++;
         if (opened === 9) { lottoWin(prize); save(); const finS = () => openPools(b, "scratch", prize ? `<b>Three of ${money(prize)}! +${money(prize)}</b>` : "No three of a kind. No win."), place = { 10000: 1, 100: 2, 20: 3 }[prize];
-          setTimeout(() => { if (place) playPrize("scratch", place, prize, { cells: cells.map(v => ({ t: money(v), hit: v === prize })) }, finS); else finS(); }, 500); }
+          setTimeout(() => { if (place) playPrize("scratch", place, prize, { cells: cells.map(v => ({ t: money(v), hit: v === prize })) }, finS); else { if (prize) SFXW(); finS(); } }, 500); }
       }));
     });
   }
@@ -2743,11 +2878,11 @@ function advanceChats() {
     if (!c.pend && c.i < f.p.length) { c.log.push({ me: false, t: f.p[c.i][0] }); c.pend = true; }
   }
 }
-function phoneUnread() { if (!G) return 0; return Object.values(G.chat).filter(c => c.pend).length + G.inbox.filter(m => !m.read).length; }
+function phoneUnread() { if (!G) return 0; return Social.count() + G.inbox.filter(m => !m.read).length; }
 let phoneApp = "home", phoneFriend = null;
-const APPS = [["msg", "MESSAGES", "chat", "#3FA79F"], ["adv", "ADVISER", "people", "#2B3A67"], ["bank", "BANK", "coin", "#1E4C9E"], ["goals", "GOALS", "star", "#B79AD9"], ["mail", "MAIL", "mail", "#F07B66"], ["wiki", "WIKI", "book", "#2E7D4F"], ["map", "MAP", "map", "#5A8EE0"], ["gram", "LIFEGRAM", "cam", "#D64545"], ["me", "PROFILE", "heart", "#E8A04A"], ["learn", "LEARN", "cap", "#2E7D4F"], ["stocks", "STOCKS", "chart", "#3A78D8"], ["homes", "MY HOMES", "house", "#E8A04A"], ["bag", "BAG", "gift", "#B83B3B"], ["dex", "PET INDEX", "paw", "#B98AF0"], ["set", "SETTINGS", "gear", "#5A6380"]];
+const APPS = [["msg", "MESSAGES", "chat", "#3FA79F"], ["adv", "ADVISER", "people", "#2B3A67"], ["bank", "BANK", "coin", "#1E4C9E"], ["mail", "MAIL", "mail", "#F07B66"], ["wiki", "WIKI", "book", "#2E7D4F"], ["gram", "LIFEGRAM", "cam", "#D64545"], ["learn", "LEARN", "cap", "#2E7D4F"], ["stocks", "STOCKS", "chart", "#3A78D8"], ["homes", "MY HOMES", "house", "#E8A04A"], ["bag", "BAG", "gift", "#B83B3B"], ["dex", "PET INDEX", "paw", "#B98AF0"], ["set", "SETTINGS", "gear", "#5A6380"]];
 function openPhone(app) { if (!G) return; phoneApp = app || "home"; $("phone").hidden = false; renderPhone(); }
-function closePhone() { $("phone").hidden = true; renderHUD(); save(); }
+function closePhone() { $("phone").hidden = true; try { Social.closeChat(); } catch (e) {} renderHUD(); save(); }
 $("phoneBtn").addEventListener("click", () => $("phone").hidden ? openPhone() : closePhone());
 $("phoneBtn2").addEventListener("click", () => $("phone").hidden ? openPhone() : closePhone());
 $("pclose").addEventListener("click", closePhone);
@@ -2759,10 +2894,12 @@ function renderPhone() {
   const P = $("pbody"); let h = "";
   const a = phoneApp;
   if (a === "home") {
-    const unreadMsg = Object.values(G.chat).filter(c => c.pend).length, unreadMail = G.inbox.filter(m => !m.read).length;
+    const unreadMsg = Social.count(), unreadMail = G.inbox.filter(m => !m.read).length;
     h = `<div class="apps">${APPS.map(([k, l, ic, c]) => { const locked = k === "adv" && !G.flags.adviser; const dot = k === "msg" ? unreadMsg : k === "mail" ? unreadMail : 0; return `<button class="app ${locked ? "locked" : ""}" data-app="${k}"><span class="ic" style="--c:${c}">${iconSvg(locked ? "lock" : ic, 30)}</span>${l}${dot ? `<span class="dot">${dot}</span>` : ""}</button>`; }).join("")}</div>`;
   } else if (a === "msg") {
-    h = ptop("MESSAGES") + (G.flags.adviser ? `<button class="friend" data-app="adv" id="limContact"><span class="av" style="--c:#2B3A67">L</span><span><b style="font:9px/1.4 var(--pixel)">MS LIM · ADVISER</b><small>Text me any money question.</small></span></button>` : "") + Object.entries(FRIENDS).map(([k, f]) => { const c = G.chat[k]; const last = c && c.log.length ? c.log[c.log.length - 1].t : ""; return `<button class="friend" data-friend="${k}"><span class="av" style="--c:${f.c}">${f.name[0]}</span><span><b style="font:9px/1.4 var(--pixel)">${f.name}</b><small>${last}</small></span>${c && c.pend ? '<span class="new"></span>' : ""}</button>`; }).join("");
+    h = ptop("MESSAGES") + Social.msgListHtml();
+  } else if (a === "fchat") {
+    h = Social.chatHtml();
   } else if (a === "chat") {
     const f = FRIENDS[phoneFriend], c = G.chat[phoneFriend];
     h = `<div class="ptop"><button class="pback" data-app="msg">&lt;</button><span class="av" style="--c:${f.c}">${f.name[0]}</span><h2>${f.name}</h2></div><div class="bubbles">${c.log.map(m => `<div class="bub ${m.me ? "me" : ""}">${m.t}</div>`).join("")}</div>`;
@@ -2808,6 +2945,7 @@ function renderPhone() {
     h = ptop("SETTINGS") + `<div class="mini"><button id="pSound">SOUND &amp; MUSIC</button></div><div class="result" style="font-size:17px">HOW TO PLAY<br>1. Each chapter is ${YRS} years. You get 15 Energy.<br>2. Visit buildings at home and in Town (bank and travel are free).<br>3. Press SET OUT to play 6 story turns. Risky choices roll a dice.<br>4. Reach age ${18 + CHAPTERS * YRS} with your goals done and your stress low.</div><div class="mini"><button id="pNew">START A NEW GAME</button></div><p style="color:var(--muted);font-size:17px">Your game saves on this device after every action.</p>`;
   }
   P.innerHTML = h; paintIcons(P);
+  if (a === "msg" || a === "fchat") Social.wirePhone(P);
   if (a === "dex") { P.querySelectorAll("[data-dx]").forEach(v => drawPetFull(v, v.dataset.dx, null, 0)); $("dexShop").onclick = () => { closePhone(); openPetStore(); }; }
   if (a === "set" && $("pSound")) $("pSound").onclick = () => openSettings();
   if (a === "me") drawSprite($("pchar"), G.look);
@@ -2830,7 +2968,7 @@ function renderPhone() {
   if (ps) ps.addEventListener("click", () => { if (!canPay(500)) return; fx({ cash: -500, savings: 500 }); renderPhone(); });
   if (pi) pi.addEventListener("click", () => { if (!canPay(500)) return; fx({ cash: -500, invest: 500 }); unlock("index"); renderPhone(); });
   const pn = $("pNew"); if (pn) pn.addEventListener("click", () => { pn.textContent = "TAP AGAIN TO CONFIRM"; pn.onclick = () => { clearSave(); G = null; PARTY = null; $("phone").hidden = true; $("continue").hidden = true; $("tContinue").hidden = true; show("title"); }; });
-  P.scrollTop = a === "chat" || a === "adv" ? P.scrollHeight : 0;
+  P.scrollTop = a === "chat" || a === "fchat" || a === "adv" ? P.scrollHeight : 0;
   if (!$("scr-hub").hidden) renderHUD();
 }
 function reply(i) {
@@ -4246,7 +4384,7 @@ openPetStore = function () {
   } else if (petTab === "exotic") {
     grid.innerHTML = tabs + `<div class="exo"><div class="eggbox ${exoMulti ? "multi" : ""}" id="exoMachine">${exoMulti ? `<div class="egg10">${exoMulti.map((r, i) => { const col = EXO_ODDS.find(x => x[0] === r.t)[2]; return `<div class="e ${EXO_COL[r.t] ? "hit" : ""} ${r.dup ? "dup" : ""}" style="--r:${col}"><svg viewBox="0 0 12 9" data-m10="${r.k}"></svg><small>${r.dup ? "DUP +S$250" : EXO_NAME[r.t]}</small></div>`; }).join("")}</div><span>${exoMulti.filter(r => !r.dup).length} new pet${exoMulti.filter(r => !r.dup).length === 1 ? "" : "s"} · ${exoMulti.filter(r => r.dup).length} duplicate${exoMulti.filter(r => r.dup).length === 1 ? "" : "s"} refunded</span>` : exoLast ? `<svg width="160" height="120" viewBox="0 0 12 9" id="exoPet" class="petidle"></svg><b style="color:${EXO_ODDS.find(x => x[0] === exoLast.t)[2]}">${EXO_NAME[exoLast.t]}!</b><span>${PETS[exoLast.k].breed}${exoLast.dup ? " · duplicate: S$250 back" : ""}</span>` : `<svg width="140" height="160" viewBox="0 0 14 16" id="exoEgg" class="egg"></svg><span>Each egg: ${money(EXO_COST)}</span>`}</div>
       <div class="eggbtns"><button class="btn gold" id="exoPull" ${G.cash < EXO_COST ? "disabled" : ""}>${G.cash < EXO_COST ? `NEED ${money(EXO_COST)}` : `HATCH AN EGG · ${money(EXO_COST)}`}</button><button class="btn" id="exoTen" ${G.cash < EXO_COST * 10 ? "disabled" : ""}>${G.cash < EXO_COST * 10 ? `×10 NEEDS ${money(EXO_COST * 10)}` : `HATCH 10 EGGS · ${money(EXO_COST * 10)}`}</button></div>
-      <p class="wnote">Mystery eggs are gacha: built to keep you paying. On average it takes about 67 eggs (${money(67 * EXO_COST)}) to get a LEGENDARY or better. Would you spend that in real life?</p></div>`;
+      ${pityHtml()}<p class="wnote">Mystery eggs are gacha: built to keep you paying. On average it takes about 67 eggs (${money(67 * EXO_COST)}) to get a LEGENDARY or better. Would you spend that in real life?</p></div>`;
     info.innerHTML = `<div class="oddpanel petodds"><div class="oddhead"><b>EXOTIC CHANCES</b><small>CHANCE PER EGG</small><span class="obar">${EXO_ODDS.slice().reverse().map(([t, p, c]) => `<i style="width:${Math.max(p, .6)}%;background:${c}"></i>`).join("")}</span></div>
       <div class="olist">${EXO_ODDS.map(([t, p, c]) => { const list = exoPets(t), hide = t === "SECRET" && !G.pets.some(x => PETS[x.kind].exotic === "SECRET");
         return `<div class="orow" style="--r:${c}"><button class="ohead" data-xo="${t}" aria-expanded="${!!exoOpen[t]}"><i></i><span><b>${EXO_NAME[t]}</b><small>${hide ? "???" : list.map(([, q]) => q.breed.split(" (")[0]).join(", ")}</small></span><em>${p < 1 ? p.toFixed(1) : p.toFixed(p % 1 ? 1 : 0)}%</em><span class="chev">${exoOpen[t] ? "▾" : "▸"}</span></button>
@@ -4267,7 +4405,7 @@ openPetStore = function () {
       setTimeout(() => { if (egg) drawEgg(egg, 1); SFX("crack"); wob(); }, 800 * D);
       setTimeout(() => { if (egg) drawEgg(egg, 2); SFX("crack"); wob(); }, 1600 * D);
       setTimeout(() => { SFX("hatch"); if (m) { const f = document.createElement("i"); f.className = "flash"; m.appendChild(f); if (f.animate) f.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 600 }); } }, 2350 * D);
-      setTimeout(() => { let r = Math.random() * 100, t = "RARE"; for (const [tt, p] of EXO_ODDS) { if (r < p) { t = tt; break; } r -= p; }
+      setTimeout(() => { const t = exoRoll();
         const k = pick(exoPets(t))[0], dup = G.pets.some(x => x.kind === k);
         if (dup) { why("Gacha duplicate refund"); G.cash += 250; } else { const pt = petAdd(k, PETS[k].name); badge("exotic", "EXOTIC KEEPER"); if (t === "MYTHIC" || t === "SECRET") stat("mythic"); }
         exoLast = { k, t, dup }; SFX("reveal", { RARE: "GOOD", EPIC: "GREAT" }[t] || "LEGEND"); save(); renderHUD();
@@ -4714,7 +4852,7 @@ function openHome(key, back, edit, tour) {
   Object.assign(HV, { on: true, key: tour ? null : key, tour: tour || null, h, f: 0, panX: 0, panY: 0, dir: "up", mv: null, edit: !!edit && !tour, sel: null, placing: null, trail: [], back: back || (() => enterHub()) });
   standNear("D"); if (!findTile(homeTiles(), "D")) standNear("V");
   closeModalSilent(); show("home"); homeUI(); const touch = matchMedia("(pointer: coarse)").matches;
-  homeSay(HV.edit ? `Edit mode on. The controls are listed ${innerWidth > 900 ? "on the left" : "on the side"}.` : tour ? `Show flat viewing: ${tour.name}. ${touch ? "Use the joystick to look around." : "Walk around with WASD."} Buttons at the bottom take you back or on to the paperwork.` : `Welcome home! ${touch ? "Use the joystick to walk. Tap A to use things, like sleeping in a bed." : "Walk with WASD or arrow keys. Press E to use things, like sleeping in a bed."}`);
+  homeSay(HV.edit ? `Edit mode on. Your storage is on the right: drag items onto the floor, and drag furniture to move it.` : tour ? `Show flat viewing: ${tour.name}. ${touch ? "Use the joystick to look around." : "Walk around with WASD."} Buttons at the bottom take you back or on to the paperwork.` : `Welcome home! ${touch ? "Use the joystick to walk. Tap A to use things, like sleeping in a bed." : "Walk with WASD or arrow keys. Press E to use things, like sleeping in a bed."}`);
   cancelAnimationFrame(HV.raf); HV.raf = requestAnimationFrame(homeLoop); BGM("home");
 }
 function closeHome() { HV.tour = null; HV.on = false; cancelAnimationFrame(HV.raf); save(); const b = HV.back; HV.back = null; BGM("town"); b && b(); }
@@ -4731,25 +4869,24 @@ function homeUI() {
     tb.querySelectorAll("[data-tb]").forEach(b => b.onclick = () => { const v = b.dataset.tb, l = HV.tour; if (v === "back") return closeHome(); HV.back = null; closeHome(); startBuy(l, +v); }); }
   const gd = $("homeGuide"); gd.hidden = !HV.edit;
   if (HV.edit) { const touch = matchMedia("(pointer: coarse)").matches;
-    gd.innerHTML = `<b>EDIT MODE</b><ul>${(touch ? [["TAP ITEM", "Pick it up"], ["TAP FLOOR", "Put it down"], ["DRAG", "Scroll the plan"], ["ROTATE", "Turn it"], ["TO STORAGE", "Put it away"], ["TRAY", "Place items from storage"]]
-      : [["CLICK ITEM", "Pick it up"], ["CLICK FLOOR", "Put it down"], ["W A S D", "Move the picked item"], ["R", "Rotate"], ["DEL", "Send to storage"], ["ENTER", "Drop it here"], ["ESC", "Cancel / leave edit"], ["TRAY", "Place items from storage"]]).map(([k, v]) => `<li><kbd>${k}</kbd><span>${v}</span></li>`).join("")}</ul>
+    gd.innerHTML = `<b>EDIT MODE</b><ul>${(touch ? [["DRAG ITEM", "Move it"], ["TAP ITEM", "Pick it up"], ["TAP FLOOR", "Put it down"], ["DRAG FLOOR", "Scroll the plan"], ["ROTATE", "Turn it"], ["STORAGE", "Drag items in from the right"]]
+      : [["DRAG ITEM", "Move it"], ["CLICK ITEM", "Pick it up"], ["CLICK FLOOR", "Put it down"], ["W A S D", "Nudge the picked item"], ["R", "Rotate"], ["DEL", "Send to storage"], ["ESC", "Cancel / leave edit"], ["STORAGE", "Drag items in from the right"]]).map(([k, v]) => `<li><kbd>${k}</kbd><span>${v}</span></li>`).join("")}</ul>
       <small>${HV.sel ? `Holding: <b>${FBY[HV.sel.id].name}</b>` : HV.placing ? `Placing: <b>${FBY[HV.placing].name}</b>` : "Nothing picked up."}</small><small>Items can't block doors or paths.</small>`; }
   $("homeEdit").textContent = HV.edit ? "DONE" : "EDIT HOME";
   $("scr-home").classList.toggle("editing", HV.edit);
   const tray = $("homeTray"); tray.hidden = !HV.edit;
   if (HV.edit) {
-    const spares = FURNI.filter(x => !isSurface(x.id) && spare(x.id) > 0);
-    tray.innerHTML = `<div class="trow"><button class="btn" data-ht="rot" ${HV.sel ? "" : "disabled"}>ROTATE (R)</button><button class="btn" data-ht="store" ${HV.sel ? "" : "disabled"}>TO STORAGE</button>${L.floors.length > 1 ? L.floors.map((x, i) => `<button class="btn" data-hf="${i}" aria-pressed="${i === HV.f}">${x.label.split(" ")[0]}</button>`).join("") : ""}<span class="tsel">${HV.sel ? FBY[HV.sel.id].name + (HV.sel.fam ? " (family's)" : "") : HV.placing ? "Placing: " + FBY[HV.placing].name : "Tap an item to move it"}</span></div>
-      <div class="trow"><b>WALLS</b>${HV.h.owned.filter(id => FBY[id].slot === "paint").map(id => `<button class="sw" data-hs="${id}" aria-pressed="${HV.h.paint === id}" title="${FBY[id].name}" style="--c:${FBY[id].col}"></button>`).join("")}<b>FLOOR</b>${HV.h.owned.filter(id => FBY[id].slot === "floor").map(id => `<button class="sw" data-hs="${id}" aria-pressed="${HV.h.floor === id}" title="${FBY[id].name}" style="--c:${FBY[id].col}"></button>`).join("")}<button class="btn" data-ht="shop">+ BUY MORE</button></div>
-      <div class="trow inv">${spares.length ? spares.map(x => `<button class="fitem mini" data-hp="${x.id}" aria-pressed="${HV.placing === x.id}"><canvas width="${x.w * TS}" height="${x.h * TS}" data-hc="${x.id}"></canvas><span><b>${x.name}</b>×${spare(x.id)} in storage</span></button>`).join("") : `<small>Storage is empty. Buy more at the Flat-Pack Home Store in Town.</small>`}</div>`;
-    tray.querySelectorAll("[data-hc]").forEach(c => c.getContext("2d").drawImage(itemSprite(c.dataset.hc, 0), 0, 0));
-    tray.querySelectorAll("[data-hp]").forEach(b => b.onclick = () => { HV.sel = null; HV.placing = HV.placing === b.dataset.hp ? null : b.dataset.hp; HV.prot = 0; homeUI(); });
+    tray.innerHTML = `<div class="trow"><button class="btn" data-ht="rot" ${HV.sel ? "" : "disabled"}>ROTATE (R)</button><button class="btn" data-ht="store" ${HV.sel ? "" : "disabled"}>TO STORAGE</button>${L.floors.length > 1 ? L.floors.map((x, i) => `<button class="btn" data-hf="${i}" aria-pressed="${i === HV.f}">${x.label.split(" ")[0]}</button>`).join("") : ""}<span class="tsel">${HV.sel ? FBY[HV.sel.id].name + (HV.sel.fam ? " (family's)" : "") : HV.placing ? "Placing: " + FBY[HV.placing].name + " · click the floor" : "Drag furniture to move it, or pick something from storage"}</span></div>
+      <div class="trow"><b>WALLS</b>${HV.h.owned.filter(id => FBY[id].slot === "paint").map(id => `<button class="sw" data-hs="${id}" aria-pressed="${HV.h.paint === id}" title="${FBY[id].name}" style="--c:${FBY[id].col}"></button>`).join("")}<b>FLOOR</b>${HV.h.owned.filter(id => FBY[id].slot === "floor").map(id => `<button class="sw" data-hs="${id}" aria-pressed="${HV.h.floor === id}" title="${FBY[id].name}" style="--c:${FBY[id].col}"></button>`).join("")}<button class="btn" data-ht="shop">+ BUY MORE</button></div>`;
+    homeInvRender();
     tray.querySelectorAll("[data-hs]").forEach(b => b.onclick = () => { const x = FBY[b.dataset.hs]; HV.h[x.slot] = x.id; save(); homeUI(); });
     tray.querySelectorAll("[data-hf]").forEach(b => b.onclick = () => { HV.f = +b.dataset.hf; HV.sel = null; standNear(HV.f ? "V" : "D"); homeUI(); });
     tray.querySelector("[data-ht=rot]").onclick = () => homeRotate();
     tray.querySelector("[data-ht=store]").onclick = () => homeStore();
     tray.querySelector("[data-ht=shop]").onclick = () => { const k = HV.key; closeHomeSilent(); openFurni("shop", k); };
   }
+  if (!HV.edit) homeInvRender();
+  const scr = $("scr-home"); scr.style.setProperty("--hth", (scr.querySelector(".htop").offsetHeight || 56) + "px"); scr.style.setProperty("--trh", (HV.edit ? tray.offsetHeight : 0) + "px");
 }
 function closeHomeSilent() { HV.on = false; cancelAnimationFrame(HV.raf); save(); }
 function homeRotate() { SFX("rotate"); const it = HV.sel; if (!it) { if (HV.placing) { HV.prot = ((HV.prot || 0) + 1) % 4; } return; } const old = it.r || 0; it.r = (old + 1) % 4; if (canPlace(HV.h, it, it) !== "ok") { it.r = (old + 2) % 4; if (canPlace(HV.h, it, it) !== "ok") { it.r = old; return homeSay("No room to turn it here."); } } save(); homeUI(); }
@@ -4810,9 +4947,9 @@ function homeLoop(now) {
   const trayH = HV.edit ? ($("homeTray").offsetHeight || 0) : 0, topH = ($("scr-home").querySelector(".htop").offsetHeight || 52);
   let s, cx, cy;
   let px = HV.x, py = HV.y; if (HV.mv) { const k = Math.min(1, (now - HV.mv.t0) / HV.mv.dur); px = HV.mv.fx + (HV.mv.tx - HV.mv.fx) * k; py = HV.mv.fy + (HV.mv.ty - HV.mv.fy) * k; }
-  const gw = HV.edit && vw > 900 ? 236 : 0, tourH = HV.tour ? ($("homeTourBar").offsetHeight || 0) : 0;
-  if (HV.edit) { const ah = vh - trayH - topH - 8, fit = Math.min((vw - gw) / mw, ah / mh); s = matchMedia("(pointer: coarse)").matches ? Math.max(fit, 1.75) : fit;
-    cx = mw * s <= vw - gw ? gw + (vw - gw - mw * s) / 2 : clamp((vw - mw * s) / 2 + HV.panX, vw - mw * s, 0); cy = mh * s <= ah ? topH + (ah - mh * s) / 2 : clamp(topH + (ah - mh * s) / 2 + HV.panY, topH + ah - mh * s, topH); }
+  const gw = HV.edit && vw > 900 ? 236 : 0, rw = HV.edit ? ($("homeInv").offsetWidth || 0) : 0, tourH = HV.tour ? ($("homeTourBar").offsetHeight || 0) : 0;
+  if (HV.edit) { const aw = vw - gw - rw, ah = vh - trayH - topH - 8, fit = Math.min(aw / mw, ah / mh); s = matchMedia("(pointer: coarse)").matches ? Math.max(fit, 1.75) : fit;
+    cx = mw * s <= aw ? gw + (aw - mw * s) / 2 : clamp(gw + (aw - mw * s) / 2 + HV.panX, gw + aw - mw * s, gw); cy = mh * s <= ah ? topH + (ah - mh * s) / 2 : clamp(topH + (ah - mh * s) / 2 + HV.panY, topH + ah - mh * s, topH); }
   else { s = Math.max(2, Math.min(4, Math.floor(Math.min(vw / (20 * TS), vh / (12 * TS)) * 2) / 2)); const ox = vw / 2 - (px * TS + 8) * s, oy = vh / 2 - (py * TS + 8) * s;
     cx = mw * s <= vw ? (vw - mw * s) / 2 : clamp(ox, vw - mw * s, 0); cy = mh * s <= vh - topH - tourH ? topH + (vh - topH - tourH - mh * s) / 2 : clamp(oy, vh - tourH - mh * s, topH); }
   HV.view = { s, cx, cy };
@@ -4820,6 +4957,7 @@ function homeLoop(now) {
   g.setTransform(s * dpr, 0, 0, s * dpr, cx * dpr, cy * dpr); g.imageSmoothingEnabled = false;
   let ghost = null, ghostOk;
   if (HV.edit && HV.placing && HV.hover) { ghost = { id: HV.placing, x: HV.hover[0], y: HV.hover[1], f: HV.f, r: HV.prot || 0 }; ghostOk = canPlace(HV.h, ghost) === "ok"; }
+  else if (HV.edit && HV.dragGhost && HV.sel) { ghost = { id: HV.sel.id, x: HV.dragGhost[0], y: HV.dragGhost[1], f: HV.f, r: HV.sel.r || 0 }; ghostOk = canPlace(HV.h, ghost, HV.sel) === "ok"; }
   drawHomeFloor(g, HV.h, HV.f, { sel: HV.sel, ghost, ghostOk });
   const step = HV.mv ? (Math.floor((now - HV.mv.t0) / 85) % 2 ? 1 : 2) : 0;
   const pet = !HV.tour && G.flags.pet; if (pet && HV.pet && HV.pet.f === HV.f) { const pc = petCanvas(pet.kind, pet.acc), pp = HV.pet, bob = Math.floor(now / 400) % 2;
@@ -4833,11 +4971,21 @@ function homeLoop(now) {
 }
 function tileAtEvent(e) { const r = $("homeCv").getBoundingClientRect(), v = HV.view; if (!v) return null; return [Math.floor((e.clientX - r.left - v.cx) / v.s / TS), Math.floor((e.clientY - r.top - v.cy) / v.s / TS)]; }
 HV.panX = 0; HV.panY = 0;
+// v14: drag furniture to move it; drag empty floor to scroll the plan
 $("homeCv").addEventListener("pointermove", e => { if (!HV.edit) return; HV.hover = tileAtEvent(e);
-  const d = HV.drag; if (d && d.id === e.pointerId) { const dx = e.clientX - d.x, dy = e.clientY - d.y; if (d.moved || Math.hypot(dx, dy) > 8) { d.moved = true; HV.panX = d.px + dx; HV.panY = d.py + dy; } } });
-$("homeCv").addEventListener("pointerdown", e => { if (!HV.edit) return; HV.drag = { id: e.pointerId, x: e.clientX, y: e.clientY, px: HV.panX, py: HV.panY, moved: false }; try { $("homeCv").setPointerCapture(e.pointerId); } catch (er) {} });
-$("homeCv").addEventListener("pointerup", e => { const d = HV.drag; HV.drag = null; if (!HV.edit || !d || d.moved) return; const t = tileAtEvent(e); if (t) { HV.hover = t; homeTap(t[0], t[1]); } });
-$("homeEdit").addEventListener("click", () => { HV.edit = !HV.edit; HV.sel = null; HV.placing = null; HV.held = []; homeUI(); if (HV.edit) homeSay(`Edit mode on. The controls are listed ${innerWidth > 900 ? "on the left" : "on the side"}.`, 2200); });
+  const d = HV.drag; if (d && d.id === e.pointerId) { const dx = e.clientX - d.x, dy = e.clientY - d.y; if (d.moved || Math.hypot(dx, dy) > 8) {
+    if (!d.moved && d.item) { HV.sel = d.item; HV.placing = null; SFX("pickup"); } d.moved = true;
+    if (d.item) { const t = HV.hover; if (t) HV.dragGhost = [t[0] - d.ox, t[1] - d.oy]; } else { HV.panX = d.px + dx; HV.panY = d.py + dy; } } } });
+$("homeCv").addEventListener("pointerdown", e => { if (!HV.edit) return; const t = tileAtEvent(e), hit = t && !HV.placing ? itemAt(t[0], t[1]) : null;
+  HV.drag = { id: e.pointerId, x: e.clientX, y: e.clientY, px: HV.panX, py: HV.panY, moved: false, item: hit, ox: hit ? t[0] - hit.x : 0, oy: hit ? t[1] - hit.y : 0 }; try { $("homeCv").setPointerCapture(e.pointerId); } catch (er) {} });
+$("homeCv").addEventListener("pointerup", e => { const d = HV.drag; HV.drag = null; if (!HV.edit || !d) return;
+  if (d.moved && d.item) { const it = d.item, g = HV.dragGhost; HV.dragGhost = null;
+    if (g && (g[0] !== it.x || g[1] !== it.y)) { const ox = it.x, oy = it.y; it.x = g[0]; it.y = g[1]; const ok = canPlace(HV.h, it, it);
+      if (ok !== "ok") { it.x = ox; it.y = oy; SFX("deny"); homeSay(ok === "block" ? "That would block a doorway or path." : "It doesn't fit there."); } else { SFX("thump"); save(); } }
+    HV.sel = null; homeUI(); return; }
+  if (d.moved) return; const t = tileAtEvent(e); if (t) { HV.hover = t; homeTap(t[0], t[1]); } });
+$("homeCv").addEventListener("pointercancel", () => { HV.drag = null; HV.dragGhost = null; });
+$("homeEdit").addEventListener("click", () => { HV.edit = !HV.edit; HV.sel = null; HV.placing = null; HV.held = []; homeUI(); if (HV.edit) homeSay(`Edit mode on. Your storage is on the right: drag items onto the floor, and drag furniture to move it.`, 3200); });
 $("homeExit").addEventListener("click", () => closeHome());
 $("homeA").addEventListener("click", () => homeLook());
 const KEYDIR = { w: "up", arrowup: "up", s: "down", arrowdown: "down", a: "left", arrowleft: "left", d: "right", arrowright: "right" };
@@ -5224,7 +5372,7 @@ $("tutSkip").addEventListener("click", () => {
   if (!G) return tutEnd();
   const wasBattle = G.tut === "battle2"; G.tut = "off"; G.flags.adviser = true; save(); TUT.done = null; tutEnd();
   if (wasBattle) startAuto(1500);
-  toast("TUTORIAL SKIPPED. MS LIM IS IN YOUR PHONE CONTACTS.");
+  toast("TUTORIAL SKIPPED. ASK MS LIM ANYTHING IN THE ADVISER APP ON YOUR PHONE.");
 });
 document.addEventListener("click", e => {
   if (!TUT.on || $("tut").classList.contains("waiting") && !e.target.closest("#tutBox")) { if (TUT.on) { e.stopPropagation(); e.preventDefault(); } return; }
@@ -5252,7 +5400,7 @@ function tutIntro() {
     { el: hs("cpf"), say: "<b>CPF</b> is your retirement, housing and health savings. Part of your pay goes in automatically, and your employer adds more." },
     { el: hs("knowledge"), say: "<b>KNOWLEDGE</b> raises your pay and helps your dice rolls in the story. Learn from classes, quizzes and articles." },
     { el: hs("energy"), say: "<b>ENERGY</b>: you get 15 each chapter. Most buildings cost Energy. The bank and the MRT are free." },
-    { el: "#phoneBtn", say: "Your <b>PHONE</b> has messages, mail, your bank, a map, your bag and more." },
+    { el: "#phoneBtn", say: "Your <b>PHONE</b> has your bank, mail, messages with friends, your bag and more. After this tour you can ask me money questions in its <b>ADVISER</b> app." },
     { el: "#sideTab", say: "<b>QUESTS & GOALS</b> shows what to do next and your life goals. Finish quests for rewards." },
     { el: () => bld("play"), say: "This is the <b>PET SHOP</b>. Adopt as many pets as you like, or hatch an exotic egg. Pets help you in battles." },
     { el: () => bld("hawker"), say: "The <b>HAWKER CENTRE</b>: cheap food, side hustles and budgeting tips." },
@@ -5288,11 +5436,10 @@ function tutFarewell() {
   tutRun([
     { say: `Congratulations, ${nm}! ${G.job ? `A new ${G.job.name.toLowerCase()}!` : ""} I'm so proud of you.` },
     { say: "Remember: <b>financial planning is a lifelong journey</b>. Save first, protect yourself, invest steadily, and keep learning. Good luck!" },
-    { el: "#phoneBtn", click: true, say: "I'm in your phone contacts now. Open your <b>PHONE</b>." },
-    { delay: 250, el: '#pbody [data-app="msg"]', click: true, say: "Tap <b>MESSAGES</b>." },
-    { delay: 250, el: "#limContact", click: true, say: "There I am! Tap my name to text me." },
+    { el: "#phoneBtn", click: true, say: "You can reach me on your phone now. Open your <b>PHONE</b>." },
+    { delay: 250, el: '#pbody [data-app="adv"]', click: true, say: "Tap the <b>ADVISER</b> app. That's where you'll find me." },
     { delay: 250, el: () => document.querySelector("#pbody [data-adv]"), click: true, say: "Pick a question to send me. Try this one." },
-    { delay: 300, say: "Text me any time you want advice. From here on, you're on your own. Enjoy your life!", btn: "THANKS, MS LIM ▸", after: () => { G.tut = "done"; save(); } }
+    { delay: 300, say: "Open the ADVISER app any time you want advice. From here on, you're on your own. Enjoy your life!", btn: "THANKS, MS LIM ▸", after: () => { G.tut = "done"; save(); } }
   ], () => { if (G.tut === "farewell") { G.tut = "done"; save(); } });
 }
 
@@ -5304,8 +5451,13 @@ function renderParade() {
   PRESETS.concat([LIM_LOOK]).forEach((p, k) => { const sv = document.createElementNS("http://www.w3.org/2000/svg", "svg"); sv.setAttribute("viewBox", "0 0 14 18"); sv.setAttribute("width", "84"); sv.setAttribute("height", "108"); sv.setAttribute("class", "bob"); sv.style.animationDelay = (k * 120) + "ms"; drawSprite(sv, p); w.appendChild(sv); });
 }
 function beginSetup(n) {
+  // v14: returning profiles skip character creation. A saved game for this mode goes straight back to the lobby.
+  const s = ME ? load() : null, sn = s ? (s.__party ? (s.__party.n || s.__party.players.length) : 1) : 0;
+  if (s && sn === n) { continueSave(); toast(PARTY ? `WELCOME BACK · PLAYER ${(G.pid || 0) + 1}'S TURN` : `WELCOME BACK, ${G.look.name}`); return; }
   SETUP.n = n; SETUP.k = 0; PARTY = n > 1 ? { n, cur: 0, players: [] } : null;
-  setupLook(); show("look");
+  setupLook();
+  if (ME && ME.look) { Object.assign(look, ME.look); $("name").value = look.name; renderLook(); show("path"); toast(n > 1 ? `PLAYER 1 IS ${look.name}. PICK YOUR PATH.` : `WELCOME BACK, ${look.name}! PICK YOUR PATH.`); return; }
+  show("look");
 }
 function setupLook() {
   $("lookTag").textContent = SETUP.n > 1 ? `PLAYER ${SETUP.k + 1} OF ${SETUP.n}` : "HDB LIFE · SINGLE PLAYER";
@@ -5449,7 +5601,7 @@ $("loginForm").addEventListener("submit", e => {
   }
 });
 function login(p, fresh) {
-  ME = p; p.last = Date.now(); p.friends = p.friends || []; PROFS.cur = p.id; profSave(); if (ACCT) Friends.ensureCode();
+  ME = p; p.last = Date.now(); p.friends = p.friends || []; PROFS.cur = p.id; profSave(); if (ACCT) Friends.ensureCode().then(() => Social.start());
   G = null; PARTY = null; $("loginForm").hidden = true; $("profGrid").hidden = false;
   $("whoName").textContent = p.name;
   const s = load(); $("continue").hidden = !s; $("tContinue").hidden = !s;
@@ -5457,7 +5609,7 @@ function login(p, fresh) {
   show("title"); toast(fresh ? `WELCOME, ${p.name}! PICK A MODE TO START.` : `LOGGED IN AS ${p.name}`);
 }
 function logout() {
-  try { if (G) save(); } catch (e) {} stopAuto(); if (TUT.on) tutEnd();
+  try { if (G) save(); } catch (e) {} try { Social.stop(); } catch (e) {} stopAuto(); if (TUT.on) tutEnd();
   closeModalSilent(); $("phone").hidden = true; $("cut").hidden = true; $("mg").hidden = true;
   G = null; PARTY = null; ME = null; renderLogin(); show("login"); BGM("town");
 }
@@ -5590,7 +5742,7 @@ function openProfile(tab) {
       : `<p style="color:var(--muted)">No finished lives yet. Play a story to the end (age ${18 + CHAPTERS * YRS}) and it will be recorded here.</p>`;
   } else {
     const others = PROFS.list.filter(p => !ME || p.id !== ME.id);
-    body = `<table class="tbl"><tr><td>Profile name</td><td>${escH(ME ? ME.name : "GUEST")}</td></tr><tr><td>Created</td><td>${ME ? dateStr(ME.created) : "-"}</td></tr><tr><td>Account</td><td>${ACCT ? escH(ACCT.name) + (ACCT.how === "google" ? " (Google)" : " (username)") : "Offline, this device only"}</td></tr>${ME && ME.code ? `<tr><td>Friend code</td><td>${ME.code}</td></tr>` : ""}
+    body = `${ME ? `<form class="fadd pmname" id="pmName"><label for="pmNameIn">YOUR NAME</label><input class="namefield" id="pmNameIn" maxlength="14" value="${escH(ME.name)}" spellcheck="false" autocomplete="off"><button class="btn gold" type="submit">SAVE NAME</button></form><p class="err" id="pmNameErr" aria-live="polite" style="margin:0;color:var(--coral)"></p>` : ""}<table class="tbl"><tr><td>Profile name</td><td>${escH(ME ? ME.name : "GUEST")}</td></tr><tr><td>Created</td><td>${ME ? dateStr(ME.created) : "-"}</td></tr><tr><td>Account</td><td>${ACCT ? escH(ACCT.name) + (ACCT.how === "google" ? " (Google)" : " (username)") : "Offline, this device only"}</td></tr>${ME && ME.code ? `<tr><td>Friend code</td><td>${ME.code}</td></tr>` : ""}
       <tr><td>Lives finished</td><td>${S.runs || 0}</td></tr><tr><td>Chapters played</td><td>${S.chapters || 0}</td></tr><tr><td>Job minigames done</td><td>${S.minigames || 0}${S.perfect ? ` (${S.perfect} perfect)` : ""}</td></tr>
       <tr><td>Life bosses beaten</td><td>${S.bosses || 0}</td></tr><tr><td>Fields worked in</td><td>${(S.fields || []).map(f => FIELDS[f] ? FIELDS[f].name.toLowerCase() : f).join(", ") || "None yet"}</td></tr>
       <tr><td>Best score</td><td>${S.bestScore || 0}</td></tr><tr><td>Best net worth</td><td>${money(S.bestNw || 0)}</td></tr><tr><td>Lifegram posts</td><td>${S.posts || 0}</td></tr></table>
@@ -5610,7 +5762,7 @@ function openProfile(tab) {
     t.onmouseenter = show; t.onfocus = show; t.onclick = show; });
   if (pmTab === "friends" && typeof friendsWire === "function") friendsWire();
   if (pmTab === "titles") titlesWire();
-  $("pmClose").onclick = closeModal; const dv = $("pmDev"); if (dv) dv.onclick = openDevTools;
+  $("pmClose").onclick = closeModal; const pmn = $("pmName"); if (pmn) pmn.onsubmit = e => { e.preventDefault(); renameProfile($("pmNameIn").value); }; const dv = $("pmDev"); if (dv) dv.onclick = openDevTools;
   const sw = $("pmSwitch"); if (sw) sw.onclick = () => { closeModalSilent(); logout(); };
   const po = $("pmOut"); if (po) po.onclick = () => { closeModalSilent(); acctSignOut(); };
   const del = $("pmDel"); if (del) del.onclick = () => { del.textContent = "TAP AGAIN: DELETES SAVES AND ACHIEVEMENTS"; del.onclick = () => {
@@ -5776,7 +5928,7 @@ function playCutscene(frames, done) {
       ${f.title ? `<div class="cuttitle">${f.title}</div>` : ""}${f.word ? `<div class="cutword">${f.word}</div>` : ""}`;
     if (!f.chapter && !f.reveal) f.actors.forEach((a, k) => drawSprite(st.querySelector(`[data-act="${k}"]`), a.look));
     st.querySelectorAll("[data-cpet]").forEach(s => { const p = f.pets[+s.dataset.cpet]; drawPetFull(s, p.kind, p.acc || {}, 0); });
-    if (f.reveal) { const rs = st.querySelector("[data-rvpet]"); if (rs) drawPetFull(rs, f.reveal.kind, {}, 0); SFX("reveal", "LEGEND"); }
+    if (f.reveal) { const rs = st.querySelector("[data-rvpet]"); if (rs) drawPetFull(rs, f.reveal.kind, {}, 0); const stg = { LEGEND: "st_legend", MYTHIC: "st_mythic", SECRET: "st_secret" }[f.reveal.tier]; SFX(stg || "reveal", stg ? undefined : "LEGEND"); }
     if (f.sfx) SFX(f.sfx[0], f.sfx[1]);
     st.querySelectorAll(".cutdigits span, .cutballs span, .cutcard span").forEach((el, k) => A(el, [{ transform: "rotateX(90deg) scale(.6)", opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 420, delay: 500 + k * 260, easing: "steps(5)", fill: "backwards" }));
     const big = st.querySelector(".cutbig"); if (big) A(big, [{ transform: "scale(4)", opacity: 0 }, { transform: "scale(.9)", opacity: 1, offset: .7 }, { transform: "scale(1)" }], { duration: 700, delay: 600, easing: "ease-out", fill: "backwards" });
@@ -5865,52 +6017,22 @@ const Friends = (() => {
   const AL = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", mk = () => { let c = ""; for (let i = 0; i < 8; i++) c += AL[Math.floor(Math.random() * AL.length)]; return c.slice(0, 4) + "-" + c.slice(4); };
   const cache = {}; let tm = null;
   const card = p => ({ uid: ACCT.uid, pid: p.id, name: p.name, look: p.look || null, ach: Object.keys(p.ach || {}).length, lives: (p.lives || []).length, best: (p.stats || {}).bestScore || 0,
-    bestNw: (p.stats || {}).bestNw || 0, rank: (p.stats || {}).runs ? RANKS[(p.stats || {}).bestRank || 0] || "" : "", friends: (p.friends || []).slice(0, 200), updated: Date.now() });
+    bestNw: (p.stats || {}).bestNw || 0, rank: (p.stats || {}).runs ? RANKS[(p.stats || {}).bestRank || 0] || "" : "", friends: (p.friends || []).slice(0, 200),
+    nameLower: String(p.name || "").toLowerCase(), title: (p === ME ? myTitle() : p.title) || null, achIds: Object.keys(p.ach || {}).slice(0, 120), life: p === ME && G && !PARTY ? lifeSnap() : (p.snap || null), updated: Date.now() });
   async function ensureCode() {
     if (!window.FB || !ACCT || !ME || ME.code) return publishSoon();
     const { F, db } = window.FB;
     for (let i = 0; i < 6; i++) { const c = mk(); try { const ref = F.doc(db, "codes", c); if ((await F.getDoc(ref)).exists()) continue; await F.setDoc(ref, card(ME)); ME.code = c; profSave(); return; } catch (e) { console.warn("code", e); } }
   }
-  function publishSoon() { clearTimeout(tm); tm = setTimeout(publish, 3000); }
+  function publishSoon() { if (tm) return; tm = setTimeout(() => { tm = null; publish(); }, 3000); }
   async function publish() { if (!window.FB || !ACCT || !ME || !ME.code) return; const { F, db } = window.FB; try { await F.setDoc(F.doc(window.FB.db, "codes", ME.code), card(ME)); } catch (e) { console.warn("publish", e); } }
   async function release(code) { try { const { F, db } = window.FB; await F.deleteDoc(F.doc(db, "codes", code)); } catch (e) {} }
   async function lookup(code) { const { F, db } = window.FB; const d = await F.getDoc(F.doc(db, "codes", code)); return d.exists() ? d.data() : null; }
   async function load(force) { if (!ME) return; await Promise.all((ME.friends || []).map(async c => { if (cache[c] && !force) return; try { cache[c] = (await lookup(c)) || { gone: 1 }; } catch (e) { cache[c] = { err: 1 }; } })); }
-  return { ensureCode, publishSoon, release, lookup, load, cache, norm: s => { const c = String(s || "").toUpperCase().replace(/[^A-Z0-9]/g, ""); return c.length === 8 ? c.slice(0, 4) + "-" + c.slice(4) : null; } };
+  return { ensureCode, publishSoon, publish, release, lookup, load, cache, norm: s => { const c = String(s || "").toUpperCase().replace(/[^A-Z0-9]/g, ""); return c.length === 8 ? c.slice(0, 4) + "-" + c.slice(4) : null; } };
 })();
-function friendsTabHtml() {
-  if (!ACCT) return `<div class="fcode"><span>Friend codes need an account. Sign out of offline play and log in with Google or a username to add friends.</span></div>`;
-  const list = ME.friends || [];
-  return `<div class="fcode"><span>YOUR FRIEND CODE</span><b id="myCode">${ME.code || "MAKING..."}</b><button class="btn" id="fCopy">COPY</button></div>
-    <p style="margin:0;color:var(--muted)">Share your code. When a friend adds it, they can see your best score, rank, achievements and lives finished.</p>
-    <form class="fadd" id="fAdd"><input class="namefield" id="fIn" maxlength="9" placeholder="XXXX-XXXX" spellcheck="false" autocomplete="off" aria-label="Friend code"><button class="btn gold" type="submit">ADD FRIEND</button></form>
-    <p class="err" id="fErr" aria-live="polite" style="margin:0;color:var(--coral)"></p>
-    <div class="flist" id="fList">${list.length ? list.map(c => { const f = Friends.cache[c];
-      if (!f) return `<div class="fcard"><svg width="44" height="56" viewBox="0 0 14 18"></svg><b>${c}</b><span>Loading...</span></div>`;
-      if (f.gone || f.err) return `<div class="fcard"><svg width="44" height="56" viewBox="0 0 14 18"></svg><b>${c}</b><span>${f.gone ? "This profile was deleted." : "Couldn't load right now."}</span><button data-frm="${c}">REMOVE</button></div>`;
-      const mutual = (f.friends || []).includes(ME.code);
-      return `<div class="fcard"><svg width="44" height="56" viewBox="0 0 14 18" data-flook="${c}"></svg><b>${escH(f.name)}</b><span>${escH(f.rank || "New player")} · best ${f.best} · ${f.ach}/${ACH.length} achievements · ${f.lives} lives</span>
-        <span class="mut">${mutual ? "★ FRIENDS BOTH WAYS" : "WAITING FOR THEM TO ADD YOU"} · ${c}</span><button data-frm="${c}">REMOVE</button></div>`; }).join("") : `<p style="color:var(--muted)">No friends yet. Add one with their code.</p>`}</div>`;
-}
-function friendsWire() {
-  const m = $("mbox");
-  if (!ACCT) return;
-  if (!ME.code) Friends.ensureCode().then(() => { if (pmTab === "friends" && !$("modal").hidden) openProfile("friends"); });
-  m.querySelectorAll("[data-flook]").forEach(s => { const f = Friends.cache[s.dataset.flook]; if (f && f.look) drawSprite(s, f.look); });
-  const cp = $("fCopy"); if (cp) cp.onclick = () => { if (!ME.code) return; (navigator.clipboard ? navigator.clipboard.writeText(ME.code) : Promise.reject()).then(() => toast("FRIEND CODE COPIED"), () => toast("YOUR CODE: " + ME.code)); };
-  m.querySelectorAll("[data-frm]").forEach(b => b.onclick = () => { ME.friends = ME.friends.filter(c => c !== b.dataset.frm); profSave(); openProfile("friends"); });
-  $("fAdd").onsubmit = async e => { e.preventDefault(); const c = Friends.norm($("fIn").value), er = $("fErr");
-    if (!c) return (er.textContent = "Friend codes look like ABCD-2345.");
-    if (c === ME.code) return (er.textContent = "That's your own code.");
-    if (ME.friends.includes(c)) return (er.textContent = "Already on your list.");
-    if (ME.friends.length >= 200) return (er.textContent = "Your list is full (200).");
-    er.textContent = "Looking up...";
-    try { const f = await Friends.lookup(c); if (!f) return (er.textContent = "No profile has that code. Check the letters.");
-      Friends.cache[c] = f; ME.friends.push(c); profSave(); SFX("win"); toast(`ADDED ${String(f.name).toUpperCase()}`); openProfile("friends"); }
-    catch (x) { er.textContent = "Couldn't reach the server. Try again."; } };
-  const pending = (ME.friends || []).some(c => !Friends.cache[c]);
-  if (pending) Friends.load().then(() => { if (pmTab === "friends" && !$("modal").hidden) openProfile("friends"); });
-}
+function friendsTabHtml() { return Social.tabHtml(); }
+function friendsWire() { Social.tabWire(); }
 
 /* ================= v12: TESTER TOOLS (accounts listed in window.HDB_TESTERS, see firebase-config.js) ================= */
 function isTester() { const T = (window.HDB_TESTERS || []).map(x => String(x).toLowerCase()); return !!(ACCT && ACCT.login && T.includes(ACCT.login)); }
@@ -5919,11 +6041,11 @@ function openDevTools() {
   const B = (id, l) => `<button class="btn" data-dev="${id}">${l}</button>`;
   openModal(`<h2 style="margin:0">TESTER TOOLS</h2><p style="margin:0;color:var(--muted)">Only accounts on the tester list see this. Changes apply to the life you're playing now and save like normal progress.</p>
     <div class="row2" style="display:flex;flex-wrap:wrap;gap:8px">${B("cash", "+ S$1,000,000 CASH")}${B("savings", "+ S$500,000 SAVINGS")}${B("stats", "MAX HEALTH, HAPPY, ZERO STRESS")}${B("energy", "REFILL ENERGY")}${B("know", "+500 KNOWLEDGE")}${B("level", "+5 LEVELS")}${B("debt", "CLEAR ALL DEBT")}${B("pets", "GET ALL EXOTIC PETS")}${B("ach", "UNLOCK ALL ACHIEVEMENTS")}${B("loot", "+ ONE OF EVERY ITEM")}${B("age21", "SET AGE TO 21 (CARD TEST)")}</div>
-    <p style="margin:0;color:var(--muted)">Tester accounts also get unlimited job applications and the 5 staff chroma titles (PROFILE &gt; TITLES).</p>
+    <p style="margin:0;color:var(--muted)">Tester accounts also get unlimited job applications and every staff chroma title (PROFILE &gt; TITLES).</p>
     <h3 style="margin:8px 0 0;font:9px/1.4 var(--pixel);color:var(--gold)">PREVIEW CUTSCENES</h3>
     <div class="row2" style="display:flex;flex-wrap:wrap;gap:8px">${Object.keys(PET_STORY).map(k => B("pet:" + k, PETS[k].name + " (" + (EXO_NAME[PETS[k].exotic] || PETS[k].exotic) + ")")).join("")}${B("p:4d", "4D 1ST PRIZE")}${B("p:toto", "TOTO JACKPOT")}${B("p:scratch", "SCRATCH TOP PRIZE")}</div>
-    <div class="mfoot"><button class="btn gold" id="devClose">CLOSE</button></div>`, "wide");
-  $("devClose").onclick = closeModal;
+    <div class="mfoot"><button class="btn" id="devAdmin">PLAYER ADMIN ▸</button><button class="btn gold" id="devClose">CLOSE</button></div>`, "wide");
+  $("devClose").onclick = closeModal; $("devAdmin").onclick = () => openAdmin();
   $("mbox").querySelectorAll("[data-dev]").forEach(b => b.onclick = () => {
     const d = b.dataset.dev, done = m => { renderHUD(); save(); toast(m); };
     if (d === "cash") { why && why("Tester tools"); G.cash += 1000000; done("+ S$1,000,000 CASH"); }
@@ -5985,7 +6107,7 @@ function petStoryFrames(kind, name) {
       cap: `${EXO_NAME[t] || t} PET · <b>${escH(name || P.name)}</b> joins your family. ${P.desc}` }
     : Object.assign({}, f, { actors: f.hero && G ? [{ look: G.look, x: f.hero.x, size: 1, from: -1 }] : [] }));
 }
-function playPetStory(kind, name, done) { playCutscene(petStoryFrames(kind, name), () => { done && done(); }); }
+function playPetStory(kind, name, done) { try { Music.duck(true); } catch (e) {} SFX("st_omen"); playCutscene(petStoryFrames(kind, name), () => { try { Music.duck(false); } catch (e) {} done && done(); }); }
 
 /* ================= v12: TOP-3 PRIZE CUTSCENES (4D / TOTO / SCRATCH) ================= */
 function prizeCut(game, place, prize, info) {
@@ -6000,14 +6122,15 @@ function prizeCut(game, place, prize, info) {
   } else {
     f.push(Object.assign({}, night, { bg: ["#1A2440", "#24305A", "#2E3E6E"], fx: ["sparks:#FFE27A"], cam: "in", cap: "You scratch the last box with a 10-cent coin. Wait. Is that... three of the same?", card: info.cells }));
   }
+  f[0].sfx = ["st_drumroll"];
   f.push(Object.assign({}, night, { bg: ["#3A1A0A", "#6A2A10", "#A04A18"], floor: "#2A1408", fx: ["rays:#FFE27A", "sparks:#FFE27A", "flash"], confetti: 1, actors: hero, cam: "out",
-    title: `${P} PRIZE!`, big: "+" + money(prize), word: place === 1 ? "JACKPOT!" : "HUAT!", sfx: ["win"], hold: 5200,
+    title: `${P} PRIZE!`, big: "+" + money(prize), word: place === 1 ? "JACKPOT!" : "HUAT!", sfx: ["st_prize" + place], hold: 6000,
     cap: `${game === "4d" ? "4D" : game === "toto" ? "TOTO" : "SCRATCH CARD"} ${P} PRIZE: <b>${money(prize)}</b>! The whole estate will hear about this.` }));
   f.push(Object.assign({}, night, { fx: ["vignette"], actors: G ? [{ look: G.look, x: 50, size: 1, from: 0 }] : [], cam: "in",
     cap: `Reality check: the odds of this were <b>${odds}</b>. On average, lottery players get back only about 50 to 60 cents for every dollar they spend. Enjoy it, and don't chase the next one.` }));
   return f;
 }
-function playPrize(game, place, prize, info, done) { closeModalSilent(); playCutscene(prizeCut(game, place, prize, info), done); }
+function playPrize(game, place, prize, info, done) { closeModalSilent(); try { Music.duck(true); } catch (e) {} playCutscene(prizeCut(game, place, prize, info), () => { try { Music.duck(false); } catch (e) {} done && done(); }); }
 
 /* ================= BOOT ================= */
 document.querySelectorAll(".plat").forEach(s => drawPlatform(s, 26, 6));
@@ -6082,9 +6205,10 @@ const Music = (() => {
   const LS = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } };
   const SS = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
   let on = LS("hdblife-music", "on") !== "off", mvol = +LS("hdblife-mvol", "0.7"), svol = +LS("hdblife-svol", "0.8");
+  let dk = null, holdN = 0, duckT = null;
   function init() {
     if (ctx) return true; const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false;
-    ctx = new AC(); mbus = ctx.createGain(); mbus.gain.value = .24 * mvol; mbus.connect(ctx.destination);
+    ctx = new AC(); mbus = ctx.createGain(); mbus.gain.value = .24 * mvol; dk = ctx.createGain(); dk.gain.value = 1; mbus.connect(dk); dk.connect(ctx.destination);
     for (const d of [.125, .25, .5]) { const n = 32, re = new Float32Array(n), im = new Float32Array(n); for (let k = 1; k < n; k++) re[k] = 2 / (k * Math.PI) * Math.sin(Math.PI * k * d); waves[d] = ctx.createPeriodicWave(re, im); }
     const b = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate), dd = b.getChannelData(0); for (let i = 0; i < dd.length; i++) dd[i] = Math.random() * 2 - 1; noise = b;
     return true;
@@ -6154,6 +6278,33 @@ const Music = (() => {
   function nz(t, dur, vol, ftype, f1, f2, q) { const s = ctx.createBufferSource(), g = ctx.createGain(), fl = ctx.createBiquadFilter(); s.buffer = noise; fl.type = ftype; fl.Q.value = q || 1;
     fl.frequency.setValueAtTime(f1, t); if (f2) fl.frequency.exponentialRampToValueAtTime(f2, t + dur); g.gain.setValueAtTime(.001, t); g.gain.exponentialRampToValueAtTime(vol, t + Math.min(.04, dur / 3)); g.gain.exponentialRampToValueAtTime(.001, t + dur);
     s.connect(fl); fl.connect(g); g.connect(sbus); s.start(t, Math.random() * .5); s.stop(t + dur + .02); }
+  /* ---- v14: big-moment sound design (pets, jackpots) ---- */
+  function bell(f, t, vol, dur) { dur = dur || 1.6;
+    [[1, 1], [2.76, .4], [5.4, .18]].forEach(([m, a]) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = "sine"; o.frequency.setValueAtTime(f * m, t);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(Math.max(.0002, vol * a), t + .008); g.gain.exponentialRampToValueAtTime(.0001, t + dur / Math.sqrt(m));
+      o.connect(g); g.connect(sbus); o.start(t); o.stop(t + dur + .05); }); }
+  function pad(fs, t, dur, vol, cut, type) {
+    const lp = ctx.createBiquadFilter(), g = ctx.createGain(); lp.type = "lowpass"; lp.frequency.setValueAtTime(cut || 1800, t); lp.Q.value = .7;
+    g.gain.setValueAtTime(.0001, t); g.gain.linearRampToValueAtTime(vol, t + Math.min(.6, dur * .3)); g.gain.setValueAtTime(vol, t + dur * .65); g.gain.linearRampToValueAtTime(.0001, t + dur);
+    lp.connect(g); g.connect(sbus);
+    fs.forEach(f => [-8, 0, 8].forEach(d => { const o = ctx.createOscillator(); o.type = type || "sawtooth"; o.frequency.value = f; o.detune.value = d; o.connect(lp); o.start(t); o.stop(t + dur + .05); })); }
+  function boom(t, vol) { sweep("sine", 130, 28, t, 1.2, vol || .9); nz(t, .7, .5, "lowpass", 1400, 70); }
+  function riser(t, dur, vol) { nz(t, dur, vol || .3, "bandpass", 300, 6500, 2);
+    const o = ctx.createOscillator(), g = ctx.createGain(), lp = ctx.createBiquadFilter(); o.type = "sawtooth"; o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(880, t + dur);
+    lp.type = "lowpass"; lp.frequency.setValueAtTime(400, t); lp.frequency.exponentialRampToValueAtTime(5000, t + dur);
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.07, t + dur); g.gain.linearRampToValueAtTime(0, t + dur + .04);
+    o.connect(lp); lp.connect(g); g.connect(sbus); o.start(t); o.stop(t + dur + .06); }
+  function sparkle(t, dur, n, base) { for (let i = 0; i < n; i++) bell(base * Math.pow(2, [0, 4, 7, 12, 16, 19, 24][i % 7] / 12), t + Math.random() * dur, .045, .7); }
+  function arp(notes, t, step, vol, duty, len) { notes.forEach((nn, i) => { const f = n2(nn); sweep("pulse", f, f, t + i * step, len || step * 1.6, vol, duty || .25); }); }
+  function brass(notes, t, vol) { notes.forEach(([nn, d, l]) => { const f = n2(nn); sweep("pulse", f, f * .996, t + d, l, vol, .25); sweep("sawtooth", f / 2, f / 2, t + d, l, vol * .35); }); }
+  function coins(t, n, gap) { for (let i = 0; i < n; i++) { const k = t + i * gap, up = 1 + (i % 3) * .06; sweep("pulse", n2("B5") * up, n2("B5") * up, k, .05, .11, .5); sweep("pulse", n2("E6") * up, n2("E6") * up, k + .045, .12, .11, .5); } }
+  function cheer(t, dur) { nz(t, dur, .22, "bandpass", 900, 1300, .8); nz(t + .15, dur, .16, "bandpass", 2300, 1800, 1.2); for (let i = 0; i < 6; i++) sweep("triangle", 900 + i * 140, 1500 + i * 160, t + .2 + i * .23, .18, .05); }
+  const ST_DUR = { st_legend: 4.8, st_mythic: 6.2, st_secret: 7.2, st_prize1: 6.2, st_prize2: 4, st_prize3: 3, st_smallwin: 2, st_omen: 3, st_drumroll: 1.8 };
+  function duckTo(v, sec) { if (!ctx || !dk) return; const now = ctx.currentTime; dk.gain.cancelScheduledValues(now); dk.gain.setValueAtTime(dk.gain.value, now); dk.gain.linearRampToValueAtTime(v, now + sec); }
+  // duck(true) fades the background music out until duck(false); stinger() fades it out only while the sound plays
+  function duck(onn) { if (!init()) return; if (onn) { holdN++; duckTo(0, .9); } else { holdN = Math.max(0, holdN - 1); if (!holdN && !duckT) duckTo(1, 1.8); } }
+  function stinger(name, arg) { if (!sfxOn || !init()) return; sfx(name, arg); duckTo(0, .45); clearTimeout(duckT);
+    duckT = setTimeout(() => { duckT = null; if (!holdN) duckTo(1, 2); }, (ST_DUR[name] || 2) * 1000); }
   const n2 = m => hz(midi(m));
   const SFX = {
     click: t => sweep("pulse", 1200, 900, t, .045, .18, .25),
@@ -6186,7 +6337,45 @@ const Music = (() => {
     step: t => nz(t, .03, .12, "lowpass", 800),
     crack: t => { nz(t, .06, .6, "highpass", 2500, 0, 1); sweep("square", 900, 300, t, .05, .15); },
     hatch: t => { nz(t, .25, .7, "bandpass", 1500, 4000, 1); ["C6", "E6", "G6", "C7"].forEach((n, i) => sweep("pulse", n2(n), n2(n), t + .15 + i * .06, i === 3 ? .4 : .08, .2, .25)); nz(t + .4, .6, .2, "highpass", 6000, 9000); },
-    wobble: t => { for (let i = 0; i < 4; i++) sweep("triangle", 220, 180, t + i * .12, .08, .25); }
+    wobble: t => { for (let i = 0; i < 4; i++) sweep("triangle", 220, 180, t + i * .12, .08, .25); },
+    // v14: pet story opener: a low hum and three far-off bells while the music fades
+    st_omen: t => { pad([n2("D3"), n2("A3")], t, 3.2, .045, 600, "triangle"); sweep("sine", 62, 44, t, 3, .22); ["A5", "D6", "F6"].forEach((n, i) => bell(n2(n), t + .5 + i * .75, .035, 2.2)); },
+    // LEGENDARY: rising whoosh, boom, golden brass fanfare and a shower of bells
+    st_legend: t => { riser(t, 1.1, .3); const h = t + 1.15; boom(h, .8); nz(h, .9, .3, "highpass", 5000, 9000);
+      arp(["C5", "E5", "G5", "C6", "E6", "G6", "C7"], h, .065, .15, .25);
+      pad([n2("C4"), n2("G4"), n2("E5")], h + .1, 3.4, .055, 2400);
+      brass([["G5", .55, .18], ["C6", .75, .18], ["E6", .95, .18], ["G6", 1.15, 1.1]], h, .17);
+      sparkle(h + .3, 2.6, 16, n2("C6")); bell(n2("C7"), h + 1.6, .1, 2.6); },
+    // MYTHIC: deep ocean swell, huge impact, a choir-like chord, harp glissando and a soaring theme
+    st_mythic: t => { sweep("sine", 70, 34, t, 1.8, .45); riser(t + .2, 1.5, .32); nz(t + .2, 1.5, .14, "highpass", 2000, 9000);
+      const h = t + 1.75; boom(h, 1); nz(h, 1.4, .28, "lowpass", 3000, 200);
+      pad([n2("D3"), n2("A3"), n2("F#4"), n2("C#5"), n2("E5")], h, 4.4, .065, 2200);
+      ["D5", "E5", "F#5", "G#5", "A5", "C#6", "D6", "E6", "F#6", "G#6", "A6", "C#7", "D7"].forEach((n, i) => bell(n2(n), h + .1 + i * .045, .06, 1.2));
+      brass([["A5", .8, .3], ["D6", 1.15, .3], ["F#6", 1.5, .3], ["A6", 1.85, 1.6]], h, .15);
+      sparkle(h + .6, 3.2, 22, n2("D6")); bell(n2("D7"), h + 2.1, .1, 3); },
+    // SECRET: three heartbeats in the dark, glass shatters, a bass drop and a strange cosmic chord
+    st_secret: t => { for (let i = 0; i < 3; i++) { sweep("sine", 92, 40, t + i * .55, .18, .7); sweep("sine", 80, 38, t + i * .55 + .16, .16, .5); }
+      pad([n2("C#3"), n2("G3")], t, 1.9, .04, 500);
+      const h = t + 1.9; nz(h, .5, .9, "highpass", 3000, 1200, .5); for (let i = 0; i < 26; i++) bell(2000 + Math.random() * 5000, h + Math.random() * .45, .045, .5);
+      boom(h + .05, 1); sweep("sawtooth", 220, 30, h, 1.6, .22);
+      pad([n2("Ab3"), n2("Eb4"), n2("C5"), n2("Bb5"), n2("G5")], h + .3, 4.6, .075, 3000);
+      arp(["Ab5", "C6", "Eb6", "G6", "Ab6", "C7", "Eb7"], h + .4, .09, .13, .125, .5);
+      ["Eb6", "G6", "Bb6", "Ab6"].forEach((n, i) => sweep("triangle", n2(n), n2(n), h + 1.3 + i * .45, .6, .2));
+      sparkle(h + .6, 3.6, 26, n2("Eb6")); },
+    // lottery: snare roll while the numbers drop
+    st_drumroll: t => { for (let i = 0; i < 30; i++) nz(t + .3 + i * .045, .05, .12 + i * .008, "bandpass", 1800, 0, 1); },
+    // 1st prize: coin cascade, air horns, a big original fanfare, crowd cheer
+    st_prize1: t => { coins(t, 18, .055); const h = t + 1;
+      boom(h, .7); [0, .28, .56].forEach(d => [n2("Bb4"), n2("D5"), n2("F5")].forEach(f => sweep("sawtooth", f * 1.03, f, h + d, .24, .06)));
+      brass([["G5", .9, .14], ["G5", 1.06, .14], ["C6", 1.22, .3], ["E6", 1.55, .3], ["D6", 1.88, .16], ["C6", 2.06, .16], ["G6", 2.24, 1.4]], h, .17);
+      pad([n2("C4"), n2("G4"), n2("E5"), n2("C5")], h + .9, 3.2, .06, 2600); cheer(h + .3, 3.2); sparkle(h + .9, 3, 26, n2("C6")); },
+    // 2nd prize: shorter coin run and fanfare
+    st_prize2: t => { coins(t, 10, .06); const h = t + .65; boom(h, .5); arp(["C5", "E5", "G5", "C6", "E6", "G6"], h, .08, .15, .25);
+      brass([["E6", .55, .18], ["G6", .76, 1]], h, .15); pad([n2("C4"), n2("E5"), n2("G5")], h + .2, 2.4, .05, 2000); cheer(h + .2, 2.2); sparkle(h + .3, 2, 12, n2("C6")); },
+    // 3rd prize: a bright little win
+    st_prize3: t => { coins(t, 6, .07); const h = t + .45; arp(["G5", "C6", "E6", "G6"], h, .09, .15, .25); pad([n2("C5"), n2("G5")], h + .2, 1.8, .045, 1800); sparkle(h + .2, 1.5, 9, n2("C6")); },
+    // any smaller lottery, 4D or scratch win
+    st_smallwin: t => { coins(t, 4, .08); arp(["E6", "G6", "C7"], t + .35, .08, .13, .25); bell(n2("C7"), t + .6, .08, 1.2); },
   };
   function sfx(name, arg) { if (!sfxOn || !init()) return; if (ctx.state === "suspended") ctx.resume(); ensureS(); const f = SFX[name]; if (f) f(ctx.currentTime + .01, arg); }
   /* talking blips: one short chirp per letter, pitch set per speaker */
@@ -6194,7 +6383,7 @@ const Music = (() => {
   function blip(ch, who) { if (!sfxOn || !init()) return; ensureS(); const v = VOICE[who] || VOICE.narrator, c = ch.toLowerCase().charCodeAt(0) || 97, f = v[0] * (1 + ((c * 7) % 9) / 36);
     sweep("pulse", f, f * .94, ctx.currentTime + .005, .045, .11, v[1]); }
   const api = {
-    sfx, blip, jingle,
+    sfx, blip, jingle, duck, stinger,
     setSfx(v) { sfxOn = !!v; SS("hdblife-sfx", sfxOn ? "on" : "off"); label(); },
     get sfxOn() { return sfxOn; },
     play(name) { if (!T[name]) return; want = name; if (ctx && on) start(name); },
@@ -6498,11 +6687,16 @@ const UTITLES = [
   ["ceo", "CEO OF GAMING", "Staff only: tester accounts.", () => isTester(), "chroma c-gold", 1],
   ["wizard", "PATCH WIZARD", "Staff only: tester accounts.", () => isTester(), "chroma c-arcane", 1],
   ["huat", "GOD OF HUAT", "Staff only: tester accounts.", () => isTester(), "chroma c-fire", 1],
-  ["finalboss", "FINAL BOSS", "Staff only: tester accounts.", () => isTester(), "chroma c-void", 1]
+  ["finalboss", "FINAL BOSS", "Staff only: tester accounts.", () => isTester(), "chroma c-void", 1],
+  ["dushen", "赌神", "Special tag: only staff can give it out.", () => isTester(), "chroma c-gamble", 1],
+  ["mjshen", "麻将神", "Special tag: only staff can give it out.", () => isTester(), "chroma c-jade", 1],
+  ["auraking", "AURA KING", "Special tag: only staff can give it out.", () => isTester(), "chroma c-aura", 1],
+  ["smelly", "SMELLY BOY", "Special tag: only staff can give it out.", () => isTester(), "chroma c-smelly", 1],
+  ["billionaire", "BILLIONAIRE", "Special tag: only staff can give it out.", () => isTester(), "chroma c-money", 1]
 ];
 const titleById = id => UTITLES.find(t => t[0] === id);
-const titleOn = t => { try { return !!t[3](); } catch (e) { return false; } };
-function titleTag(id) { const t = titleById(id); return t ? `<span class="utag ${t[4]}" title="${t[1]}">${t[1]}</span>` : ""; }
+const titleOn = t => { try { return !!(ME && ME.gTitles && ME.gTitles.includes(t[0])) || !!t[3](); } catch (e) { return false; } };
+function titleTag(id) { const t = titleById(id); return t ? `<span class="utag ${t[4]}${/[\u3400-\u9fff]/.test(t[1]) ? " cjk" : ""}" title="${t[1]}">${t[1]}</span>` : ""; }
 function myTitle() { if (!ME || !ME.title) return null; const t = titleById(ME.title); return t && titleOn(t) ? t[0] : null; }
 function titleCheck() {
   if (!ME) return; const on = UTITLES.filter(t => !t[5] && titleOn(t)).map(t => t[0]);
@@ -6520,7 +6714,7 @@ function titlesTabHtml() {
     <p style="margin:0;color:var(--muted);font-size:18px">Your title shows next to your name on Lifegram and in the top bar. Scroll to see every title and how to earn it.</p>
     <div class="tlist"><div class="trow ${cur ? "" : "on"}"><span class="utag t-basic">LEVEL TITLE</span><p>Show your level title instead (${escH(TITLES[Math.min(TITLES.length - 1, (G ? G.level : 1) - 1)])}).</p><button class="chip" data-title="" aria-pressed="${!cur}">${cur ? "USE" : "EQUIPPED ✓"}</button></div>
       ${isTester() ? `<p class="tsec">STAFF TAGS · CHROMA</p>${staff.map(row).join("")}<p class="tsec">EVERYONE</p>` : ""}${list.filter(t => !t[5]).map(row).join("")}
-      ${isTester() ? "" : `<p class="tsec">STAFF TAGS</p><div class="trow locked"><span class="utag t-basic">??????</span><p>Five secret chroma tags exist. Only the game's staff can wear them.</p><span style="color:var(--muted);font:8px var(--pixel)">🔒</span></div>`}</div>`;
+      ${isTester() ? "" : `${staff.filter(titleOn).length ? `<p class="tsec">SPECIAL TAGS · GIFTED BY STAFF</p>${staff.filter(titleOn).map(row).join("")}` : ""}<p class="tsec">STAFF TAGS</p><div class="trow locked"><span class="utag t-basic">??????</span><p>Secret chroma tags exist. Only the game's staff can wear them or give them out.</p><span style="color:var(--muted);font:8px var(--pixel)">🔒</span></div>`}</div>`;
 }
 function titlesWire() {
   $("mbox").querySelectorAll("[data-title]").forEach(b => b.onclick = () => { if (!ME) return; ME.title = b.dataset.title || null; profSave(); SFX("coin"); renderHUD(); toast(ME.title ? `TITLE EQUIPPED: ${titleById(ME.title)[1]}` : "SHOWING YOUR LEVEL TITLE");
@@ -6649,7 +6843,6 @@ function tradeTabWire() {
 
 /* ================= v13: HATCH 10 EGGS ================= */
 let exoMulti = null;
-function exoRoll() { let r = Math.random() * 100, t = "RARE"; for (const [tt, p] of EXO_ODDS) { if (r < p) { t = tt; break; } r -= p; } return t; }
 function hatchTen() {
   const cost = EXO_COST * 10; if (!canPay(cost)) return; why("Exotic pet gacha ×10"); G.cash -= cost; SFX("rattle");
   const res = [];
@@ -6667,7 +6860,7 @@ function hatchTen() {
     cell.style.setProperty("--r", col); cell.classList.toggle("hit", !!EXO_COL[r.t]); cell.classList.toggle("dup", r.dup);
     cell.innerHTML = `<svg viewBox="0 0 12 9" data-p10="${i}"></svg><small>${r.dup ? "DUP +S$250" : EXO_NAME[r.t]}</small>`; drawPetFull(cell.querySelector("svg"), r.k, null, 0);
     SFX(EXO_COL[r.t] ? "reveal" : "crack", EXO_COL[r.t] ? "LEGEND" : undefined);
-    if (i === 9) setTimeout(() => openPetStore(), 900 * D);
+    if (i === 9) { const best = ["SECRET", "MYTHIC", "LEGEND"].find(t => res.some(x => x.t === t)); if (best) Music.stinger({ SECRET: "st_secret", MYTHIC: "st_mythic", LEGEND: "st_legend" }[best]); setTimeout(() => openPetStore(), (best ? 2600 : 900) * D); }
   }, (400 + i * 260) * D));
 }
 
@@ -6719,6 +6912,397 @@ function buySet(set, h) {
 }
 
 window.HDB = { get G() { return G; }, get ME() { return ME; }, save: () => save() };
+
+/* ================= v14: LIFE SNAPSHOT (what friends see of the life you're playing now) ================= */
+function lifeSnap() {
+  if (!G || PARTY) return ME && ME.snap || null;
+  const s = { age: G.age, ch: G.ch, nw: Math.round(netWorth()), lv: G.level, job: G.student ? (G.path === "poly" ? "Diploma student" : "Degree student") : G.job ? G.job.name : "Job seeker", homes: (G.props || []).length, pets: (G.pets || []).length, at: Date.now() };
+  if (ME) ME.snap = s; return s;
+}
+
+/* ================= v14: EDIT YOUR NAME (Profile > Profile) ================= */
+function renameProfile(raw) {
+  const er = $("pmNameErr"), v = String(raw || "").replace(/[<>]/g, "").replace(/\s+/g, " ").trim().toUpperCase().slice(0, 14);
+  if (!ME) return; if (!v) { if (er) er.textContent = "Type a name first."; return; }
+  if (v === ME.name) { if (er) er.textContent = "That's already your name."; return; }
+  if (PROFS.list.some(p => p !== ME && p.name === v)) { if (er) er.textContent = "Another profile here already uses that name."; return; }
+  ME.name = v; if (ME.look) ME.look.name = v.slice(0, 12);
+  if (G && !PARTY) { G.look.name = v.slice(0, 12); save(); }
+  profSave(); try { if (ACCT && ME.code) Friends.publish(); } catch (e) {}
+  renderHUD(); $("whoName").textContent = v; SFX("coin"); toast(`NAME CHANGED TO ${v}`); openProfile("acct");
+}
+
+/* ================= v14: GACHA PITY (profile wide, so it carries over between lives) ================= */
+const PITY_L = 150, PITY_M = 500;
+function pityState() { const o = ME || G; if (!o) return { l: 0, m: 0 }; if (!o.pity) o.pity = { l: 0, m: 0 }; return o.pity; }
+function exoRoll() {
+  const P = pityState(); P.l++; P.m++; let t;
+  if (P.m >= PITY_M) t = "MYTHIC";
+  else if (P.l >= PITY_L) t = "LEGEND";
+  else { let r = Math.random() * 100; t = "RARE"; for (const [tt, p] of EXO_ODDS) { if (r < p) { t = tt; break; } r -= p; } }
+  if (t === "LEGEND") P.l = 0;
+  if (t === "MYTHIC") P.m = 0;
+  if (ME) profSave();
+  return t;
+}
+function pityHtml() {
+  const P = pityState(), row = (lab, n, max, c) => `<div class="pity" style="--c:${c}"><span><b>${lab}</b><small>${n} / ${max} · guaranteed within ${max - n} more egg${max - n === 1 ? "" : "s"}</small></span><i><u style="width:${Math.min(100, n / max * 100)}%"></u></i></div>`;
+  return `<div class="pitybox">${row("LEGENDARY PITY", P.l, PITY_L, "#E8C25A")}${row("MYTHIC PITY", P.m, PITY_M, "#F07B66")}<small>Each counter resets when you hatch that tier. Pity counts follow your profile into every life.</small></div>`;
+}
+
+/* ================= v14: HOME EDIT · STORAGE SIDE PANEL ================= */
+const HSORT = [["type", "TYPE"], ["az", "NAME A–Z"], ["comfort", "MOST COMFORT"], ["big", "BIGGEST FIRST"], ["small", "SMALLEST FIRST"], ["price", "PRICIEST FIRST"], ["count", "MOST IN STORAGE"]];
+function homeInvRender() {
+  const box = $("homeInv"), scr = $("scr-home");
+  if (!HV.edit) { box.hidden = true; scr.style.setProperty("--rw", "0px"); return; }
+  const old = box.querySelector(".hlist"), y = old ? old.scrollTop : 0;
+  HV.isort = HV.isort || "type"; HV.icat = HV.icat || "all";
+  const all = FURNI.filter(x => !isSurface(x.id) && spare(x.id) > 0);
+  const cats = FSLOTS.filter(([k]) => all.some(x => x.slot === k));
+  if (HV.icat !== "all" && !cats.some(([k]) => k === HV.icat)) HV.icat = "all";
+  const order = Object.fromEntries(FSLOTS.map(([k], i) => [k, i])), byName = (a, b) => a.name.localeCompare(b.name);
+  const sorts = { type: (a, b) => order[a.slot] - order[b.slot] || byName(a, b), az: byName, comfort: (a, b) => b.comfort - a.comfort || byName(a, b),
+    big: (a, b) => b.w * b.h - a.w * a.h || byName(a, b), small: (a, b) => a.w * a.h - b.w * b.h || byName(a, b), price: (a, b) => b.price - a.price || byName(a, b), count: (a, b) => spare(b.id) - spare(a.id) || byName(a, b) };
+  const list = all.filter(x => HV.icat === "all" || x.slot === HV.icat).sort(sorts[HV.isort] || sorts.type);
+  const total = all.reduce((n, x) => n + spare(x.id), 0), touch = matchMedia("(pointer: coarse)").matches, catName = k => (FSLOTS.find(s => s[0] === k) || [k, k])[1];
+  box.hidden = false;
+  box.innerHTML = `<div class="hihead"><b>STORAGE</b><small>${total} item${total === 1 ? "" : "s"} to place</small></div>
+    <label class="hisort"><span>SORT</span><select id="hiSort">${HSORT.map(([k, l]) => `<option value="${k}" ${k === HV.isort ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+    <div class="hicats">${[["all", "ALL"]].concat(cats).map(([k, l]) => `<button data-hic="${k}" aria-pressed="${k === HV.icat}">${l}</button>`).join("")}</div>
+    <div class="hlist">${list.length ? list.map(x => `<button class="hitem" data-hp="${x.id}" aria-pressed="${HV.placing === x.id}"><canvas width="${x.w * TS}" height="${x.h * TS}" data-hc="${x.id}"></canvas><span><b>${x.name}</b><small>${catName(x.slot)} · ${x.w}×${x.h}${x.comfort ? ` · +${x.comfort} comfort` : ""}</small></span><em>×${spare(x.id)}</em></button>`).join("")
+      : `<p class="hiempty">${all.length ? "Nothing of this type in storage." : "Storage is empty. Press + BUY MORE, or visit the Flat-Pack Home Store in Town."}</p>`}</div>
+    <p class="hitip">${touch ? "Tap an item, then tap the floor. Or drag it onto the floor." : "Drag an item onto the floor, or click it and then click the floor. Drag furniture in the room to move it."}</p>`;
+  box.querySelectorAll("[data-hc]").forEach(c => c.getContext("2d").drawImage(itemSprite(c.dataset.hc, 0), 0, 0));
+  const nl = box.querySelector(".hlist"); nl.scrollTop = y;
+  $("hiSort").onchange = e => { HV.isort = e.target.value; homeInvRender(); box.querySelector(".hlist").scrollTop = 0; };
+  box.querySelectorAll("[data-hic]").forEach(b => b.onclick = () => { HV.icat = b.dataset.hic; homeInvRender(); box.querySelector(".hlist").scrollTop = 0; });
+  box.querySelectorAll("[data-hp]").forEach(b => { b.onpointerdown = e => homeInvGrab(e, b.dataset.hp); b.onclick = e => e.preventDefault(); });
+  scr.style.setProperty("--rw", box.offsetWidth + "px");
+}
+function homeOverCanvas(e) { const el = document.elementFromPoint(e.clientX, e.clientY); return !!el && el.id === "homeCv"; }
+function homeInvGrab(e, id) {
+  if (e.button > 0) return;
+  const st = { x: e.clientX, y: e.clientY, moved: false }; let chip = null;
+  const mv = ev => {
+    if (!st.moved && Math.hypot(ev.clientX - st.x, ev.clientY - st.y) > 8) { st.moved = true; HV.sel = null; if (HV.placing !== id) HV.prot = 0; HV.placing = id;
+      chip = document.createElement("div"); chip.className = "hdragchip"; chip.textContent = FBY[id].name; document.body.appendChild(chip); }
+    if (st.moved) { HV.hover = homeOverCanvas(ev) ? tileAtEvent(ev) : null; chip.style.left = ev.clientX + "px"; chip.style.top = ev.clientY + "px"; chip.classList.toggle("ok", !!HV.hover); }
+  };
+  const up = ev => {
+    removeEventListener("pointermove", mv); removeEventListener("pointerup", up); removeEventListener("pointercancel", up); if (chip) chip.remove();
+    if (ev.type === "pointercancel") return;
+    if (!st.moved) { HV.sel = null; HV.placing = HV.placing === id ? null : id; HV.prot = 0; homeUI(); if (HV.placing) homeSay(`Placing <b>${FBY[id].name}</b>. ${matchMedia("(pointer: coarse)").matches ? "Tap" : "Click"} the floor to put it down. R turns it.`, 2400); return; }
+    const t = homeOverCanvas(ev) ? tileAtEvent(ev) : null;
+    if (t) { homeTap(t[0], t[1]); HV.placing = null; homeUI(); } else { HV.placing = null; homeUI(); }
+  };
+  addEventListener("pointermove", mv); addEventListener("pointerup", up); addEventListener("pointercancel", up);
+}
+
+/* ================= v14: SOCIAL · friend requests, chat, notifications, staff gifts ================= */
+// Firestore: inbox/<CODE>/items/<id> (requests, accepts, message pings, staff gifts) and chats/<CODE_A>_<CODE_B>/m/<id>.
+const Social = (() => {
+  const S = { unsub: null, code: null, reqs: [], unread: {}, msgIds: {}, seen: new Set(), applied: new Set(), pending: [], first: true,
+    chat: null, chatUnsub: null, msgs: [], chatErr: "", draft: "", focus: false, results: null, q: "", err: "" };
+  const live = () => !!(window.FB && ACCT && ME && ME.code);
+  const F_ = () => window.FB.F, DB = () => window.FB.db;
+  const cid = (a, b) => [a, b].sort().join("_");
+  const nm = x => String((x && (x.fromName || x.name)) || "A PLAYER").toUpperCase();
+  const box = code => F_().collection(DB(), "inbox", code, "items");
+  const del = id => { try { F_().deleteDoc(F_().doc(DB(), "inbox", S.code, "items", id)).catch(() => {}); } catch (e) {} };
+  const PAL = ["#3FA79F", "#E8A04A", "#B79AD9", "#5A8EE0", "#F07B66", "#5BD38A", "#E8C25A", "#D64545"];
+  const colFor = c => { let h = 0; for (const ch of String(c)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return PAL[h % PAL.length]; };
+  const typing = () => { const a = document.activeElement; return !!a && /INPUT|TEXTAREA|SELECT/.test(a.tagName) && $("mbox").contains(a); };
+
+  function stop() {
+    if (S.unsub) { try { S.unsub(); } catch (e) {} } S.unsub = null; closeChat();
+    Object.assign(S, { code: null, reqs: [], unread: {}, msgIds: {}, pending: [], seen: new Set(), first: true, results: null, q: "", err: "" });
+  }
+  function start() {
+    if (!live()) return; if (S.unsub && S.code === ME.code) return;
+    stop(); S.code = ME.code; const F = F_();
+    S.unsub = F.onSnapshot(box(S.code), snap => {
+      const reqs = [], unread = {}, ids = {}, notes = [];
+      snap.docs.forEach(d => {
+        const x = d.data() || {}, id = d.id, fresh = !S.seen.has(id); S.seen.add(id);
+        if (x.type === "req") {
+          if ((ME.friends || []).includes(x.from)) { if (!S.applied.has(id)) { S.applied.add(id); accept(Object.assign({ id }, x), true); } return; }
+          reqs.push(Object.assign({ id }, x)); if (fresh) notes.push(["req", `FRIEND REQUEST FROM ${nm(x)}`]);
+        } else if (x.type === "acc") {
+          if (!S.applied.has(id)) { S.applied.add(id); addFriend(x.from); ME.sent = (ME.sent || []).filter(c => c !== x.from); profSave(); if (fresh) notes.push(["acc", `${nm(x)} ACCEPTED YOUR FRIEND REQUEST`]); }
+          del(id);
+        } else if (x.type === "msg") {
+          if (S.chat === x.from && chatVisible()) { del(id); return; }
+          unread[x.from] = (unread[x.from] || 0) + 1; (ids[x.from] = ids[x.from] || []).push(id);
+          if (fresh) notes.push(["msg", `${nm(x)}: ${String(x.t || "").slice(0, 40)}`]);
+        } else if (x.type === "grant") {
+          if (!S.applied.has(id) && !S.pending.some(p => p.id === id)) S.pending.push(Object.assign({ id }, x));
+        }
+      });
+      S.reqs = reqs; S.unread = unread; S.msgIds = ids;
+      if (notes.length) {
+        if (notes.length === 1) toast(notes[0][1]);
+        else { const n = k => notes.filter(x => x[0] === k).length, parts = [];
+          if (n("req")) parts.push(`${n("req")} FRIEND REQUEST${n("req") > 1 ? "S" : ""}`); if (n("msg")) parts.push(`${n("msg")} NEW MESSAGE${n("msg") > 1 ? "S" : ""}`); if (n("acc")) parts.push(`${n("acc")} NEW FRIEND${n("acc") > 1 ? "S" : ""}`);
+          toast(parts.join(" · ") + " · CHECK YOUR PHONE"); }
+        SFX("pet");
+      }
+      S.first = false; pump(); refresh();
+    }, e => console.warn("inbox listener", e));
+  }
+  function refresh() {
+    try {
+      if (G && !$("scr-hub").hidden) renderHUD();
+      if (G && !$("phone").hidden && (phoneApp === "msg" || phoneApp === "home")) renderPhone();
+      if (!$("modal").hidden && pmTab === "friends" && $("mbox").querySelector("#fList") && !typing()) reopenTab();
+    } catch (e) { console.warn(e); }
+  }
+  function count() { return S.reqs.length + Object.values(S.unread).reduce((a, b) => a + b, 0); }
+  function addFriend(code) {
+    if (!ME || !code || code === ME.code) return;
+    if (!ME.friends.includes(code)) { ME.friends.push(code); delete Friends.cache[code]; profSave(); }
+    Friends.publish(); Friends.load().then(refresh);
+  }
+  function removeFriend(code) { ME.friends = (ME.friends || []).filter(c => c !== code); ME.sent = (ME.sent || []).filter(c => c !== code); profSave(); try { Friends.publish(); } catch (e) {} }
+
+  /* ---- requests ---- */
+  async function send(code) {
+    if (!live()) throw new Error("offline"); if (code === ME.code) throw new Error("self");
+    const theirs = S.reqs.find(r => r.from === code); if (theirs) return accept(theirs);
+    const F = F_();
+    await F.setDoc(F.doc(DB(), "inbox", code, "items", "req_" + ME.code), { type: "req", from: ME.code, fromName: ME.name, uid: ACCT.uid, at: Date.now() });
+    ME.sent = (ME.sent || []).filter(c => c !== code).concat(code).slice(-100); profSave(); return "sent";
+  }
+  async function accept(r, quiet) {
+    addFriend(r.from); try { await Friends.publish(); } catch (e) {}
+    const F = F_();
+    try { await F.setDoc(F.doc(DB(), "inbox", r.from, "items", "acc_" + ME.code), { type: "acc", from: ME.code, fromName: ME.name, uid: ACCT.uid, at: Date.now() }); } catch (e) { console.warn("accept", e); }
+    del(r.id); S.reqs = S.reqs.filter(x => x.id !== r.id); ME.sent = (ME.sent || []).filter(c => c !== r.from); profSave();
+    if (!quiet) { SFX("win"); toast(`YOU AND ${nm(r)} ARE NOW FRIENDS`); } refresh(); return "friends";
+  }
+  function decline(r) { if (!r) return; del(r.id); S.reqs = S.reqs.filter(x => x.id !== r.id); refresh(); }
+  async function search(q) {
+    const F = F_(), code = Friends.norm(q), out = [];
+    if (code) { const f = await Friends.lookup(code); if (f) { out.push(Object.assign({ code }, f)); return out; } }
+    const s = String(q).toLowerCase().replace(/\s+/g, " ").trim().slice(0, 16); if (!s) return out;
+    const snap = await F.getDocs(F.query(F.collection(DB(), "codes"), F.where("nameLower", ">=", s), F.where("nameLower", "<=", s + ""), F.limit(12)));
+    snap.forEach(d => out.push(Object.assign({ code: d.id }, d.data()))); return out;
+  }
+
+  /* ---- staff gifts ---- */
+  function pump() {
+    if (!S.pending.length || !ME) return; const keep = [];
+    for (const g of S.pending) { if (S.applied.has(g.id)) continue; let ok = false; try { ok = applyGrant(g); } catch (e) { console.warn("gift", e); }
+      if (ok) { S.applied.add(g.id); del(g.id); } else keep.push(g); }
+    S.pending = keep;
+  }
+  function applyGrant(g) {
+    const k = g.kind, by = "HDB LIFE STAFF";
+    if (k === "title" || k === "untitle") {
+      const t = titleById(g.title); if (!t) return true;
+      ME.gTitles = (ME.gTitles || []).filter(x => x !== g.title); if (k === "title") ME.gTitles.push(g.title); else if (ME.title === g.title) ME.title = null;
+      profSave(); if (G) renderHUD(); if (k === "title") { SFX("win"); toast(`STAFF GAVE YOU A TITLE: ${t[1]} · EQUIP IT IN PROFILE > TITLES`); } else toast(`STAFF REMOVED THE TITLE ${t[1]}`);
+      return true;
+    }
+    if (k === "note") { toast(`MESSAGE FROM STAFF: ${String(g.t || "").slice(0, 90)}`); if (G && !PARTY) { mail(by, "A message from the team", escH(g.t || "")); save(); } return true; }
+    // money and levels land in your own (single player) game, once you're back in the lobby
+    if (!G || PARTY || $("scr-hub").hidden) return false;
+    const n = Number(g.amt) || 0;
+    if (k === "cash") { try { why("Gift from staff"); } catch (e) {} G.cash += n; }
+    else if (k === "savings") G.savings = Math.max(0, G.savings + n);
+    else if (k === "knowledge") G.knowledge = Math.max(0, G.knowledge + n);
+    else if (k === "energy") G.energy = G.maxEnergy;
+    else if (k === "levels") { const L = clamp(Math.round(n), 1, 50); addXP(Array.from({ length: L }, (_, i) => (G.level + i) * 100).reduce((a, c) => a + c, 0) - G.xp); }
+    else return true;
+    const what = { cash: money(n) + " cash", savings: money(n) + " savings", knowledge: n + " Knowledge", energy: "a full Energy refill", levels: n + " level" + (n === 1 ? "" : "s") }[k];
+    mail(by, "A gift from the team", `You received ${what}.${g.t ? " Note: " + escH(g.t) : ""}`); save(); renderHUD(); SFX("coin"); toast(`STAFF GIFT: ${what.toUpperCase()}`);
+    return true;
+  }
+  async function grant(code, data) { const F = F_(); await F.addDoc(box(code), Object.assign({ type: "grant", by: ACCT.login, uid: ACCT.uid, at: Date.now() }, data)); }
+
+  /* ---- chat ---- */
+  function chatVisible() { return !$("phone").hidden && phoneApp === "fchat"; }
+  function openChat(code) {
+    if (!live()) return; closeChat(); Object.assign(S, { chat: code, msgs: [], draft: "", chatErr: "", focus: true });
+    const F = F_();
+    S.chatUnsub = F.onSnapshot(F.query(F.collection(DB(), "chats", cid(ME.code, code), "m"), F.orderBy("at"), F.limitToLast(80)), snap => {
+      S.msgs = snap.docs.map(d => d.data()); S.chatErr = ""; if (chatVisible() && S.chat === code) renderPhone();
+    }, e => { console.warn("chat", e); S.chatErr = "Couldn't load this chat. You can only text players who are on each other's friend lists."; if (chatVisible()) renderPhone(); });
+    (S.msgIds[code] || []).forEach(del); delete S.unread[code]; delete S.msgIds[code];
+    if (!Friends.cache[code]) Friends.load().then(() => { if (chatVisible()) renderPhone(); });
+  }
+  function closeChat() { if (S.chatUnsub) { try { S.chatUnsub(); } catch (e) {} } S.chatUnsub = null; S.chat = null; S.msgs = []; }
+  async function sendMsg(code, text) {
+    const t = String(text || "").replace(/\s+/g, " ").trim().slice(0, 300); if (!t || !live()) return false;
+    const F = F_(), at = Date.now();
+    await F.addDoc(F.collection(DB(), "chats", cid(ME.code, code), "m"), { from: ME.code, uid: ACCT.uid, t, at });
+    F.addDoc(box(code), { type: "msg", from: ME.code, fromName: ME.name, uid: ACCT.uid, t: t.slice(0, 80), at }).catch(e => console.warn("ping", e));
+    return true;
+  }
+
+  /* ---- phone: MESSAGES app ---- */
+  function friendRow(code) {
+    const f = Friends.cache[code] || {}, u = S.unread[code] || 0, name = f.name || code;
+    return `<button class="friend" data-fchat="${code}"><span class="av" style="--c:${colFor(code)}">${escH(String(name)[0])}</span><span><b class="fnm">${escH(name)}${f.title ? titleTag(f.title) : ""}</b><small>${u ? `${u} new message${u > 1 ? "s" : ""}` : f.life ? `Age ${f.life.age} · ${escH(String(f.life.job || "").toLowerCase())}` : "Tap to text"}</small></span>${u ? `<span class="new"></span>` : ""}</button>`;
+  }
+  function msgListHtml() {
+    closeChat();
+    if (!window.FB || !ACCT) return `<div class="post">${iconSvg("chat", 40)}Log in with Google or a username to text your friends. For money questions, open the <b>ADVISER</b> app.</div>`;
+    if (!ME.code) { Friends.ensureCode().then(() => { start(); if (!$("phone").hidden && phoneApp === "msg") renderPhone(); }); return `<div class="post">Setting up your friend code...</div>`; }
+    const fr = (ME.friends || []).slice().sort((a, b) => (S.unread[b] || 0) - (S.unread[a] || 0));
+    if (fr.some(c => !Friends.cache[c])) Friends.load().then(() => { if (!$("phone").hidden && phoneApp === "msg") renderPhone(); });
+    return (S.reqs.length ? `<p class="psec">FRIEND REQUESTS</p>${S.reqs.map((r, i) => `<div class="freq"><span class="av" style="--c:${colFor(r.from)}">${escH(nm(r)[0])}</span><span><b>${escH(nm(r))}</b><small>wants to be friends</small></span><button data-racc="${i}">ACCEPT</button><button data-rdec="${i}" class="ghost" aria-label="Decline">✕</button></div>`).join("")}` : "")
+      + `<p class="psec">FRIENDS</p>` + (fr.length ? fr.map(friendRow).join("") : `<div class="post">No friends yet. Tap FIND FRIENDS, search for a player and send a request.</div>`)
+      + `<div class="mini"><button data-findf>FIND FRIENDS</button></div>`;
+  }
+  function chatHtml() {
+    const code = S.chat, f = Friends.cache[code] || {}, name = f.name || code || "";
+    return `<div class="ptop"><button class="pback" data-app="msg">&lt;</button><span class="av" style="--c:${colFor(code)}">${escH(String(name)[0] || "?")}</span><h2>${escH(name)}</h2><button class="pview" data-fview="${code}">PROFILE</button></div>
+      <div class="bubbles">${S.msgs.length ? S.msgs.map(m => `<div class="bub ${m.from === ME.code ? "me" : ""}">${escH(m.t)}</div>`).join("") : `<p class="pnote" style="text-align:center">${escH(S.chatErr || "Say hi! Only the two of you can see this chat.")}</p>`}</div>
+      <form class="pchat" id="pChat"><input id="pChatIn" maxlength="300" placeholder="Message ${escH(name)}" autocomplete="off" spellcheck="true"><button type="submit">SEND</button></form>
+      <p class="pnote">Be kind. Never share passwords, your address or bank details.</p>`;
+  }
+  function wirePhone(P) {
+    P.querySelectorAll("[data-fchat]").forEach(b => b.onclick = () => { openChat(b.dataset.fchat); phoneApp = "fchat"; renderPhone(); });
+    P.querySelectorAll("[data-racc]").forEach(b => b.onclick = () => { b.disabled = true; accept(S.reqs[+b.dataset.racc]); });
+    P.querySelectorAll("[data-rdec]").forEach(b => b.onclick = () => decline(S.reqs[+b.dataset.rdec]));
+    const ff = P.querySelector("[data-findf]"); if (ff) ff.onclick = () => { closePhone(); openProfile("friends"); };
+    P.querySelectorAll("[data-fview]").forEach(b => b.onclick = () => { const c = b.dataset.fview; closePhone(); openFriend(c); });
+    const form = $("pChat");
+    if (form) {
+      const inp = $("pChatIn"); inp.value = S.draft;
+      inp.oninput = () => { S.draft = inp.value; }; inp.onfocus = () => { S.focus = true; }; inp.onblur = () => { S.focus = false; };
+      if (S.focus) setTimeout(() => { try { inp.focus({ preventScroll: true }); inp.setSelectionRange(inp.value.length, inp.value.length); } catch (e) {} }, 0);
+      form.onsubmit = async e => { e.preventDefault(); if (!inp.value.trim()) return; const code = S.chat; inp.disabled = true;
+        try { await sendMsg(code, inp.value); S.draft = ""; S.focus = true; SFX("click"); } catch (x) { console.warn(x); toast("COULDN'T SEND. YOU CAN ONLY TEXT FRIENDS WHO ADDED YOU BACK."); }
+        inp.disabled = false; if (chatVisible()) renderPhone(); };
+    }
+  }
+
+  /* ---- profile: FRIENDS tab ---- */
+  function status(code) {
+    if (code === ME.code) return ["self", "THAT'S YOU"];
+    if ((ME.friends || []).includes(code)) return ["friend", "FRIENDS ✓"];
+    if (S.reqs.some(r => r.from === code)) return ["theirs", "ACCEPT REQUEST"];
+    if ((ME.sent || []).includes(code)) return ["sent", "REQUEST SENT"];
+    return ["none", "SEND FRIEND REQUEST"];
+  }
+  function resultCard(r) {
+    const [k, lab] = status(r.code);
+    return `<div class="fcard"><svg width="44" height="56" viewBox="0 0 14 18" data-flook="${r.code}"></svg><b>${escH(r.name)}${r.title ? titleTag(r.title) : ""}</b><span>${escH(r.rank || "New player")} · best ${r.best || 0} · ${r.ach || 0}/${ACH.length} achievements</span>
+      <span class="fbtns">${k === "none" || k === "theirs" ? `<button class="gold" data-fsend="${r.code}">${lab}</button>` : `<span class="mut">${lab}</span>`}${k !== "self" ? `<button data-fview="${r.code}">VIEW</button>` : ""}</span></div>`;
+  }
+  function friendCard(c) {
+    const f = Friends.cache[c];
+    if (!f) return `<div class="fcard"><svg width="44" height="56" viewBox="0 0 14 18"></svg><b>${c}</b><span>Loading...</span></div>`;
+    if (f.gone || f.err) return `<div class="fcard"><svg width="44" height="56" viewBox="0 0 14 18"></svg><b>${c}</b><span>${f.gone ? "This profile was deleted." : "Couldn't load right now."}</span><button data-frm="${c}">REMOVE</button></div>`;
+    const mutual = (f.friends || []).includes(ME.code), L = f.life;
+    return `<button class="fcard fclick" data-fview="${c}"><svg width="44" height="56" viewBox="0 0 14 18" data-flook="${c}"></svg><b>${escH(f.name)}${f.title ? titleTag(f.title) : ""}</b><span>${escH(f.rank || "New player")} · best ${f.best || 0} · ${f.ach || 0}/${ACH.length} achievements${L ? ` · age ${L.age}` : ""}</span>
+      <span class="mut">${mutual ? "★ FRIENDS BOTH WAYS" : "ONE WAY · THEY HAVEN'T ADDED YOU"} · VIEW PROFILE ▸</span></button>`;
+  }
+  function tabHtml() {
+    if (!ACCT) return `<div class="fcode"><span>Friends need an account. Sign out of offline play and log in with Google or a username.</span></div>`;
+    const list = ME.friends || [], res = S.results;
+    return `<div class="fcode"><span>YOUR FRIEND CODE</span><b id="myCode">${ME.code || "MAKING..."}</b><button class="btn" id="fCopy">COPY</button></div>
+      <form class="fadd" id="fFind"><input class="namefield" id="fIn" maxlength="16" placeholder="PLAYER NAME OR FRIEND CODE" value="${escH(S.q)}" spellcheck="false" autocomplete="off" aria-label="Search for a player"><button class="btn gold" type="submit">SEARCH</button></form>
+      <p class="err" id="fErr" aria-live="polite" style="margin:0;color:var(--coral)">${escH(S.err)}</p>
+      ${res ? `<p class="tsec">SEARCH RESULTS</p><div class="flist">${res.length ? res.map(resultCard).join("") : `<p style="color:var(--muted);margin:0">No players found. Type the start of their profile name, or their friend code.</p>`}</div>` : ""}
+      ${S.reqs.length ? `<p class="tsec">FRIEND REQUESTS (${S.reqs.length})</p><div class="flist">${S.reqs.map((r, i) => `<div class="fcard"><svg width="44" height="56" viewBox="0 0 14 18" data-rlook="${r.from}"></svg><b>${escH(nm(r))}</b><span>wants to be your friend · ${r.from}</span><span class="fbtns"><button class="gold" data-racc="${i}">ACCEPT</button><button data-rdec="${i}">DECLINE</button><button data-fview="${r.from}">VIEW</button></span></div>`).join("")}</div>` : ""}
+      <p class="tsec">FRIENDS (${list.length})</p>
+      <div class="flist" id="fList">${list.length ? list.map(friendCard).join("") : `<p style="color:var(--muted);margin:0">No friends yet. Search for a player above and send a request. They get a notification and can accept it.</p>`}</div>`;
+  }
+  function reopenTab() { const b = $("mbox").querySelector(".pmbody"), y = b ? b.scrollTop : 0; openProfile("friends"); const b2 = $("mbox").querySelector(".pmbody"); if (b2) b2.scrollTop = y; }
+  function tabWire() {
+    const m = $("mbox"); if (!ACCT) return;
+    if (!ME.code) Friends.ensureCode().then(() => { start(); if (pmTab === "friends" && !$("modal").hidden) reopenTab(); });
+    m.querySelectorAll("[data-flook]").forEach(s => { const c = s.dataset.flook, f = Friends.cache[c] || (S.results || []).find(r => r.code === c); drawSprite(s, f && f.look || PRESETS[c.charCodeAt(0) % PRESETS.length]); });
+    m.querySelectorAll("[data-rlook]").forEach(s => drawSprite(s, PRESETS[s.dataset.rlook.charCodeAt(0) % PRESETS.length]));
+    const cp = $("fCopy"); if (cp) cp.onclick = () => { if (!ME.code) return; (navigator.clipboard ? navigator.clipboard.writeText(ME.code) : Promise.reject()).then(() => toast("FRIEND CODE COPIED"), () => toast("YOUR CODE: " + ME.code)); };
+    $("fFind").onsubmit = async e => { e.preventDefault(); S.q = $("fIn").value.trim(); if (!S.q) return; $("fErr").textContent = "Searching...";
+      try { S.results = await search(S.q); S.err = ""; } catch (x) { console.warn(x); S.err = "Couldn't reach the server. Try again."; } reopenTab(); };
+    m.querySelectorAll("[data-fsend]").forEach(b => b.onclick = async () => { b.disabled = true; b.textContent = "SENDING...";
+      try { const r = await send(b.dataset.fsend); if (r === "sent") { SFX("coin"); toast("FRIEND REQUEST SENT · THEY'LL GET A NOTIFICATION"); } }
+      catch (x) { console.warn(x); if (/permission/i.test(String(x && (x.code || x.message)))) { ME.sent = (ME.sent || []).concat(b.dataset.fsend); profSave(); toast("YOU ALREADY SENT THEM A REQUEST"); } else toast("COULDN'T SEND THE REQUEST. TRY AGAIN."); }
+      reopenTab(); });
+    m.querySelectorAll("[data-racc]").forEach(b => b.onclick = () => { b.disabled = true; accept(S.reqs[+b.dataset.racc]); });
+    m.querySelectorAll("[data-rdec]").forEach(b => b.onclick = () => decline(S.reqs[+b.dataset.rdec]));
+    m.querySelectorAll("[data-fview]").forEach(b => b.onclick = () => openFriend(b.dataset.fview));
+    m.querySelectorAll("[data-frm]").forEach(b => b.onclick = () => { removeFriend(b.dataset.frm); reopenTab(); });
+    if ((ME.friends || []).some(c => !Friends.cache[c])) Friends.load().then(() => { if (pmTab === "friends" && !$("modal").hidden && !typing()) reopenTab(); });
+  }
+
+  /* ---- a friend's profile: achievements and progress ---- */
+  async function openFriend(code) {
+    let f = Friends.cache[code] || (S.results || []).find(r => r.code === code);
+    if (!f || f.err || !f.name) { try { f = (await Friends.lookup(code)) || { gone: 1 }; } catch (e) { f = { err: 1 }; } if (!f.err) Friends.cache[code] = f; }
+    if (f.gone || f.err) { toast(f.gone ? "THIS PROFILE WAS DELETED" : "COULDN'T LOAD THAT PROFILE"); return; }
+    const isF = (ME.friends || []).includes(code), mutual = (f.friends || []).includes(ME.code), L = f.life, got = new Set(f.achIds || []), cats = [...new Set(ACH.map(a => a[1]))];
+    const [sk, slab] = status(code);
+    openModal(`<div class="pmhead"><svg width="112" height="144" viewBox="0 0 14 18" id="fvHero"></svg><div><h2>${escH(f.name)}${f.title ? titleTag(f.title) : ""}</h2><p>${escH(f.rank || "New player")} · friend code ${code}</p><p>${isF ? (mutual ? "★ FRIENDS BOTH WAYS" : "On your list · they haven't added you yet") : sk === "sent" ? "Friend request sent" : "Not on your friends list"}${f.updated ? " · active " + ago(f.updated) : ""}</p></div></div>
+      <div class="pmbody">
+        <div class="fvgrid"><div><p class="tsec">CURRENT LIFE</p>${L ? `<table class="tbl"><tr><td>Age</td><td>${L.age} · chapter ${L.ch} of ${CHAPTERS}</td></tr><tr><td>Job</td><td>${escH(String(L.job || "").toLowerCase())}</td></tr><tr><td>Level</td><td>LV ${L.lv}</td></tr><tr><td>Net worth</td><td>${money(L.nw)}</td></tr><tr><td>Homes · pets</td><td>${L.homes || 0} · ${L.pets || 0}</td></tr></table>` : `<p style="color:var(--muted);margin:0">Not playing a life right now.</p>`}</div>
+        <div><p class="tsec">RECORDS</p><table class="tbl"><tr><td>Best score</td><td>${f.best || 0}</td></tr><tr><td>Best net worth</td><td>${money(f.bestNw || 0)}</td></tr><tr><td>Lives finished</td><td>${f.lives || 0}</td></tr><tr><td>Achievements</td><td>${f.ach || got.size} / ${ACH.length}</td></tr></table></div></div>
+        <p class="tsec">ACHIEVEMENTS</p>
+        <div class="achtip" id="fvTip" aria-live="polite"><b>TAP OR HOVER AN ACHIEVEMENT</b><span>${f.achIds ? `Gold tiles are the ones ${escH(f.name)} has unlocked.` : `${escH(f.name)} needs to play once on the new version before their achievements show here.`}</span></div>
+        <div class="achwall">${cats.map(c => `<div class="achrow"><p>${c}</p><div class="achtiles">${ACH.filter(a => a[1] === c).map(a => `<button class="achtile ${got.has(a[0]) ? "on" : ""}" data-fach="${a[0]}" aria-label="${a[3]}${got.has(a[0]) ? ", unlocked" : ", locked"}">${iconSvg(a[2], 32)}</button>`).join("")}</div></div>`).join("")}</div>
+      </div>
+      <div class="mfoot">${isF ? `<button class="btn" id="fvRm">REMOVE FRIEND</button>` : sk === "none" || sk === "theirs" ? `<button class="btn" id="fvAdd">${slab}</button>` : ""}${isF && mutual && G ? `<button class="btn" id="fvMsg">MESSAGE</button>` : ""}<button class="btn" id="fvBack">&lt; FRIENDS</button><button class="btn gold" id="fvClose">CLOSE</button></div>`, "wide prof fview");
+    drawSprite($("fvHero"), f.look || PRESETS[0]);
+    const tip = $("fvTip"); $("mbox").querySelectorAll("[data-fach]").forEach(t => { const a = ACH.find(x => x[0] === t.dataset.fach), on = got.has(a[0]), sh = () => {
+        $("mbox").querySelectorAll("[data-fach]").forEach(o => o.setAttribute("aria-pressed", o === t)); tip.innerHTML = `<b class="${on ? "on" : ""}">${a[3]}</b><span>${a[4]}</span><small>${on ? "UNLOCKED" : "LOCKED"} · ${a[1]}</small>`; };
+      t.onmouseenter = sh; t.onfocus = sh; t.onclick = sh; });
+    $("fvClose").onclick = closeModal; $("fvBack").onclick = () => G ? openProfile("friends") : closeModal();
+    const rm = $("fvRm"); if (rm) rm.onclick = () => { rm.textContent = "TAP AGAIN TO REMOVE"; rm.onclick = () => { removeFriend(code); toast("FRIEND REMOVED"); G ? openProfile("friends") : closeModal(); }; };
+    const ad = $("fvAdd"); if (ad) ad.onclick = async () => { ad.disabled = true; try { const r = await send(code); toast(r === "sent" ? "FRIEND REQUEST SENT" : "FRIEND ADDED"); } catch (x) { toast("COULDN'T SEND THE REQUEST"); } openFriend(code); };
+    const ms = $("fvMsg"); if (ms) ms.onclick = () => { closeModalSilent(); openChat(code); openPhone("fchat"); };
+  }
+
+  return { start, stop, count, pump, refresh, send, accept, decline, search, grant, openChat, closeChat, msgListHtml, chatHtml, wirePhone, tabHtml, tabWire, openFriend, removeFriend, get state() { return S; } };
+})();
+
+/* ================= v14: STAFF · PLAYER ADMIN ================= */
+const ADM = { q: "", res: null, sel: null, msg: "" };
+function adminPanel(s) {
+  const T = UTITLES.map(t => `<option value="${t[0]}" ${t[0] === ADM.title ? "selected" : ""}>${escH(t[1])}${t[5] ? " · chroma" : ""}</option>`).join("");
+  return `<div class="admpanel"><h3>SEND TO <b>${escH(s.name)}</b> · ${s.code}</h3>
+    <div class="admrow"><label for="admAmt">AMOUNT</label><input class="namefield" id="admAmt" inputmode="numeric" value="${escH(ADM.amt || "100000")}" autocomplete="off"><span class="admbtns"><button class="btn" data-ag="cash">GIVE CASH</button><button class="btn" data-ag="savings">GIVE SAVINGS</button><button class="btn" data-ag="knowledge">GIVE KNOWLEDGE</button><button class="btn" data-ag="levels">GIVE LEVELS</button><button class="btn" data-ag="energy">REFILL ENERGY</button></span></div>
+    <div class="admrow"><label for="admTitle">TITLE</label><select id="admTitle" class="namefield">${T}</select><span class="admbtns"><button class="btn" data-ag="title">GIVE TITLE</button><button class="btn" data-ag="untitle">TAKE TITLE AWAY</button></span></div>
+    <div class="admrow"><label for="admNote">NOTE</label><input class="namefield" id="admNote" maxlength="120" placeholder="Optional. Sent with any gift, or on its own." value="${escH(ADM.note || "")}" autocomplete="off"><span class="admbtns"><button class="btn" data-ag="note">SEND NOTE ONLY</button></span></div>
+    <p class="hint">Put a minus sign in front to take money away, for example -5000. Levels: 1 to 50. Money and levels reach the player the next time they're in the lobby of their own single player game. Titles and notes arrive straight away.</p></div>`;
+}
+function openAdmin() {
+  if (!isTester()) return;
+  if (!ADM.title) ADM.title = "dushen";
+  const s = ADM.sel;
+  openModal(`<h2 style="margin:0">PLAYER ADMIN</h2><p style="margin:0;color:var(--muted)">Search for a player by profile name or friend code, pick them, then give money, levels or titles.</p>
+    <form class="fadd" id="admF"><input class="namefield" id="admQ" maxlength="16" placeholder="PLAYER NAME OR ABCD-2345" value="${escH(ADM.q)}" autocomplete="off" spellcheck="false" aria-label="Search for a player"><button class="btn gold" type="submit">SEARCH</button></form>
+    <p class="err" id="admErr" aria-live="polite" style="margin:0;color:var(--coral)">${escH(ADM.msg)}</p>
+    ${ADM.res ? `<div class="flist admres">${ADM.res.length ? ADM.res.map(r => `<button class="fcard fclick ${s && s.code === r.code ? "on" : ""}" data-adm="${r.code}"><svg width="44" height="56" viewBox="0 0 14 18" data-alook="${r.code}"></svg><b>${escH(r.name)}${r.title ? titleTag(r.title) : ""}</b><span>${r.code} · ${escH(r.rank || "New player")} · best ${r.best || 0}${r.life ? ` · age ${r.life.age}, ${money(r.life.nw)}` : ""}</span><span class="mut">${s && s.code === r.code ? "SELECTED ✓" : "SELECT ▸"}</span></button>`).join("") : `<p style="color:var(--muted);margin:0">No players found.</p>`}</div>` : ""}
+    ${s ? adminPanel(s) : ""}
+    <div class="mfoot"><button class="btn" id="admBack">&lt; TESTER TOOLS</button><button class="btn gold" id="admClose">CLOSE</button></div>`, "wide admbox");
+  $("mbox").querySelectorAll("[data-alook]").forEach(sv => { const r = ADM.res.find(x => x.code === sv.dataset.alook); drawSprite(sv, r && r.look || PRESETS[0]); });
+  $("admClose").onclick = closeModal; $("admBack").onclick = openDevTools;
+  $("admF").onsubmit = async e => { e.preventDefault(); ADM.q = $("admQ").value.trim(); if (!ADM.q) return; $("admErr").textContent = "Searching...";
+    try { ADM.res = await Social.search(ADM.q); ADM.msg = ""; if (ADM.sel && !ADM.res.some(r => r.code === ADM.sel.code)) ADM.sel = null; if (ADM.res.length === 1) ADM.sel = ADM.res[0]; }
+    catch (x) { console.warn(x); ADM.msg = "Search failed. Check your connection."; } openAdmin(); };
+  $("mbox").querySelectorAll("[data-adm]").forEach(b => b.onclick = () => { ADM.sel = ADM.res.find(r => r.code === b.dataset.adm); ADM.msg = ""; openAdmin(); });
+  $("mbox").querySelectorAll("[data-ag]").forEach(b => b.onclick = async () => {
+    const k = b.dataset.ag, amtRaw = $("admAmt").value, n = Number(String(amtRaw).replace(/[^0-9.\-]/g, "")), note = $("admNote").value.trim().slice(0, 120), title = $("admTitle").value;
+    ADM.amt = amtRaw; ADM.note = note; ADM.title = title;
+    const d = { kind: k };
+    if (["cash", "savings", "knowledge"].includes(k)) { if (!isFinite(n) || !n || Math.abs(n) > 1e9) return ($("admErr").textContent = "Type an amount between -1,000,000,000 and 1,000,000,000."); d.amt = Math.round(n); }
+    if (k === "levels") { if (!isFinite(n) || n < 1 || n > 50) return ($("admErr").textContent = "Levels must be 1 to 50."); d.amt = Math.round(n); }
+    if (k === "title" || k === "untitle") d.title = title;
+    if (k === "note" && !note) return ($("admErr").textContent = "Type a note first.");
+    if (note) d.t = note;
+    b.disabled = true;
+    try { await Social.grant(ADM.sel.code, d); SFX("coin"); const lab = { cash: money(d.amt) + " CASH", savings: money(d.amt) + " SAVINGS", knowledge: d.amt + " KNOWLEDGE", levels: d.amt + " LEVELS", energy: "AN ENERGY REFILL", title: "THE TITLE " + titleById(title)[1], untitle: "TITLE REMOVAL: " + titleById(title)[1], note: "A NOTE" }[k];
+      ADM.msg = ""; toast(`SENT ${lab} TO ${ADM.sel.name}`); }
+    catch (x) { console.warn(x); $("admErr").textContent = /permission/i.test(String(x && (x.code || x.message))) ? "Firebase said no. Make sure the new firestore.rules are published and your account is on the staff list in them." : "Couldn't send. Try again."; }
+    b.disabled = false;
+  });
+}
+const SFXW = () => { try { Music.stinger("st_smallwin"); } catch (e) {} };
+
 authBoot();
 })();
 </script>
