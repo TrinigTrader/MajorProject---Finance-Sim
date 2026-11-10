@@ -2,7 +2,7 @@
 
 A pixel-art life sim set in a Singapore HDB estate that teaches young adults about money: saving, CPF, investing, loans, insurance and the real odds of the lottery.
 
-Play it at **https://major-project---finance-game.web.app**
+Play it at **https://trinigtrader.github.io/MajorProject---Finance-Sim/** (GitHub Pages, from `main`).
 
 ## Files
 
@@ -27,7 +27,11 @@ Firestore layout:
 1. Authentication > Sign-in method: enable **Google** and **Email/Password**.
 2. Firestore Database: create it (production mode). The deploy below uploads `firestore.rules`.
 
-## Deploy (Firebase Hosting)
+## Hosting
+
+GitHub Pages serves `main` automatically. Add `trinigtrader.github.io` under Firebase Authentication > Settings > Authorized domains, and paste `firestore.rules` into Firestore > Rules.
+
+### Optional: Firebase Hosting instead
 
 Needs Node.js. From the repo folder:
 
