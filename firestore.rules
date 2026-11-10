@@ -1,25 +1,154 @@
 rules_version = '2';
+
+// ===============================================================
+// HDB Life · Firestore Security Rules (v14 prototype, review before wide release)
+// ===============================================================
+//
+// Assumed Data Model
+//
+// Collection: users/{uid}/kv/{key}            (private cloud saves)
+//   - k: string (required, 1-200)  localStorage key
+//   - v: string (required, <= 1,000,000)  JSON save data
+//   - t: number (required)  last write time in ms
+//
+// Collection: codes/{CODE}                     (public friend card, one per profile; no email or other PII)
+// Document ID: XXXX-XXXX friend code
+//   - uid: string (required, immutable, == owner's auth uid)
+//   - pid: string (required, <= 40)   profile id
+//   - name: string (required, 1-24), nameLower: string (optional, <= 24)  used for player search
+//   - look: map (optional, <= 12 keys) sprite colours, or null
+//   - ach, lives, best, bestNw: number (required)
+//   - rank: string (<= 40), title: string or null (<= 24)
+//   - friends: list (<= 200) friend codes, achIds: list (optional, <= 120)
+//   - life: map (optional, <= 10 keys) current life snapshot, or null
+//   - updated: number (required)
+//
+// Collection: gram/{uid}                       (Lifegram, one doc per account)
+//   - name (<= 24), title (<= 24), char (<= 24), col (<= 16): string; posts: list (<= 20); updated: number
+//
+// Collection: inbox/{CODE}/items/{id}          (notifications for one profile)
+//   - type: 'req' | 'acc' | 'msg' | 'grant'
+//   - req/acc: from (sender code, owned by the writer), fromName (<= 24), uid (== writer), at (ms, recent)
+//              id must be "req_<from>" or "acc_<from>"
+//   - msg:     same, plus t (1-80 chars); sender must have the recipient on their friends list
+//   - grant:   staff only. kind in cash/savings/knowledge/energy/levels/title/untitle/note,
+//              amt (number, |amt| <= 1e9) optional, title (<= 24) optional, t (<= 120) optional, by (<= 64), uid, at
+//   Only the profile's owner can read or delete. Nobody can update.
+//
+// Collection: chats/{A_B}/m/{id}               (direct messages between two friend codes, sorted A < B)
+//   - from: one of A or B, owned by the writer; uid == writer; t: string 1-300; at: number (recent)
+//   Only the owners of A and B can read. Messages can't be edited or deleted.
+//
+// Staff: accounts listed in isStaff() can send 'grant' items. Add staff by editing that list here.
+// ===============================================================
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Each account's profiles and saves: only that account can read or write them.
-    match /users/{uid}/{rest=**} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+
+    // ---------- helpers ----------
+    function isAuthenticated() { return request.auth != null; }
+    function isOwner(userId) { return isAuthenticated() && request.auth.uid == userId; }
+    function data() { return request.resource.data; }
+    function hasOnlyAllowedFields(fields) { return data().keys().hasOnly(fields); }
+    function hasRequiredFields(fields) { return data().keys().hasAll(fields); }
+    function str(v, minLen, maxLen) { return v is string && v.size() >= minLen && v.size() <= maxLen; }
+    function optStr(field, maxLen) { return !(field in data()) || data()[field] == null || str(data()[field], 0, maxLen); }
+    function isRecentMs(ms) { return ms is number && ms > request.time.toMillis() - 300000 && ms < request.time.toMillis() + 300000; }
+    function codePath(code) { return /databases/$(database)/documents/codes/$(code); }
+    function ownsCode(code) { return isAuthenticated() && exists(codePath(code)) && get(codePath(code)).data.uid == request.auth.uid; }
+    function isStaff() {
+      return isAuthenticated() && request.auth.token.email != null &&
+        request.auth.token.email.lower() in ['hdb_master@players.hdblife.app'];
     }
-    // Public friend cards, one per sub-profile, addressed by friend code.
+
+    // ---------- domain validators ----------
+    function isValidSave() {
+      return hasOnlyAllowedFields(['k', 'v', 't']) && hasRequiredFields(['k', 'v', 't']) &&
+        str(data().k, 1, 200) && str(data().v, 0, 1000000) && data().t is number;
+    }
+    function isValidCard(uid) {
+      return hasOnlyAllowedFields(['uid', 'pid', 'name', 'nameLower', 'look', 'ach', 'lives', 'best', 'bestNw', 'rank', 'friends', 'title', 'achIds', 'life', 'updated']) &&
+        hasRequiredFields(['uid', 'pid', 'name', 'ach', 'lives', 'best', 'bestNw', 'friends', 'updated']) &&
+        data().uid == uid && str(data().pid, 1, 40) && str(data().name, 1, 24) && optStr('nameLower', 24) &&
+        (!('look' in data()) || data().look == null || (data().look is map && data().look.size() <= 12)) &&
+        data().ach is number && data().lives is number && data().best is number && data().bestNw is number &&
+        optStr('rank', 40) && optStr('title', 24) &&
+        data().friends is list && data().friends.size() <= 200 &&
+        (!('achIds' in data()) || (data().achIds is list && data().achIds.size() <= 120)) &&
+        (!('life' in data()) || data().life == null || (data().life is map && data().life.size() <= 10)) &&
+        data().updated is number;
+    }
+    function isValidGram() {
+      return hasOnlyAllowedFields(['name', 'title', 'char', 'col', 'posts', 'updated']) &&
+        str(data().name, 0, 24) && optStr('title', 24) && optStr('char', 24) && optStr('col', 16) &&
+        data().posts is list && data().posts.size() <= 20 && data().updated is number;
+    }
+    // friend request or acceptance
+    function isValidSocial(code, id) {
+      return hasOnlyAllowedFields(['type', 'from', 'fromName', 'uid', 'at']) && hasRequiredFields(['type', 'from', 'fromName', 'uid', 'at']) &&
+        data().type in ['req', 'acc'] && id == data().type + '_' + data().from &&
+        data().from is string && data().from != code && ownsCode(data().from) &&
+        data().uid == request.auth.uid && str(data().fromName, 1, 24) && isRecentMs(data().at) && exists(codePath(code));
+    }
+    // "you have a new message" ping; only friends can send them
+    function isValidPing(code) {
+      return hasOnlyAllowedFields(['type', 'from', 'fromName', 'uid', 't', 'at']) && hasRequiredFields(['type', 'from', 'fromName', 'uid', 't', 'at']) &&
+        data().type == 'msg' && data().from is string && data().from != code && ownsCode(data().from) &&
+        get(codePath(data().from)).data.friends.hasAny([code]) &&
+        data().uid == request.auth.uid && str(data().fromName, 1, 24) && str(data().t, 1, 80) && isRecentMs(data().at);
+    }
+    // staff gift
+    function isValidGrant() {
+      return isStaff() &&
+        hasOnlyAllowedFields(['type', 'kind', 'amt', 'title', 't', 'by', 'uid', 'at']) && hasRequiredFields(['type', 'kind', 'by', 'uid', 'at']) &&
+        data().type == 'grant' && data().kind in ['cash', 'savings', 'knowledge', 'energy', 'levels', 'title', 'untitle', 'note'] &&
+        (!('amt' in data()) || (data().amt is number && data().amt >= -1000000000 && data().amt <= 1000000000)) &&
+        optStr('title', 24) && optStr('t', 120) && str(data().by, 1, 64) && data().uid == request.auth.uid && isRecentMs(data().at);
+    }
+    function isValidMessage(a, b) {
+      let other = data().from == a ? b : a;
+      return hasOnlyAllowedFields(['from', 'uid', 't', 'at']) && hasRequiredFields(['from', 'uid', 't', 'at']) &&
+        (data().from == a || data().from == b) && ownsCode(data().from) &&
+        get(codePath(data().from)).data.friends.hasAny([other]) &&
+        data().uid == request.auth.uid && str(data().t, 1, 300) && isRecentMs(data().at);
+    }
+
+    // ---------- rules ----------
+    // Private saves: only the account that owns them.
+    match /users/{uid}/kv/{key} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid) && isValidSave();
+    }
+
+    // Public friend cards: signed-in players can read and search them; only the owner can write.
     match /codes/{code} {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null
-        && code.matches('^[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$')
-        && request.resource.data.uid == request.auth.uid;
-      allow update: if request.auth != null
-        && resource.data.uid == request.auth.uid
-        && request.resource.data.uid == request.auth.uid;
-      allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && code.matches('^[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$') && isValidCard(request.auth.uid);
+      allow update: if isAuthenticated() && resource.data.uid == request.auth.uid && isValidCard(resource.data.uid);
+      allow delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
     }
+
     // Lifegram: everyone signed in reads, each player writes only their own doc.
     match /gram/{uid} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && request.auth.uid == uid;
+      allow read: if isAuthenticated();
+      allow create, update: if isOwner(uid) && isValidGram();
+      allow delete: if isOwner(uid);
+    }
+
+    // Notifications for one profile.
+    match /inbox/{code}/items/{id} {
+      allow read, delete: if ownsCode(code);
+      allow create: if isValidSocial(code, id) || isValidPing(code) || isValidGrant();
+      allow update: if false;
+    }
+
+    // Direct messages between two friends.
+    match /chats/{chatId}/m/{mid} {
+      function parts() { return chatId.split('_'); }
+      function isMember() { return parts().size() == 2 && parts()[0] < parts()[1] && (ownsCode(parts()[0]) || ownsCode(parts()[1])); }
+      allow read: if isMember();
+      allow create: if isMember() && isValidMessage(parts()[0], parts()[1]);
+      allow update, delete: if false;
     }
   }
 }
