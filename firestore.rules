@@ -1,7 +1,7 @@
 rules_version = '2';
 
 // ===============================================================
-// HDB Life · Firestore Security Rules (v14 prototype, review before wide release)
+// HDB Life · Firestore Security Rules (v16 prototype, review before wide release)
 // ===============================================================
 //
 // Assumed Data Model
@@ -38,6 +38,13 @@ rules_version = '2';
 // Collection: chats/{A_B}/m/{id}               (direct messages between two friend codes, sorted A < B)
 //   - from: one of A or B, owned by the writer; uid == writer; t: string 1-300; at: number (recent)
 //   Only the owners of A and B can read. Messages can't be edited or deleted.
+//
+// Collection: rooms/{CODE}                      (v16 multiplayer room, 2 to 6 players; code is 5 letters or digits)
+//   - j: string (required, <= 900,000)  the room as JSON: players' public summaries, shared estate, messages between players
+//   - uids: list (1-6) auth uids of the members; a member can never be removed by someone else's write
+//   - t: number (required)  last write time in ms
+//   Any signed-in player who knows the code can read it and join while there is space. Only members can write.
+//   The room holds game data only: character name and look, age, job, net worth, choices. No email or other PII.
 //
 // Staff: accounts listed in isStaff() can send 'grant' items. Add staff by editing that list here.
 // ===============================================================
@@ -126,6 +133,21 @@ service cloud.firestore {
       allow create: if isAuthenticated() && code.matches('^[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$') && isValidCard(request.auth.uid);
       allow update: if isAuthenticated() && resource.data.uid == request.auth.uid && isValidCard(resource.data.uid);
       allow delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
+    }
+
+    // v16 multiplayer rooms. Knowing the 5-character code is what lets you in, so rooms can't be listed.
+    match /rooms/{code} {
+      function validRoom() {
+        return hasOnlyAllowedFields(['j', 'uids', 't']) && hasRequiredFields(['j', 'uids', 't']) &&
+          data().j is string && data().j.size() <= 900000 && data().t is number &&
+          data().uids is list && data().uids.size() >= 1 && data().uids.size() <= 6 && request.auth.uid in data().uids;
+      }
+      allow get: if isAuthenticated();
+      allow list: if false;
+      allow create: if isAuthenticated() && code.matches('^[A-HJ-NP-Z2-9]{5}$') && validRoom() && data().uids.size() == 1;
+      allow update: if isAuthenticated() && validRoom() && data().uids.hasAll(resource.data.uids) &&
+        (request.auth.uid in resource.data.uids || data().uids.size() == resource.data.uids.size() + 1);
+      allow delete: if false;
     }
 
     // Lifegram: everyone signed in reads, each player writes only their own doc.
