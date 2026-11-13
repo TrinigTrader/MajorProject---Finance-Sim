@@ -4,6 +4,25 @@ A pixel-art life sim set in a Singapore HDB estate that teaches young adults abo
 
 Play it at **https://trinigtrader.github.io/MajorProject---Finance-Sim/** (GitHub Pages, from `main`).
 
+## What's new in v15
+
+- **Set Out is now a life story, not a battle**: each chapter you walk through two years of choices. Pick a focus (career, study, side hustle, relationships, health or money), meet people, and choose how to respond. Choices carry forward: promotions, poach offers, layoffs, dating, proposal, wedding, BTO keys, a baby, ageing parents.
+- **Life happens**: random pop-ups such as a market crash, retrenchment, a fire at home, an injury, scam calls and rent hikes. Savings, insurance and earlier choices decide how much they hurt.
+- **Stress and health matter**: hit 100 stress or 0 health and you collapse, wake up in the Hospital, pay the bill and lose a month.
+- **Cutscenes and sound**: promotion, new job, layoff, engagement, wedding, baby, keys, crash, fire, injury, illness and collapse each have their own cutscene and audio.
+- **Library** (was the Learning Centre): an NLB-style building with a reading room, financial quizzes for knowledge and XP, and a recommended knowledge level for each chapter. Knowledge raises your odds on risky choices.
+- **Work minigames by field**: for example signing paperwork in business roles and tracing cuts in fashion roles.
+- **Hospital** (was the Clinic): a walkable ward with reception, pharmacy, CPF MediSave and an insurance desk.
+- **CPF**: Ordinary, Special and MediSave accounts with their own interest, and one-way OA to SA transfers.
+- **Insurance**: a catalogue of policies for health, life, home, car and more, with Ms Lim explaining what each one is for.
+- **Loan desk**: compare home, car, study, renovation and personal loans and credit lines at rates close to real ones, with Ms Lim pointing out what to check.
+- **Investments**: gains and losses also show as a percentage.
+- **Friends**: a friend request arrives as a notification with an ACCEPT button.
+- **Pets**: all pets redrawn. The pet store opens on a page that shows its two sections, Pet Shop and Exotic Eggs. Exotic eggs now hold 25 pets (10 common, 6 epic, 4 legendary, 3 mythic, 2 secret), and legendary and above have their own cutscene, which also plays during a 10x hatch.
+- **Buildings**: every building model redrawn with depth, shadows and street furniture.
+
+Rates and premiums are simplified for the game and are not financial advice. `firestore.rules` is unchanged from v14.
+
 ## What's new in v14
 
 - **Straight to the lobby**: signed-in players with a save skip character creation and land in the lobby. A new life reuses your saved look and goes straight to the path choice.
