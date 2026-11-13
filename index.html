@@ -100,7 +100,6 @@ button.dtprof:hover { border-color: #E85A8A; } .dtprof svg { width: 84px; height
 .mptabs { display: flex; gap: 4px; flex-wrap: wrap; } #mpBtn { position: relative; border-color: var(--mint); color: var(--mint); } .mpdot { font-style: normal; background: var(--coral); color: #fff; padding: 1px 5px; margin-left: 4px; }
 @media (max-width: 700px) { .mpmodes, .mptalk { grid-template-columns: 1fr; } }
 .mpmodes .act { flex-direction: column; align-items: flex-start; text-align: left; gap: 4px; } .tbl.cmp td:last-child, .tbl.mppl td:last-child { text-align: left; }
-.mode.mpmode { grid-column: 1 / -1; }
 
 </style></head><body>
 <title>HDB Life</title>
@@ -1774,8 +1773,8 @@ button.mode:hover, .mode.multi:hover { border-color: var(--gold); box-shadow: 0 
       <div class="tparade" id="tParade"></div>
       <div class="modes">
         <button class="mode" data-mode="1"><b>SINGLE PLAYER</b><span>Your life, your choices. Ms Lim shows you around.</span></button>
-        <button class="mode" data-mode="2"><b>2 PLAYERS · ONE DEVICE</b><span>Pass the device. Take turns, one chapter each.</span></button>
-        <div class="mode multi"><b>4–6 PLAYERS · ONE DEVICE</b><span>Party mode on one device. Highest score at 70 wins.</span>
+        <button class="mode" data-mode="2"><b>2 PLAYERS</b><span>Pass the device. Take turns, one chapter each.</span></button>
+        <div class="mode multi"><b>4–6 PLAYERS</b><span>Party mode on one device. Highest score at 70 wins.</span>
           <div class="stepper"><button class="arrow" id="pcDown" aria-label="Fewer players">&lt;</button><span class="val" id="pcVal">4 PLAYERS</span><button class="arrow" id="pcUp" aria-label="More players">&gt;</button></div>
           <button class="btn gold" id="pcGo">START PARTY &gt;</button></div>
       </div>
@@ -10856,16 +10855,16 @@ MP.visit = function (id, msg) { const p = mpP(id); let h = null; try { h = JSON.
   openHome("visit", () => { delete G.homes.visit; save(); enterHub(); MP.panel("room", ""); }); setTimeout(() => homeSay(msg || `You are visiting ${mpName(id)}'s home. Look around, then head back.`, 6000), 300); };
 
 /* ---------- title screen: create, join and come back to rooms ---------- */
-let LOB = { mode: null, pace: null, code: null, msg: "" };
+let LOB = { grp: "couple", mode: null, pace: null, code: null, msg: "" };
 const roomCode = () => { const A = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let c = ""; for (let i = 0; i < 5; i++) c += A[Math.floor(Math.random() * A.length)]; return c; };
 const myRooms = () => (ME.rooms = ME.rooms || []);
 function rememberRoom(r) { const L = myRooms(), i = L.findIndex(x => x.code === r.code); if (i >= 0) L.splice(i, 1); L.unshift({ code: r.code, mode: r.mode, pace: r.pace, at: Date.now() }); ME.rooms = L.slice(0, 12); profSave(); }
 function mpLobby(msg) { Net.stop(); ROOM = null; window.__mpc = null; LOB.code = null; if (msg != null) LOB.msg = msg;
   const ghosts = []; if (ME.ghost && (ME.ghost.trail || []).length) ghosts.push({ name: ME.ghost.name + " (YOUR LAST LIFE)", g: ME.ghost });
   (ME.friends || []).forEach(c => { const f = Friends.cache[c]; if (f && f.life && f.life.trail && f.life.trail.length) { let cn = {}; try { cn = JSON.parse(f.life.cn || "{}"); } catch (e) {} ghosts.push({ name: f.name, g: { name: f.name, trail: f.life.trail, cn } }); } });
-  openModal(`<div class="mhead"><div><h2>MULTIPLAYER ROOMS</h2><p>Each player uses their own device. ${Net.online() ? "Rooms are saved to your account, so you can leave and come back any time." : "<b>You are playing without an online account</b>, so a room only reaches other tabs of this browser. Log in with an account to play across devices."}</p></div></div>
+  openModal(`<div class="mhead"><div><h2>${LOB.grp === "group" ? "3 TO 6 PLAYERS · ESTATE ROOMS" : "2 PLAYERS · COUPLE ROOMS"}</h2><p>Each player uses their own device. ${Net.online() ? "Rooms are saved to your account, so you can leave and come back any time." : "<b>You are playing without an online account</b>, so a room only reaches other tabs of this browser. Log in with an account to play across devices."}</p></div></div>
     ${LOB.msg ? `<div class="result">${LOB.msg}</div>` : ""}<div class="mpbody">
-    <span class="section-label">START A ROOM</span><div class="acts mpmodes">${Object.entries(MODES).map(([k, m]) => `<button class="act" data-mk="${k}" aria-pressed="${LOB.mode === k}"><b>${m.n}</b><small>${m.d}</small><small class="pc">${m.min === m.max ? m.min : m.min + " to " + m.max} players</small></button>`).join("")}</div>
+    <span class="section-label">START A ROOM</span><div class="acts mpmodes">${Object.entries(MODES).filter(([k, m]) => (LOB.grp === "group") === (m.max > 2)).map(([k, m]) => `<button class="act" data-mk="${k}" aria-pressed="${LOB.mode === k}"><b>${m.n}</b><small>${m.d}</small><small class="pc">${m.min === m.max ? m.min : m.min + " to " + m.max} players</small></button>`).join("")}</div>
     <div class="mprow"><span>TIMING</span>${Object.entries(PACE).map(([k, p]) => `<button class="btn chip" data-pace="${k}" aria-pressed="${LOB.pace === k}" title="${p[1]}">${p[0]}</button>`).join("")}<button class="btn gold" id="mpCreate" ${LOB.mode ? "" : "disabled"}>CREATE ROOM &gt;</button></div>
     <p class="dk-note" style="margin:0">${LOB.pace ? `<b>${PACE[LOB.pace][0]}:</b> ${PACE[LOB.pace][1]}` : "Pick a mode. Every mode can be played free and easy, or at the same pace."}</p>
     <span class="section-label">JOIN WITH A CODE</span><div class="mprow"><input id="mpCode" maxlength="5" placeholder="CODE" autocomplete="off" spellcheck="false"><button class="btn gold" id="mpJoin">JOIN &gt;</button></div>
@@ -10892,8 +10891,9 @@ function roomLobby() { if (!ROOM) return; const r = ROOM, M = MODES[r.mode], ids
   $("mpBack").onclick = () => mpLobby("");
   const en = $("mpEnter"); if (en) en.onclick = () => { delete $("mbox").dataset.mp; closeModalSilent(); const s = load(); if (s) { continueSave(); if (G && G.mp) { MP.start(); toast(`ROOM ${r.code} · WELCOME BACK, ${G.look.name}`); } } else beginSetup(1); };
   const st = $("mpStart"); if (st) st.onclick = () => Net.tx(r.code, x => { if (!x) return null; x.started = 1; return x; }); }
-document.querySelector("#scr-title .modes").insertAdjacentHTML("beforeend", `<button class="mode mpmode" id="mpOpen"><b>MULTIPLAYER ROOMS</b><span>Couple or a group of 3 to 6, each on their own device. Co-op or competitive, free and easy or same pace.</span></button>`);
-$("mpOpen").onclick = () => { SFX("click"); LOB.mode = LOB.pace = null; mpLobby(""); };
+{ const M = document.querySelector("#scr-title .modes"); M.querySelectorAll('[data-mode="2"], .mode.multi').forEach(x => x.remove());   // the pass-the-device modes are replaced by online rooms
+  M.insertAdjacentHTML("beforeend", `<button class="mode mpmode" data-mpg="couple"><b>2 PLAYERS · COUPLE</b><span>Online, each on your own device. Build one household together, or race each other with the same luck.</span></button><button class="mode mpmode" data-mpg="group"><b>3–6 PLAYERS · ESTATE</b><span>Online, each on your own device. Share one estate: scarce flats, a live market, loans, a business and ang bao.</span></button>`);
+  M.querySelectorAll("[data-mpg]").forEach(b => b.onclick = () => { SFX("click"); LOB.grp = b.dataset.mpg; LOB.mode = LOB.pace = null; mpLobby(""); }); }
 
 
 authBoot();
