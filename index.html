@@ -7645,6 +7645,15 @@ const SFXW = () => { try { Music.stinger("st_smallwin"); } catch (e) {} };
 /* ================= v15 ================= */
 /* ---------- v15 core: shared helpers, knowledge gate, Ms Lim's desk, friend request pop-ups ---------- */
 const V15 = "v15";
+/* Some previews (for example a file opened inside a chat app) run the page in a sandbox that blocks form
+   submission, so CREATE, LOG IN, SEND and SEARCH would do nothing. Every form here is handled in script,
+   so turn a submit-button click (also fired by Enter in a field) into a script-only submit event. */
+document.addEventListener("click", e => {
+  const btn = e.target && e.target.closest && e.target.closest("button, input[type=submit]");
+  if (!btn || !btn.form || (btn.type || "").toLowerCase() !== "submit" || btn.disabled) return;
+  e.preventDefault();
+  btn.form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+}, true);
 const pctStr = (now, cost) => { if (!(cost > 0)) return "0.0%"; const p = (now / cost - 1) * 100; return (p >= 0 ? "+" : "") + p.toFixed(1) + "%"; };
 function portCost() { return G && G.cost && G.port ? Object.entries(G.port).reduce((t, [s2, u]) => t + (u > 0 ? (G.cost[s2] || 0) : 0), 0) : 0; }
 function portPctHtml() { const v = portValue(), c = portCost(); if (!v || !c) return ""; return `<span style="color:${v >= c ? "var(--mint)" : "var(--coral)"}">(${pctStr(v, c)})</span>`; }
