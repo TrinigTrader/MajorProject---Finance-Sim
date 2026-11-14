@@ -4,6 +4,15 @@ A pixel-art life sim set in a Singapore HDB estate that teaches young adults abo
 
 Play it at **https://trinigtrader.github.io/MajorProject---Finance-Sim/** (GitHub Pages, from `main`).
 
+## What's new in v17
+
+- **More detailed furniture**: every piece is now drawn at twice the detail (pillows, cushions, books, wood grain, fish in the tank and so on). The mahjong table is redrawn from scratch with four stools, a felt top, the four walls of tiles, each player's hand, discards and dice.
+- **Half-square furniture moves**: dragging, clicking and the W A S D nudge all move furniture by half a square (hold Shift to nudge a whole square). A floor square that is partly covered still blocks walking, so paths and doors stay clear.
+- **Lucky Pools is a full screen**, like the Car Showroom: big 4D keypad, a full TOTO grid, the scratch card, and the results panel with spent, won and net beside it.
+- **Delete profiles from the selection page**: each profile card has a DELETE button. Tap it twice to delete that profile with its saves.
+- **Friends belong to your account**: your friend code and friends list now sit under your main username, and every profile on the account shares them. Friend cards and search show the username, not the profile's display name. Codes from older profiles keep working and point friends to the account's code.
+- **Net worth stays with its profile**: your own other profiles can't show up as friends or ghost-race opponents, and switching profile clears any ghost race or room that was still set up from the previous one.
+
 ## What's new in v16
 
 **A whole life, 18 to 70**
