@@ -101,6 +101,40 @@ button.dtprof:hover { border-color: #E85A8A; } .dtprof svg { width: 84px; height
 @media (max-width: 700px) { .mpmodes, .mptalk { grid-template-columns: 1fr; } }
 .mpmodes .act { flex-direction: column; align-items: flex-start; text-align: left; gap: 4px; } .tbl.cmp td:last-child, .tbl.mppl td:last-child { text-align: left; }
 
+/* ---------- v17 ---------- */
+/* Lucky Pools full screen */
+#scr-pools .poolhero { display: flex; gap: 18px; align-items: center; background: var(--night); border: 2px solid var(--border); padding: 12px 16px; }
+#poolCv { image-rendering: pixelated; width: 200px; height: auto; flex: 0 0 auto; }
+#scr-pools .poolhero p { margin: 0; font-size: 21px; line-height: 1.3; color: var(--ink); }
+#scr-pools .poolhero p small { display: block; color: var(--muted); font-size: 17px; margin-top: 6px; }
+#poolBody { display: grid; gap: 14px; align-content: start; }
+#scr-pools .tabs2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+#scr-pools .tabs2 button { font-size: 12px; padding: 16px 10px; }
+#scr-pools .poolgrid { grid-template-columns: minmax(0, 1fr) 380px; gap: 18px; }
+#scr-pools .poolgrid > .mbody { background: var(--panel-2); border: 2px solid var(--border); padding: 18px; align-content: start; }
+#scr-pools .evtext { font-size: 21px; }
+#scr-pools .digit { width: 76px; height: 92px; font-size: 32px; }
+#scr-pools .keypad { max-width: 620px; width: 100%; margin: 0 auto; }
+#scr-pools .keypad button { font-size: 16px; padding: 20px 0; }
+#scr-pools .numgrid { gap: 6px; max-width: 720px; width: 100%; margin: 0 auto; }
+#scr-pools .numgrid button { font-size: 13px; padding: 14px 0; }
+#scr-pools .systems button { font-size: 9px; padding: 11px 10px; }
+#scr-pools .scratch { width: min(420px, 100%); gap: 10px; }
+#scr-pools .scratch button { font-size: 14px; }
+#scr-pools .ball { width: 46px; height: 46px; font-size: 12px; }
+#scr-pools .poolres { position: sticky; top: 12px; min-height: 420px; padding: 14px; }
+#scr-pools .poolres .prh { font-size: 10px; }
+#scr-pools .poolres .tally, #scr-pools .poolres .result { font-size: 19px; }
+#scr-pools .mfoot { justify-content: center; }
+@media (max-width: 900px) { #scr-pools .poolgrid { grid-template-columns: 1fr; } #scr-pools .poolres { position: static; min-height: 0; } #poolCv { width: 120px; } #scr-pools .poolhero p { font-size: 18px; } }
+@media (max-width: 560px) { #scr-pools .digit { width: 58px; height: 72px; font-size: 24px; } #scr-pools .keypad button { padding: 16px 0; font-size: 13px; } #scr-pools .numgrid button { font-size: 11px; padding: 11px 0; } #scr-pools .tabs2 button { font-size: 10px; padding: 14px 4px; } }
+/* delete a profile from the selection page */
+.pcwrap { position: relative; display: grid; }
+.pcwrap > .pcard { width: 100%; height: 100%; }
+.pdel { position: absolute; top: 6px; left: 6px; z-index: 2; font: 8px/1 var(--pixel); color: var(--muted); background: var(--night); border: 2px solid var(--border); padding: 7px 8px; cursor: pointer; }
+.pdel:hover, .pdel:focus-visible { color: var(--coral); border-color: var(--coral); outline: none; }
+.pdel.armed { color: var(--panel); background: var(--coral); border-color: var(--coral); }
+@media (max-width: 560px) { #scr-pools .systems button { flex: 1 1 calc(50% - 6px); } }
 </style></head><body>
 <title>HDB Life</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -2109,6 +2143,12 @@ button.mode:hover, .mode.multi:hover { border-color: var(--gold); box-shadow: 0 
 
 <div class="modal" id="modal" hidden><div class="mbox" id="mbox" role="dialog" aria-modal="true"></div></div>
 <div class="mg" id="mg" hidden role="dialog" aria-label="Salary minigame"></div>
+  <section class="panel scr fullscr fullpg" id="scr-pools" aria-label="Lucky Pools" hidden>
+    <div class="head"><h1>LUCKY POOLS</h1><span class="logo" id="poolTag"></span></div>
+    <div class="poolhero"><canvas id="poolCv" width="112" height="76"></canvas><p>4D, TOTO and scratch cards. The odds are always on screen, and so is everything you have spent and won.<small>Lottery is entertainment, not a plan. On average every S$1 you play comes back as about 50 to 60 cents.</small></p></div>
+    <div id="poolBody"></div>
+    <div class="foot"><button class="btn" id="poolBack">&lt; BACK TO TOWN</button></div>
+  </section>
   <section class="panel scr fullscr fullpg" id="scr-cars" aria-label="Car showroom" hidden>
     <div class="head"><h1>CAR SHOWROOM</h1><span class="logo" id="carTag"></span></div>
     <div class="steps" id="carSteps"></div>
@@ -3140,12 +3180,10 @@ function openPools(b, tab, result) {
       <div id="scratchArea"><div class="mfoot" style="justify-content:center"><button class="btn gold" id="buyScratch">BUY A CARD · S$2</button></div></div>
       <div class="result" style="font-size:18px">Odds: about 1 in 4 cards wins anything, and most wins are just S$2 back. Top prize S$10,000 is about 1 in 500,000.</div>`;
   }
-  openModal(`${mhead(b)}<div class="tabs2" role="tablist">${tabs.map(([k, l]) => `<button role="tab" data-tab="${k}" aria-selected="${k === tab}">${l}</button>`).join("")}</div><div class="poolgrid"><div class="mbody" style="display:grid;gap:12px">${body}</div><aside class="poolres"><b class="prh">RESULTS</b>${lottoTally()}<div id="lottoRes">${result ? `<div class="result">${result}</div>` : `<div class="result" style="color:var(--muted)">Buy a ticket. The draw result shows here, so you can play again straight away.</div>`}</div></aside></div><div class="mfoot"><button class="btn" id="mclose">LEAVE</button></div>`, "wide");
-  paintHead(b);
-  $("mclose").addEventListener("click", closeModal);
-  $("mbox").querySelectorAll("[data-tab]").forEach(t => t.addEventListener("click", () => openPools(b, t.dataset.tab)));
+  poolsShow(b, `<div class="tabs2" role="tablist">${tabs.map(([k, l]) => `<button role="tab" data-tab="${k}" aria-selected="${k === tab}">${l}</button>`).join("")}</div><div class="poolgrid"><div class="mbody" style="display:grid;gap:12px">${body}</div><aside class="poolres"><b class="prh">RESULTS</b>${lottoTally()}<div id="lottoRes">${result ? `<div class="result">${result}</div>` : `<div class="result" style="color:var(--muted)">Buy a ticket. The draw result shows here, so you can play again straight away.</div>`}</div></aside></div>`);
+  $("scr-pools").querySelectorAll("[data-tab]").forEach(t => t.addEventListener("click", () => openPools(b, t.dataset.tab)));
   if (tab === "4d") {
-    $("mbox").querySelectorAll(".keypad [data-k]").forEach(k => k.addEventListener("click", () => {
+    $("scr-pools").querySelectorAll(".keypad [data-k]").forEach(k => k.addEventListener("click", () => {
       const v = k.dataset.k;
       if (v === "del") lp.digits = lp.digits.slice(0, -1);
       else if (v === "rnd") lp.digits = String(Math.floor(Math.random() * 10000)).padStart(4, "0");
@@ -3163,10 +3201,10 @@ function openPools(b, tab, result) {
       if (idx >= 0 && idx < 3) playPrize("4d", idx + 1, prize, { num: mine }, fin4); else { if (prize) SFXW(); fin4(); }
     });
   } else if (tab === "toto") {
-    $("mbox").querySelectorAll("[data-n]").forEach(k => k.addEventListener("click", () => {
+    $("scr-pools").querySelectorAll("[data-n]").forEach(k => k.addEventListener("click", () => {
       const n = +k.dataset.n; if (lp.toto.includes(n)) lp.toto = lp.toto.filter(x => x !== n); else if (lp.toto.length < lp.sys) lp.toto.push(n); openPools(b, "toto");
     }));
-    $("mbox").querySelectorAll("[data-sys]").forEach(k => k.addEventListener("click", () => { lp.sys = +k.dataset.sys; lp.toto = lp.toto.slice(0, lp.sys); openPools(b, "toto"); }));
+    $("scr-pools").querySelectorAll("[data-sys]").forEach(k => k.addEventListener("click", () => { lp.sys = +k.dataset.sys; lp.toto = lp.toto.slice(0, lp.sys); openPools(b, "toto"); }));
     $("totoQ").addEventListener("click", () => { const s = new Set(); while (s.size < lp.sys) s.add(1 + Math.floor(Math.random() * 49)); lp.toto = [...s]; openPools(b, "toto"); });
     $("totoC").addEventListener("click", () => { lp.toto = []; openPools(b, "toto"); });
     $("buyToto").addEventListener("click", () => {
@@ -5033,20 +5071,27 @@ function homeComfortStress() { const c = homeComfort(); if (c) G.happy = clamp(G
 /* renovation raises rent: +2% per comfort point, up to +60% */
 function renoMult(p) { const h = G.homes && G.homes["p" + p.id]; return 1 + Math.min(.6, comfortOf(h) * .02); }
 function itemDims(it) { const x = FBY[it.id]; return it.r % 2 ? [x.h, x.w] : [x.w, x.h]; }
-function occGrid(h, f, skip) {
-  const fl = getLayout(h.lay).floors[f], occ = Array.from({ length: fl.H }, () => Array(fl.W).fill(0));
-  for (const it of h.items) { if (it === skip || (it.f || 0) !== f) continue; const [w, hh] = itemDims(it), rug = FBY[it.id].slot === "rug";
-    for (let j = 0; j < hh; j++) for (let i = 0; i < w; i++) if (occ[it.y + j]) occ[it.y + j][it.x + i] |= rug ? 2 : 1; }
-  return occ;
+// v17: items sit on a half-square grid. occHalf is that fine grid; a floor tile counts as blocked if any part of it is covered.
+function occHalf(h, f, skip) {
+  const fl = getLayout(h.lay).floors[f], o = Array.from({ length: fl.H * 2 }, () => Array(fl.W * 2).fill(0));
+  for (const it of h.items) { if (it === skip || (it.f || 0) !== f) continue; const [w, hh] = itemDims(it), b = FBY[it.id].slot === "rug" ? 2 : 1, x0 = Math.round(it.x * 2), y0 = Math.round(it.y * 2);
+    for (let j = 0; j < hh * 2; j++) for (let i = 0; i < w * 2; i++) if (o[y0 + j] && x0 + i >= 0 && x0 + i < fl.W * 2) o[y0 + j][x0 + i] |= b; }
+  return o;
 }
+function tileOcc(fl, o) { const occ = Array.from({ length: fl.H }, () => Array(fl.W).fill(0));
+  for (let y = 0; y < fl.H; y++) for (let x = 0; x < fl.W; x++) occ[y][x] = o[2 * y][2 * x] | o[2 * y][2 * x + 1] | o[2 * y + 1][2 * x] | o[2 * y + 1][2 * x + 1];
+  return occ; }
+function occGrid(h, f, skip) { return tileOcc(getLayout(h.lay).floors[f], occHalf(h, f, skip)); }
+const snapH = v => Math.round(v * 2) / 2;
 function canPlace(h, it, skip) {
-  const fl = getLayout(h.lay).floors[it.f || 0], [w, hh] = itemDims(it), rug = FBY[it.id].slot === "rug", occ = occGrid(h, it.f || 0, skip);
-  for (let j = 0; j < hh; j++) for (let i = 0; i < w; i++) { const x = it.x + i, y = it.y + j;
-    if (y < 0 || x < 0 || y >= fl.H || x >= fl.W || !PLACET.has(fl.grid[y][x])) return "no";
-    if (occ[y][x] & (rug ? 2 : 1)) return "no"; }
+  const fl = getLayout(h.lay).floors[it.f || 0], [w, hh] = itemDims(it), rug = FBY[it.id].slot === "rug", o = occHalf(h, it.f || 0, skip), x0 = Math.round(it.x * 2), y0 = Math.round(it.y * 2);
+  for (let j = 0; j < hh * 2; j++) for (let i = 0; i < w * 2; i++) { const X = x0 + i, Y = y0 + j;
+    if (Y < 0 || X < 0 || Y >= fl.H * 2 || X >= fl.W * 2 || !PLACET.has(fl.grid[Y >> 1][X >> 1])) return "no";
+    if (o[Y][X] & (rug ? 2 : 1)) return "no"; }
   if (rug) return "ok";
   // keep every walkable tile reachable from the doors and stairs
-  for (let j = 0; j < hh; j++) for (let i = 0; i < w; i++) occ[it.y + j][it.x + i] |= 1;
+  for (let j = 0; j < hh * 2; j++) for (let i = 0; i < w * 2; i++) o[y0 + j][x0 + i] |= 1;
+  const occ = tileOcc(fl, o);
   const free = (x, y) => WALKT.has(fl.grid[y][x]) && !(occ[y][x] & 1);
   let start = null, total = 0;
   for (let y = 0; y < fl.H; y++) for (let x = 0; x < fl.W; x++) if (free(x, y)) { total++; if (!start || "DUV".includes(fl.grid[y][x])) start = start && "DUV".includes(fl.grid[start[1]][start[0]]) ? start : [x, y]; }
@@ -5069,7 +5114,7 @@ function autoPlace(h, id) { const it = findSpot(h, id); if (it) h.items.push(it)
 /* ================= WALKABLE HOME (v8) ================= */
 const TS = 16;
 const SPR = {};
-function itemSprite(id, r) {
+function itemSpriteLo(id, r) {
   const key = id + ":" + (r || 0); if (SPR[key]) return SPR[key];
   const x = FBY[id], W = x.w * TS, H = x.h * TS, c0 = document.createElement("canvas"); c0.width = W; c0.height = H;
   const g = c0.getContext("2d"), p = (a, b, w, h, c) => { g.fillStyle = c; g.fillRect(a, b, w, h); }, c = x.col, dk = shade(c, .72), lt = shade(c, 1.18);
@@ -5126,6 +5171,127 @@ function itemSprite(id, r) {
     g1.translate(rw / 2, rh / 2); g1.rotate(r * Math.PI / 2); g1.drawImage(c0, -W / 2, -H / 2); out2 = c1; }
   return SPR[key] = out2;
 }
+/* ---------- v17: furniture drawn at twice the detail (each tile is 32 px inside a 16 px slot) ---------- */
+const FHI = 2;
+const FDET = {};
+const FFULL = {};
+// full hi-res redraws
+FFULL.pl_orch = (p, W, H, x) => { // green leaves, white and pink flowers, a glazed pot
+  p(8, 18, 16, 12, K); p(9, 19, 14, 10, "#C46A4A"); p(9, 19, 14, 2, "#E08A6A"); p(9, 27, 14, 2, "#8E4A30"); p(10, 18, 12, 2, "#5A3820");
+  p(5, 15, 10, 3, "#2E8048"); p(17, 14, 10, 3, "#3FA060"); p(9, 13, 12, 3, "#5DB35A"); p(6, 15, 8, 1, "#5DB35A");
+  p(15, 3, 1, 11, "#5A7A3A"); p(12, 5, 4, 1, "#5A7A3A");
+  for (const [a, b] of [[9, 3], [15, 1], [19, 5], [11, 8], [17, 8]]) { p(a, b, 4, 4, "#F4F1EA"); p(a + 1, b + 1, 2, 2, x.col); p(a + 1, b + 3, 2, 1, "#B05AA8"); }
+};
+FFULL.mahjong = (p, W, H, x) => {
+  const c = x.col, felt2 = shade(c, .9), rim = "#4A2E18", wood = "#7A4E2D", ivory = "#F4F1EA", back = "#2C6FB0", back2 = "#1E4E80";
+  // four stools, one on each side
+  const stool = (a, b, w, h) => { p(a, b, w, h, K); p(a + 1, b + 1, w - 2, h - 2, "#B07A4A"); p(a + 2, b + 1, w - 4, 1, "#D29A62"); p(a + 1, b + h - 2, w - 2, 1, "#7A4E2D"); };
+  stool(25, 0, 14, 8); stool(25, 56, 14, 8); stool(0, 25, 8, 14); stool(56, 25, 8, 14);
+  // table frame with a bevel
+  p(6, 6, 52, 52, K); p(7, 7, 50, 50, wood); p(7, 7, 50, 2, "#9A6A40"); p(7, 7, 2, 50, "#9A6A40"); p(7, 55, 50, 2, "#5A3820"); p(55, 7, 2, 50, "#5A3820");
+  for (const [a, b] of [[8, 8], [54, 8], [8, 54], [54, 54]]) p(a, b, 2, 2, "#C08050"); // brass corners
+  p(10, 10, 44, 44, rim); p(11, 11, 42, 42, c);
+  for (let j = 11; j < 53; j += 2) for (let i = 11 + (j % 4 ? 1 : 0); i < 53; i += 4) p(i, j, 1, 1, felt2); // felt weave
+  p(11, 11, 42, 1, shade(c, .7)); p(11, 11, 1, 42, shade(c, .7)); p(11, 52, 42, 1, shade(c, 1.15));
+  // the four walls of face-down tiles
+  p(22, 18, 20, 4, back); p(22, 18, 20, 1, ivory); for (let i = 22; i < 42; i += 3) p(i, 18, 1, 4, back2);
+  p(22, 42, 20, 4, back); p(22, 45, 20, 1, ivory); for (let i = 22; i < 42; i += 3) p(i, 42, 1, 4, back2);
+  p(18, 22, 4, 20, back); p(18, 22, 1, 20, ivory); for (let j = 22; j < 42; j += 3) p(18, j, 4, 1, back2);
+  p(42, 22, 4, 20, back); p(45, 22, 1, 20, ivory); for (let j = 22; j < 42; j += 3) p(42, j, 4, 1, back2);
+  // each player's hand, face up
+  const marks = ["#D64545", "#3FA060", "#2B5AA0", "#141826"];
+  for (let k = 0; k < 7; k++) { const a = 18 + k * 4, m = marks[k % 4];
+    p(a, 12, 3, 4, ivory); p(a, 15, 3, 1, "#C9BFA8"); p(a + 1, 13, 1, 1, m);
+    p(a, 48, 3, 4, ivory); p(a, 48, 3, 1, "#C9BFA8"); p(a + 1, 50, 1, 1, marks[(k + 1) % 4]);
+    p(12, a, 4, 3, ivory); p(15, a, 1, 3, "#C9BFA8"); p(13, a + 1, 1, 1, marks[(k + 2) % 4]);
+    p(48, a, 4, 3, ivory); p(48, a, 1, 3, "#C9BFA8"); p(50, a + 1, 1, 1, marks[(k + 3) % 4]); }
+  // discards in the middle
+  for (const [a, b, m] of [[24, 24, "#D64545"], [28, 23, "#3FA060"], [36, 24, "#2B5AA0"], [24, 35, "#141826"], [37, 36, "#D64545"], [32, 37, "#3FA060"]]) { p(a, b, 3, 4, ivory); p(a + 1, b + 1, 1, 2, m); p(a, b + 3, 3, 1, "#C9BFA8"); }
+  // two dice
+  p(28, 30, 5, 5, "#1B5E36"); p(27, 29, 5, 5, "#FFFFFF"); p(27, 33, 5, 1, "#C9BFA8"); p(29, 31, 1, 1, "#D64545");
+  p(34, 33, 5, 5, "#1B5E36"); p(33, 32, 5, 5, "#FFFFFF"); p(33, 36, 5, 1, "#C9BFA8"); p(34, 33, 1, 1, K); p(36, 35, 1, 1, K);
+  // a little wind marker
+  p(31, 25, 3, 3, "#E8C25A"); p(32, 26, 1, 1, "#7A4E2D");
+};
+// detail passes drawn on top of the original sprite (coordinates are in the fine grid)
+FDET.bed = (p, W, H, x) => { const c = x.col, lt = shade(c, 1.25), dk = shade(c, .7);
+  p(0, 0, W, 6, "#6E4428"); p(2, 2, W - 4, 1, "#A8724A"); for (let i = 6; i < W - 6; i += 10) p(i, 3, 4, 1, "#5A3820");
+  const pw = x.w > 2 ? (W - 20) / 2 : W - 16;
+  for (const a of x.w > 2 ? [8, 12 + pw] : [8]) { p(a + 2, 10, pw - 4, 1, "#E4DED2"); p(a + 2, 19, pw - 4, 1, "#D8D0C0"); p(a + pw / 2 - 1, 12, 2, 6, "#ECE6DA"); }
+  p(4, 28, W - 8, 4, "#FFFFFF"); p(4, 32, W - 8, 1, "#D8D0C0");
+  for (let j = 38; j < H - 8; j += 8) for (let i = 8; i < W - 8; i += 4) p(i, j, 2, 1, dk);
+  p(4, 33, 2, H - 41, lt); p(W - 6, 33, 2, H - 41, dk);
+  if (x.kind === "bunk") { p(W - 8, 0, 6, H, "#C08050"); for (let i = 6; i < H; i += 10) { p(W - 10, i, 10, 2, "#5A3A22"); p(W - 10, i + 2, 10, 1, "#D29A62"); } } };
+FDET.bunk = FDET.bed;
+FDET.mat = (p, W, H) => { p(6, 8, W - 12, 1, "#E4DED2"); for (let j = 36; j < H - 8; j += 6) p(6, j, W - 12, 1, "#4C7AC8"); p(4, H - 8, W - 8, 2, "#C9BFA8"); };
+FDET.crib = (p, W, H, x) => { p(8, 8, W - 16, H - 16, shade(x.col, 1.1)); p(12, 12, 10, 8, "#FFFFFF"); for (let i = 2; i < W; i += 8) p(i, 0, 2, H, "#E4DED2"); p(W / 2 - 4, H / 2, 8, 8, "#E8C25A"); p(W / 2 - 2, H / 2 + 2, 4, 2, "#F07B66"); };
+FDET.sofa = (p, W, H, x) => { const c = x.col, lt = shade(c, 1.22), dk = shade(c, .62);
+  p(2, 2, W - 4, 2, shade(c, .85)); for (let i = 8; i < W - 8; i += 6) p(i, 6, 2, 1, dk);
+  const seats = Math.max(1, x.w); for (let k = 0; k < seats; k++) { const a = 8 + k * (W - 16) / seats, w = (W - 16) / seats - 2;
+    p(a + 2, 16, w - 4, 2, lt); p(a + 2, H - 8, w - 4, 1, dk); p(a + w / 2 - 1, 22, 2, 2, dk); }
+  p(2, 8, 4, H - 10, shade(c, .5)); p(W - 6, 8, 4, H - 10, shade(c, .5)); p(3, 8, 1, H - 12, shade(c, .8)); p(W - 5, 8, 1, H - 12, shade(c, .8));
+  p(10, 14, 8, 6, "#F4E9D2"); p(11, 15, 6, 1, "#FFFFFF"); };
+FDET.lsofa = (p, W, H, x) => { const c = x.col, lt = shade(c, 1.22), dk = shade(c, .62);
+  for (let i = 8; i < W - 8; i += 6) p(i, 6, 2, 1, dk); for (let k = 1; k < 4; k++) p(k * (W - 16) / 4 + 8, 16, 1, 40, dk);
+  p(10, 16, W - 20, 2, lt); p(W - 28, 70, 20, 2, lt); p(14, 20, 10, 8, "#E8C25A"); p(15, 21, 8, 1, "#FFF2B0"); p(W - 40, 20, 10, 8, "#F4E9D2"); };
+FDET.chair = (p, W, H, x) => { p(8, 12, 16, 12, shade(x.col, 1.15)); p(8, 12, 16, 2, shade(x.col, 1.3)); p(6, 6, 20, 4, shade(x.col, .6)); for (const [a, b] of [[6, 24], [24, 24]]) p(a, b, 2, 3, "#5A3820"); };
+FDET.bean = (p, W, H, x) => { p(10, 10, 6, 4, shade(x.col, 1.45)); p(8, 20, 16, 1, shade(x.col, .7)); p(12, 24, 10, 1, shade(x.col, .7)); };
+FDET.table = (p, W, H, x) => { const c = x.col; for (let i = 6; i < W - 6; i += 7) p(i, 9, 4, 1, shade(c, .85)); p(4, H - 10, W - 8, 2, shade(c, .7)); p(W / 2 - 6, 12, 12, 6, "#FFFFFF"); p(W / 2 - 4, 13, 8, 3, "#F07B66"); p(W / 2 + 8, 13, 4, 4, "#8EC5E8"); p(10, 12, 6, 2, "#E8C25A"); };
+FDET.desk = (p, W, H) => { p(10, 9, 12, 6, "#8EC5E8"); p(11, 10, 4, 2, "#FFFFFF"); p(14, 18, 4, 2, "#5A6380"); p(36, 8, 16, 4, "#B8C0CC"); p(36, 9, 16, 1, "#E9E4D8"); p(40, 16, 6, 6, "#E8C25A"); p(41, 17, 4, 1, "#FFF2B0"); p(2, H - 10, W - 4, 2, "#C9BFA8"); };
+FDET.round = (p, W, H, x) => { const c = x.col; p(14, 10, W - 28, 2, shade(c, 1.2)); for (let j = 14; j < H - 12; j += 6) p(10, j, W - 20, 1, shade(c, .9)); p(W / 2 - 4, H / 2 - 4, 8, 8, "#FFFFFF"); p(W / 2 - 2, H / 2 - 2, 4, 4, "#3FA060"); };
+FDET.dining = (p, W, H, x) => { const c = x.col;
+  for (const [a, b] of [[12, 0], [40, 0], [68, 0], [12, 52], [40, 52], [68, 52]]) { p(a + 2, b + 2, 12, 2, "#D29A62"); p(a + 2, b + 8, 12, 1, "#7A4E2D"); }
+  for (let i = 8; i < W - 8; i += 9) p(i, 16, 5, 1, shade(c, .88));
+  for (const a of [16, 44, 72]) { p(a, 20, 8, 8, "#FFFFFF"); p(a + 2, 22, 4, 4, "#F07B66"); p(a, 34, 8, 8, "#FFFFFF"); p(a + 2, 36, 4, 4, "#E8C25A"); }
+  p(W / 2 - 3, 28, 6, 8, "#8EC5E8"); p(W / 2 - 2, 26, 4, 2, "#5DB35A"); };
+FDET.shelf = (p, W, H, x) => { const c = x.col; p(0, 15, W, 1, shade(c, .6));
+  for (let i = 6; i < W - 4; i += 5) { const h = 9 + (i * 7) % 5; p(i, 23 - h, 4, h, ["#D64545", "#5A8EE0", "#E8C25A", "#3FA79F", "#B79AD9", "#F07B66"][i % 6]); p(i, 23 - h + 2, 4, 1, "#F4F1EA"); }
+  p(W - 10, 6, 6, 6, "#3FA060"); p(W - 9, 10, 4, 3, "#C46A4A"); };
+FDET.cubes = (p, W, H, x) => { for (let k = 0; k < 4; k++) { const a = k * 16; p(a + 3, 5, 10, 1, shade(x.col, 1.2)); if (k % 2) { p(a + 5, 14, 6, 8, "#5A8EE0"); p(a + 5, 14, 6, 1, "#8EC5E8"); } else { p(a + 4, 18, 8, 4, "#E8C25A"); p(a + 6, 12, 4, 6, "#3FA060"); } } };
+FDET.cab = (p, W, H, x) => { const c = x.col; p(2, 6, W - 4, 1, shade(c, 1.25)); p(4, 8, W / 2 - 6, H - 16, shade(c, .92)); p(W / 2 + 2, 8, W / 2 - 6, H - 16, shade(c, .92)); p(W / 2 - 5, 14, 2, 4, "#E8C25A"); p(W / 2 + 3, 14, 2, 4, "#E8C25A"); p(2, H - 6, W - 4, 1, shade(c, .55)); };
+FDET.ward = (p, W, H, x) => { const c = x.col; for (let j = 8; j < H - 4; j += 5) { p(4, j, W / 2 - 6, 1, shade(c, .85)); p(W / 2 + 2, j, W / 2 - 6, 1, shade(c, .85)); } p(W / 2 - 6, 15, 3, 6, "#FFF2B0"); p(W / 2 + 3, 15, 3, 6, "#FFF2B0"); p(2, 2, W - 4, 2, shade(c, 1.3)); };
+FDET.tv = (p, W, H, x) => { p(6, 6, 10, 1, "#B8D4EA"); p(6, 8, 6, 1, "#8EC5E8"); p(W - 18, 10, 8, 2, "#2B3A67"); for (let i = 4; i < W - 4; i += 8) p(i, 20, 4, 6, "#5A3820"); p(W / 2 - 2, 15, 4, 1, "#3FA060"); p(4, 28, 8, 3, "#2A2D36"); p(W - 12, 28, 8, 3, "#2A2D36"); };
+FDET.pc = (p, W, H) => { p(8, 8, 14, 2, "#B8D4EA"); p(8, 12, 8, 1, "#8FD9B6"); p(38, 12, 14, 5, "#D9C2F0"); for (let i = 4; i < 30; i += 3) p(i, 22, 2, 2, "#5A6380"); p(0, 26, W, 2, "#F07B66"); p(0, 27, W, 1, "#5A8EE0"); p(56, 20, 4, 6, "#8FD9B6"); };
+FDET.fan = (p, W, H) => { for (let k = 0; k < 4; k++) { p(10 + (k % 2) * 8, 10 + (k > 1 ? 8 : 0), 4, 4, "#B8C0CC"); } p(14, 14, 4, 4, "#5A6380"); p(15, 15, 2, 2, "#E8C25A"); for (let i = 7; i < 25; i += 3) p(i, 7, 1, 18, "rgba(20,24,38,.18)"); };
+FDET.speaker = (p, W, H) => { p(14, 9, 4, 2, "#9AA3B2"); p(12, 18, 8, 6, "#3A3F4E"); p(14, 20, 4, 2, "#9AA3B2"); p(8, 6, 1, 20, "#5A6380"); p(23, 6, 1, 1, "#5BD38A"); };
+FDET.aircon = (p, W, H) => { p(6, 6, 20, 2, "#FFFFFF"); for (let i = 9; i < 24; i += 4) p(8, i, 16, 1, "#B8C0CC"); p(20, 6, 3, 2, "#5BD38A"); p(8, 25, 6, 2, "#8EC5E8"); };
+FDET.lamp = (p, W, H, x) => { p(2, 2, 28, 28, "rgba(255,242,176,.18)"); p(12, 12, 8, 8, "#FFF2B0"); p(14, 14, 4, 4, "#FFFFFF"); p(10, 10, 2, 2, shade(x.col, 1.2)); };
+FDET.fairy = (p, W, H) => { for (let i = 2; i < 30; i += 5) p(i, 10 + (i % 3) * 2, 2, 2, ["#FFF2B0", "#F07B66", "#8FD9B6", "#B79AD9", "#8EC5E8"][i % 5]); p(2, 11, 28, 1, "#3A3F4E"); };
+FDET.plant = (p, W, H, x, id) => { const c = x.col; p(8, 18, 16, 2, "#8E4A30"); p(10, 20, 12, 1, "#E08A6A"); p(10, 26, 12, 1, "#8E4A30");
+  for (let k = 0; k < 7; k++) p(5 + (k * 7) % 20, 3 + (k * 5) % 13, 2, 2, shade(c, 1.45)); for (let k = 0; k < 5; k++) p(8 + (k * 5) % 16, 6 + (k * 3) % 10, 1, 4, shade(c, .65));
+  if (id === "pl_cact") { p(14, 4, 4, 14, shade(c, .85)); p(15, 6, 1, 1, "#F4F1EA"); p(16, 10, 1, 1, "#F4F1EA"); p(18, 3, 2, 2, "#F07B66"); } };
+FDET.rug = (p, W, H, x, id) => { const c = x.col;
+  for (let i = 0; i < W; i += 3) { p(i, 0, 1, 2, shade(c, .55)); p(i, H - 2, 1, 2, shade(c, .55)); }
+  if (id === "r_shag") for (let j = 4; j < H - 4; j += 3) for (let i = 4 + (j % 2) * 2; i < W - 4; i += 4) p(i, j, 1, 2, shade(c, 1.2));
+  else if (id === "r_persian") { for (let i = 12; i < W - 12; i += 8) { p(i, 10, 4, 4, "#2B3A67"); p(i, H - 14, 4, 4, "#2B3A67"); } p(W / 2 - 2, H / 2 - 2, 4, 4, "#E8C25A"); }
+  else for (let j = 4; j < H - 4; j += 4) for (let i = 4 + (j % 8 ? 2 : 0); i < W - 4; i += 4) p(i, j, 1, 1, shade(c, .9)); };
+FDET.rice = (p) => { p(10, 10, 12, 3, "#FFFFFF"); p(13, 12, 6, 1, "#D64545"); p(12, 16, 8, 6, "#E4DED2"); p(14, 18, 4, 2, "#5BD38A"); p(22, 8, 4, 2, "#9AA3B2"); };
+FDET.coffee = (p) => { p(12, 8, 8, 2, "#B8C0CC"); p(13, 18, 6, 6, "#FFFFFF"); p(14, 19, 4, 2, "#7A4E2D"); p(20, 20, 2, 3, "#FFFFFF"); p(10, 7, 2, 2, "#F07B66"); };
+FDET.fridge = (p, W, H) => { p(4, 2, 24, 2, "#FFFFFF"); p(22, 4, 2, 6, "#3A3F4E"); p(22, 16, 2, 10, "#3A3F4E"); p(6, 16, 6, 4, "#E8C25A"); p(7, 17, 4, 2, "#F07B66"); p(14, 22, 4, 4, "#8FD9B6"); };
+FDET.washer = (p) => { p(10, 10, 12, 12, "#3A3F4E"); p(12, 12, 8, 8, "#B8D4EA"); p(13, 13, 3, 3, "#FFFFFF"); p(16, 17, 3, 2, "#8EC5E8"); p(20, 4, 2, 2, "#F07B66"); p(24, 4, 3, 2, "#9AA3B2"); };
+FDET.rack = (p, W) => { p(10, 8, 14, 12, "#F07B66"); p(12, 10, 10, 2, "#F8A898"); p(36, 8, 12, 12, "#8EC5E8"); p(38, 10, 8, 2, "#B8D4EA"); p(26, 10, 8, 8, "#E8C25A"); };
+FDET.island = (p, W, H) => { p(2, 4, W - 4, 2, "#FFFFFF"); for (let i = 8; i < W - 8; i += 10) p(i, 8, 6, 1, "#B8C0CC"); p(W / 2 - 8, 14, 16, 8, "#5A6380"); p(W / 2 - 6, 16, 12, 4, "#9AA3B2"); p(10, 14, 6, 6, "#F07B66"); p(W - 18, 14, 8, 4, "#3FA060"); };
+FDET.cattree = (p, W, H, x) => { for (let j = 0; j < 32; j += 3) p(12, j, 8, 1, "#A89F88"); p(4, 4, 12, 2, shade(x.col, 1.25)); p(16, 20, 12, 2, shade(x.col, 1.25)); p(6, 6, 6, 4, "#E8A04A"); p(7, 5, 1, 1, "#E8A04A"); p(10, 5, 1, 1, "#E8A04A"); p(8, 7, 1, 1, K); };
+FDET.guitar = (p) => { p(14, 2, 2, 14, "#C9BFA8"); p(12, 0, 6, 3, "#3A2414"); p(12, 20, 8, 8, shade("#C46A4A", 1.15)); p(14, 22, 4, 4, "#3A2414"); p(12, 27, 8, 1, "#3A2414"); };
+FDET.aqua = (p, W, H) => { p(4, 8, W - 8, 2, "#8EC5E8"); for (let i = 8; i < W - 8; i += 6) p(i, 12 + (i % 4), 1, 1, "#FFFFFF"); p(10, 12, 6, 3, "#E8A04A"); p(16, 13, 2, 1, "#E8A04A"); p(40, 16, 6, 3, "#F07B66"); p(28, 16, 2, 8, "#5BD38A"); p(30, 14, 2, 10, "#3FA060"); p(4, H - 10, W - 8, 2, "#E8C25A"); };
+FDET.tread = (p, W, H) => { p(6, 2, 20, 8, "#B8C0CC"); p(9, 4, 6, 3, "#2B3A67"); p(17, 4, 6, 3, "#5BD38A"); p(4, 12, 2, H - 16, "#9AA3B2"); p(26, 12, 2, H - 16, "#9AA3B2"); for (let i = 14; i < H - 4; i += 4) p(8, i, 16, 1, "#3A3F4E"); };
+FDET.piano = (p, W, H, x) => { const c = x.col; p(2, 2, W - 4, 2, shade(c, 1.6)); for (let i = 8; i < W - 8; i += 12) p(i, 8, 6, 8, shade(c, 1.35)); p(W / 2 - 10, 6, 20, 4, "#F4F1EA"); p(W / 2 - 8, 7, 16, 1, "#141826");
+  for (let i = 5; i < W - 4; i += 6) p(i, H - 12, 3, 4, "#141826"); p(4, H - 12, W - 8, 1, "#C9BFA8"); };
+FDET.default = () => {};
+
+function itemSprite(id, r) {
+  const key = "hi:" + id + ":" + (r || 0); if (SPR[key]) return SPR[key];
+  const x = FBY[id], W = x.w * TS * FHI, H = x.h * TS * FHI, c0 = document.createElement("canvas"); c0.width = W; c0.height = H;
+  const g = c0.getContext("2d"); g.imageSmoothingEnabled = false; const p = (a, b, w, h, c) => { g.fillStyle = c; g.fillRect(a, b, w, h); };
+  const full = FFULL[id] || FFULL[x.kind]; if (full) full(p, W, H, x, id);
+  else { g.drawImage(itemSpriteLo(id, 0), 0, 0, W, H); (FDET[x.kind] || FDET.default)(p, W, H, x, id); }
+  let out = c0;
+  if (r) { const rw = r % 2 ? H : W, rh = r % 2 ? W : H, c1 = document.createElement("canvas"); c1.width = rw; c1.height = rh; const g1 = c1.getContext("2d"); g1.imageSmoothingEnabled = false;
+    g1.translate(rw / 2, rh / 2); g1.rotate(r * Math.PI / 2); g1.drawImage(c0, -W / 2, -H / 2); out = c1; }
+  out.dw = out.width / FHI; out.dh = out.height / FHI; // size on the floor plan, in plan pixels
+  return SPR[key] = out;
+}
+
 function spriteCanvas(look, dir, step) {
   const key = JSON.stringify(look) + dir + step; if (SPR[key]) return SPR[key];
   const tmp = document.createElementNS("http://www.w3.org/2000/svg", "svg"); drawSprite(tmp, look);
@@ -5191,11 +5357,11 @@ function drawHomeFloor(g, h, f, opt) {
   // items: rugs first
   const its = h.items.filter(it => (it.f || 0) === f).sort((a, b) => (FBY[a.id].slot === "rug" ? 0 : 1) - (FBY[b.id].slot === "rug" ? 0 : 1) || a.y - b.y);
   for (const it of its) { const s = itemSprite(it.id, it.r), rug = FBY[it.id].slot === "rug";
-    if (!rug) { g.fillStyle = "rgba(20,24,38,.22)"; g.fillRect(it.x * TS + 2, it.y * TS + 3, s.width, s.height); }
-    g.drawImage(s, it.x * TS, it.y * TS);
-    if (opt.sel === it) { g.strokeStyle = "#E8C25A"; g.lineWidth = 1; g.strokeRect(it.x * TS + .5, it.y * TS + .5, s.width - 1, s.height - 1); } }
-  if (opt.ghost) { const it = opt.ghost, s = itemSprite(it.id, it.r); g.globalAlpha = .55 + .35 * Math.sin(performance.now() / 180); g.drawImage(s, it.x * TS, it.y * TS); g.globalAlpha = 1;
-    g.strokeStyle = opt.ghostOk === false ? "#E85A5A" : "#8FD9B6"; g.lineWidth = 1; g.strokeRect(it.x * TS + .5, it.y * TS + .5, s.width - 1, s.height - 1); }
+    if (!rug) { g.fillStyle = "rgba(20,24,38,.22)"; g.fillRect(it.x * TS + 2, it.y * TS + 3, s.dw, s.dh); }
+    g.drawImage(s, it.x * TS, it.y * TS, s.dw, s.dh);
+    if (opt.sel === it) { g.strokeStyle = "#E8C25A"; g.lineWidth = 1; g.strokeRect(it.x * TS + .5, it.y * TS + .5, s.dw - 1, s.dh - 1); } }
+  if (opt.ghost) { const it = opt.ghost, s = itemSprite(it.id, it.r); g.globalAlpha = .55 + .35 * Math.sin(performance.now() / 180); g.drawImage(s, it.x * TS, it.y * TS, s.dw, s.dh); g.globalAlpha = 1;
+    g.strokeStyle = opt.ghostOk === false ? "#E85A5A" : "#8FD9B6"; g.lineWidth = 1; g.strokeRect(it.x * TS + .5, it.y * TS + .5, s.dw - 1, s.dh - 1); }
 }
 /* preview a home (or one item in it) on any canvas, fitted */
 function previewHome(cv, h, f, ghost) {
@@ -5239,8 +5405,8 @@ function homeUI() {
     tb.querySelectorAll("[data-tb]").forEach(b => b.onclick = () => { const v = b.dataset.tb, l = HV.tour; if (v === "back") return closeHome(); HV.back = null; closeHome(); startBuy(l, +v); }); }
   const gd = $("homeGuide"); gd.hidden = !HV.edit;
   if (HV.edit) { const touch = matchMedia("(pointer: coarse)").matches;
-    gd.innerHTML = `<b>EDIT MODE</b><ul>${(touch ? [["DRAG ITEM", "Move it"], ["TAP ITEM", "Pick it up"], ["TAP FLOOR", "Put it down"], ["DRAG FLOOR", "Scroll the plan"], ["ROTATE", "Turn it"], ["STORAGE", "Drag items in from the right"]]
-      : [["DRAG ITEM", "Move it"], ["CLICK ITEM", "Pick it up"], ["CLICK FLOOR", "Put it down"], ["W A S D", "Nudge the picked item"], ["R", "Rotate"], ["DEL", "Send to storage"], ["ESC", "Cancel / leave edit"], ["STORAGE", "Drag items in from the right"]]).map(([k, v]) => `<li><kbd>${k}</kbd><span>${v}</span></li>`).join("")}</ul>
+    gd.innerHTML = `<b>EDIT MODE</b><ul>${(touch ? [["DRAG ITEM", "Move it in half squares"], ["TAP ITEM", "Pick it up"], ["TAP FLOOR", "Put it down"], ["DRAG FLOOR", "Scroll the plan"], ["ROTATE", "Turn it"], ["STORAGE", "Drag items in from the right"]]
+      : [["DRAG ITEM", "Move it in half squares"], ["CLICK ITEM", "Pick it up"], ["CLICK FLOOR", "Put it down"], ["W A S D", "Nudge half a square"], ["SHIFT + W A S D", "Nudge a whole square"], ["R", "Rotate"], ["DEL", "Send to storage"], ["ESC", "Cancel / leave edit"], ["STORAGE", "Drag items in from the right"]]).map(([k, v]) => `<li><kbd>${k}</kbd><span>${v}</span></li>`).join("")}</ul>
       <small>${HV.sel ? `Holding: <b>${FBY[HV.sel.id].name}</b>` : HV.placing ? `Placing: <b>${FBY[HV.placing].name}</b>` : "Nothing picked up."}</small><small>Items can't block doors or paths.</small>`; }
   $("homeEdit").textContent = HV.edit ? "DONE" : "EDIT HOME";
   $("scr-home").classList.toggle("editing", HV.edit);
@@ -5261,14 +5427,15 @@ function homeUI() {
 function closeHomeSilent() { HV.on = false; cancelAnimationFrame(HV.raf); save(); }
 function homeRotate() { SFX("rotate"); const it = HV.sel; if (!it) { if (HV.placing) { HV.prot = ((HV.prot || 0) + 1) % 4; } return; } const old = it.r || 0; it.r = (old + 1) % 4; if (canPlace(HV.h, it, it) !== "ok") { it.r = (old + 2) % 4; if (canPlace(HV.h, it, it) !== "ok") { it.r = old; return homeSay("No room to turn it here."); } } save(); homeUI(); }
 function homeStore() { if (!HV.sel) return; if (HV.sel.fam) return homeSay("That belongs to Mum and Dad. You can move it, but it stays in the family flat."); HV.h.items = HV.h.items.filter(i => i !== HV.sel); HV.sel = null; save(); homeUI(); homeSay("Moved to storage."); }
-function homeNudge(dx, dy) { const it = HV.sel; it.x += dx; it.y += dy; if (canPlace(HV.h, it, it) !== "ok") { it.x -= dx; it.y -= dy; SFX("deny"); } else { SFX("step"); save(); } }
-function itemAt(x, y) { const its = HV.h.items.filter(it => (it.f || 0) === HV.f); for (let i = its.length - 1; i >= 0; i--) { const it = its[i], [w, h] = itemDims(it); if (x >= it.x && x < it.x + w && y >= it.y && y < it.y + h) { if (FBY[it.id].slot === "rug" && its.some(o => o !== it && FBY[o.id].slot !== "rug" && (() => { const [w2, h2] = itemDims(o); return x >= o.x && x < o.x + w2 && y >= o.y && y < o.y + h2; })())) continue; return it; } } return null; }
+function homeNudge(dx, dy) { const it = HV.sel, ox = it.x, oy = it.y; it.x = snapH(ox + dx); it.y = snapH(oy + dy); if (canPlace(HV.h, it, it) !== "ok") { it.x = ox; it.y = oy; SFX("deny"); } else { SFX("step"); save(); } }
+function itemAt(x, y, sz) { sz = sz || 1; const its = HV.h.items.filter(it => (it.f || 0) === HV.f), on = (o, w, h) => x < o.x + w && x + sz > o.x && y < o.y + h && y + sz > o.y; for (let i = its.length - 1; i >= 0; i--) { const it = its[i], [w, h] = itemDims(it); if (on(it, w, h)) { if (FBY[it.id].slot === "rug" && its.some(o => o !== it && FBY[o.id].slot !== "rug" && (() => { const [w2, h2] = itemDims(o); return on(o, w2, h2); })())) continue; return it; } } return null; }
 function homeTap(x, y) {
   if (!HV.edit) return;
   if (HV.placing) { const it = { id: HV.placing, x, y, f: HV.f, r: HV.prot || 0 }, ok = canPlace(HV.h, it);
-    if (ok === "ok" && !(x === HV.x && y === HV.y)) { HV.h.items.push(it); SFX("thump"); if (spare(HV.placing) <= 0) HV.placing = null; save(); homeUI(); }
-    else { SFX("deny"); homeSay(ok === "block" ? "That would block a doorway or path." : "It doesn't fit there."); } return; }
-  const hit = itemAt(x, y);
+    const [pw, ph] = itemDims(it), onMe = FBY[it.id].slot !== "rug" && HV.x < x + pw && HV.x + 1 > x && HV.y < y + ph && HV.y + 1 > y;
+    if (ok === "ok" && !onMe) { HV.h.items.push(it); SFX("thump"); if (spare(HV.placing) <= 0) HV.placing = null; save(); homeUI(); }
+    else { SFX("deny"); homeSay(onMe ? "You're standing there. Pick another spot." : ok === "block" ? "That would block a doorway or path." : "It doesn't fit there."); } return; }
+  const hit = itemAt(x, y, .5);
   if (HV.sel && (!hit || hit === HV.sel)) { const it = HV.sel, ox = it.x, oy = it.y; if (hit === HV.sel) { HV.sel = null; return homeUI(); }
     it.x = x; it.y = y; const ok = canPlace(HV.h, it, it); if (ok !== "ok") { it.x = ox; it.y = oy; SFX("deny"); homeSay(ok === "block" ? "That would block a doorway or path." : "It doesn't fit there."); } else { HV.sel = null; SFX("thump"); save(); homeUI(); } return; }
   HV.sel = hit; if (hit) SFX("pickup"); homeUI();
@@ -5336,17 +5503,17 @@ function homeLoop(now) {
   const sp = spriteCanvas(G.look, HV.dir, RM ? 0 : step); g.fillStyle = "rgba(20,24,38,.25)"; g.fillRect(px * TS + 3, py * TS + 13, 10, 3);
   g.save(); if (HV.dir === "right") { g.translate(px * TS + 8, 0); g.scale(-1, 1); g.translate(-(px * TS + 8), 0); } g.drawImage(sp, px * TS + 1, py * TS - 4); g.restore();
   if (!HV.edit && !HV.mv) { const u = useTarget(); if (u) { const bx = u[0] * TS + 4, by = u[1] * TS - 10 - (Math.floor(now / 300) % 2); g.fillStyle = "#141826"; g.fillRect(bx - 1, by - 1, 10, 10); g.fillStyle = "#F4F1EA"; g.fillRect(bx, by, 8, 8); g.fillStyle = "#141826"; g.font = "7px monospace"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(matchMedia("(pointer: coarse)").matches ? "A" : "E", bx + 4, by + 4.5); } }
-  if (HV.edit && HV.hover && !HV.placing) { g.strokeStyle = "rgba(232,194,90,.8)"; g.lineWidth = 1 / s; g.strokeRect(HV.hover[0] * TS, HV.hover[1] * TS, TS, TS); }
+  if (HV.edit && HV.hover && !HV.placing) { g.strokeStyle = "rgba(232,194,90,.8)"; g.lineWidth = 1 / s; g.strokeRect(HV.hover[0] * TS, HV.hover[1] * TS, TS / 2, TS / 2); }
   HV.raf = requestAnimationFrame(homeLoop);
 }
-function tileAtEvent(e) { const r = $("homeCv").getBoundingClientRect(), v = HV.view; if (!v) return null; return [Math.floor((e.clientX - r.left - v.cx) / v.s / TS), Math.floor((e.clientY - r.top - v.cy) / v.s / TS)]; }
+function tileAtEvent(e) { const r = $("homeCv").getBoundingClientRect(), v = HV.view; if (!v) return null; return [Math.floor((e.clientX - r.left - v.cx) / v.s / TS * 2) / 2, Math.floor((e.clientY - r.top - v.cy) / v.s / TS * 2) / 2]; } // v17: half squares
 HV.panX = 0; HV.panY = 0;
 // v14: drag furniture to move it; drag empty floor to scroll the plan
 $("homeCv").addEventListener("pointermove", e => { if (!HV.edit) return; HV.hover = tileAtEvent(e);
   const d = HV.drag; if (d && d.id === e.pointerId) { const dx = e.clientX - d.x, dy = e.clientY - d.y; if (d.moved || Math.hypot(dx, dy) > 8) {
     if (!d.moved && d.item) { HV.sel = d.item; HV.placing = null; SFX("pickup"); } d.moved = true;
     if (d.item) { const t = HV.hover; if (t) HV.dragGhost = [t[0] - d.ox, t[1] - d.oy]; } else { HV.panX = d.px + dx; HV.panY = d.py + dy; } } } });
-$("homeCv").addEventListener("pointerdown", e => { if (!HV.edit) return; const t = tileAtEvent(e), hit = t && !HV.placing ? itemAt(t[0], t[1]) : null;
+$("homeCv").addEventListener("pointerdown", e => { if (!HV.edit) return; const t = tileAtEvent(e), hit = t && !HV.placing ? itemAt(t[0], t[1], .5) : null;
   HV.drag = { id: e.pointerId, x: e.clientX, y: e.clientY, px: HV.panX, py: HV.panY, moved: false, item: hit, ox: hit ? t[0] - hit.x : 0, oy: hit ? t[1] - hit.y : 0 }; try { $("homeCv").setPointerCapture(e.pointerId); } catch (er) {} });
 $("homeCv").addEventListener("pointerup", e => { const d = HV.drag; HV.drag = null; if (!HV.edit || !d) return;
   if (d.moved && d.item) { const it = d.item, g = HV.dragGhost; HV.dragGhost = null;
@@ -5361,7 +5528,7 @@ $("homeA").addEventListener("click", () => homeLook());
 const KEYDIR = { w: "up", arrowup: "up", s: "down", arrowdown: "down", a: "left", arrowleft: "left", d: "right", arrowright: "right" };
 addEventListener("keydown", e => {
   if (!HV.on || $("scr-home").hidden) return; const k = e.key.toLowerCase(), d = KEYDIR[k];
-  if (d) { e.preventDefault(); e.stopImmediatePropagation(); if (HV.edit) { if (HV.sel) homeNudge(...DIRS[d]); return; } if (!HV.held.includes(d)) HV.held.push(d); return; }
+  if (d) { e.preventDefault(); e.stopImmediatePropagation(); if (HV.edit) { if (HV.sel) homeNudge(...DIRS[d].map(v => v * (e.shiftKey ? 1 : .5))); return; } if (!HV.held.includes(d)) HV.held.push(d); return; }
   if (k === "escape") { e.stopImmediatePropagation(); if (HV.edit) { if (HV.sel || HV.placing) { HV.sel = null; HV.placing = null; homeUI(); } else { HV.edit = false; homeUI(); } } else closeHome(); return; }
   if (HV.edit) { if (k === "r") homeRotate(); if (k === "delete" || k === "backspace") homeStore(); if (k === "enter") { HV.sel = null; homeUI(); } return; }
   if (k === "e" || k === "enter" || k === " ") { e.preventDefault(); homeLook(); }
@@ -5930,8 +6097,8 @@ const Cloud = (() => {
 })();
 const escH = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 let PROFS = { list: [], cur: null }, ME = null;
-function profLoad() { PROFS = { list: [], cur: null }; try { const p = JSON.parse(LSg(profKey()) || "null"); if (p && Array.isArray(p.list)) PROFS = p; } catch (e) {} PROFS.list.forEach(p => { p.stats = p.stats || {}; p.ach = p.ach || {}; p.lives = p.lives || []; p.friends = p.friends || []; }); }
-function profSave() { LSs(profKey(), JSON.stringify(PROFS)); if (ACCT && ME) Friends.publishSoon(); }
+function profLoad() { PROFS = { list: [], cur: null }; try { const p = JSON.parse(LSg(profKey()) || "null"); if (p && Array.isArray(p.list)) PROFS = p; } catch (e) {} PROFS.list.forEach(p => { p.stats = p.stats || {}; p.ach = p.ach || {}; p.lives = p.lives || []; p.friends = p.friends || []; }); acctLink(); }
+function profSave() { acctLink(); LSs(profKey(), JSON.stringify(PROFS)); if (ACCT && ME) Friends.publishSoon(); }
 const pinHash = (id, pin) => { let h = 5381; const s = id + ":" + pin; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; return h.toString(36); };
 function newProfile(name, pin) {
   const id = "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
@@ -5953,10 +6120,14 @@ function renderLogin() {
   if (ACCT && !PROFS.list.length) { try { const dev = JSON.parse(LSg(PROF_BASE) || "null"); if (dev && dev.list && dev.list.length) { $("acctBar").insertAdjacentHTML("beforeend", `<button class="btn" id="acctImport">IMPORT ${dev.list.length} PROFILE${dev.list.length > 1 ? "S" : ""} FROM THIS DEVICE</button>`);
     $("acctImport").onclick = () => { dev.list.forEach(p => { p.pin = ""; p.friends = p.friends || []; PROFS.list.push(p); [SAVE_KEY, PARTY_KEY].forEach(k => { const v = LSg(k + ":" + p.id); if (v) LSs(k + ":" + p.id, v); }); }); profSave(); toast("PROFILES IMPORTED"); renderLogin(); }; } } catch (e) {} }
   grid.innerHTML = PROFS.list.slice().sort((a, b) => b.last - a.last).map(p => { const n = ACH.filter(a => p.ach[a[0]]).length, hasSave = !!(LSg(SAVE_KEY + ":" + p.id) || LSg(PARTY_KEY + ":" + p.id));
-    return `<button class="pcard" data-prof="${p.id}">${p.pin ? `<span class="lock">PIN</span>` : ""}<svg width="70" height="90" viewBox="0 0 14 18" data-plook="${p.id}" class="bob"></svg><b>${escH(p.name)}</b><small>${n} of ${ACH.length} achievements · ${p.lives.length} ${p.lives.length === 1 ? "life" : "lives"}</small><small>${hasSave ? "Game in progress · " : ""}played ${ago(p.last)}</small></button>`; }).join("")
+    return `<div class="pcwrap"><button class="pcard" data-prof="${p.id}">${p.pin ? `<span class="lock">PIN</span>` : ""}<svg width="70" height="90" viewBox="0 0 14 18" data-plook="${p.id}" class="bob"></svg><b>${escH(p.name)}</b><small>${n} of ${ACH.length} achievements · ${p.lives.length} ${p.lives.length === 1 ? "life" : "lives"}</small><small>${hasSave ? "Game in progress · " : ""}played ${ago(p.last)}</small></button><button class="pdel" data-pdel="${p.id}" aria-label="Delete profile ${escH(p.name)}" title="Delete this profile">✕ DELETE</button></div>`; }).join("")
     + `<button class="pcard new" id="profNew"><b>+</b><span style="font:10px/1.4 var(--pixel);color:var(--gold)">NEW PROFILE</span></button>`;
   grid.querySelectorAll("[data-plook]").forEach(s => { const p = PROFS.list.find(x => x.id === s.dataset.plook); drawSprite(s, p.look || PRESETS[PROFS.list.indexOf(p) % PRESETS.length]); });
   grid.querySelectorAll("[data-prof]").forEach(b => b.onclick = () => { const p = PROFS.list.find(x => x.id === b.dataset.prof); login(p); });
+  grid.querySelectorAll("[data-pdel]").forEach(b => b.onclick = e => { e.stopPropagation(); const p = PROFS.list.find(x => x.id === b.dataset.pdel); if (!p) return;
+    if (!b.classList.contains("armed")) { grid.querySelectorAll(".pdel.armed").forEach(o => { o.classList.remove("armed"); o.textContent = "✕ DELETE"; }); b.classList.add("armed"); b.textContent = "TAP AGAIN TO DELETE"; SFX("click");
+      clearTimeout(b._t); b._t = setTimeout(() => { b.classList.remove("armed"); b.textContent = "✕ DELETE"; }, 4000); return; }
+    deleteProfile(p); SFX("thump"); toast(`PROFILE ${p.name} DELETED`); renderLogin(); });
   $("profNew").onclick = () => openLoginForm("new");
 }
 function openLoginForm(mode, p) {
@@ -5985,7 +6156,7 @@ $("loginForm").addEventListener("submit", e => {
   }
 });
 function login(p, fresh) {
-  ME = p; p.last = Date.now(); p.friends = p.friends || []; PROFS.cur = p.id; profSave(); if (ACCT) Friends.ensureCode().then(() => Social.start());
+  ME = p; p.last = Date.now(); p.friends = p.friends || []; PROFS.cur = p.id; profSave(); if (ACCT) Friends.ensureCode().then(() => { Social.start(); acctAlias(); });
   G = null; PARTY = null; $("loginForm").hidden = true; $("profGrid").hidden = false;
   $("whoName").textContent = p.name;
   const s = load(); $("continue").hidden = !s; $("tContinue").hidden = !s;
@@ -5993,7 +6164,7 @@ function login(p, fresh) {
   show("title"); toast(fresh ? `WELCOME, ${p.name}! PICK A MODE TO START.` : `LOGGED IN AS ${p.name}`);
 }
 function logout() {
-  try { if (G) save(); } catch (e) {} try { Social.stop(); } catch (e) {} stopAuto(); if (TUT.on) tutEnd();
+  try { if (G) save(); } catch (e) {} try { GHOSTP = null; lp = { digits: "", toto: [], sys: 6 }; BUY = null; if (window.__mpc) MP.leave(); } catch (e) {} try { Social.stop(); } catch (e) {} stopAuto(); if (TUT.on) tutEnd();
   closeModalSilent(); $("phone").hidden = true; $("cut").hidden = true; $("mg").hidden = true;
   G = null; PARTY = null; ME = null; renderLogin(); show("login"); BGM("town");
 }
@@ -6150,7 +6321,7 @@ function openProfile(tab) {
   const sw = $("pmSwitch"); if (sw) sw.onclick = () => { closeModalSilent(); logout(); };
   const po = $("pmOut"); if (po) po.onclick = () => { closeModalSilent(); acctSignOut(); };
   const del = $("pmDel"); if (del) del.onclick = () => { del.textContent = "TAP AGAIN: DELETES SAVES AND ACHIEVEMENTS"; del.onclick = () => {
-    const id = ME.id; if (ACCT && ME.code) Friends.release(ME.code); LSd(SAVE_KEY + ":" + id); LSd(PARTY_KEY + ":" + id); PROFS.list = PROFS.list.filter(p => p.id !== id); if (PROFS.cur === id) PROFS.cur = null; profSave();
+    deleteProfile(ME);
     closeModalSilent(); G = null; ME = null; logout(); toast("PROFILE DELETED"); }; };
 }
 document.querySelector(".prof").addEventListener("click", () => openProfile());
@@ -6400,9 +6571,9 @@ async function authUserPass(create) {
 const Friends = (() => {
   const AL = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", mk = () => { let c = ""; for (let i = 0; i < 8; i++) c += AL[Math.floor(Math.random() * AL.length)]; return c.slice(0, 4) + "-" + c.slice(4); };
   const cache = {}; let tm = null;
-  const card = p => ({ uid: ACCT.uid, pid: p.id, name: p.name, look: p.look || null, ach: Object.keys(p.ach || {}).length, lives: (p.lives || []).length, best: (p.stats || {}).bestScore || 0,
+  const card = p => ({ uid: ACCT.uid, pid: p.id, name: acctName(p), look: p.look || null, ach: Object.keys(p.ach || {}).length, lives: (p.lives || []).length, best: (p.stats || {}).bestScore || 0,
     bestNw: (p.stats || {}).bestNw || 0, rank: (p.stats || {}).runs ? RANKS[(p.stats || {}).bestRank || 0] || "" : "", friends: (p.friends || []).slice(0, 200),
-    nameLower: String(p.name || "").toLowerCase(), title: (p === ME ? myTitle() : p.title) || null, achIds: Object.keys(p.ach || {}).slice(0, 120), life: p === ME && G && !PARTY ? lifeSnap() : (p.snap || null), updated: Date.now() });
+    nameLower: acctName(p).toLowerCase(), title: (p === ME ? myTitle() : p.title) || null, achIds: Object.keys(p.ach || {}).slice(0, 120), life: p === ME && G && !PARTY ? lifeSnap() : (p.snap || null), updated: Date.now() });
   async function ensureCode() {
     if (!window.FB || !ACCT || !ME || ME.code) return publishSoon();
     const { F, db } = window.FB;
@@ -6411,8 +6582,14 @@ const Friends = (() => {
   function publishSoon() { if (tm) return; tm = setTimeout(() => { tm = null; publish(); }, 3000); }
   async function publish() { if (!window.FB || !ACCT || !ME || !ME.code) return; const { F, db } = window.FB; try { await F.setDoc(F.doc(window.FB.db, "codes", ME.code), card(ME)); } catch (e) { console.warn("publish", e); } }
   async function release(code) { try { const { F, db } = window.FB; await F.deleteDoc(F.doc(db, "codes", code)); } catch (e) {} }
-  async function lookup(code) { const { F, db } = window.FB; const d = await F.getDoc(F.doc(db, "codes", code)); return d.exists() ? d.data() : null; }
-  async function load(force) { if (!ME) return; await Promise.all((ME.friends || []).map(async c => { if (cache[c] && !force) return; try { cache[c] = (await lookup(c)) || { gone: 1 }; } catch (e) { cache[c] = { err: 1 }; } })); }
+  async function lookup(code) { const { F, db } = window.FB; const d = await F.getDoc(F.doc(db, "codes", code)); if (!d.exists()) return null; const x = d.data();
+    if (x && typeof x.pid === "string" && x.pid[0] === "=") { const to = x.pid.slice(1), y = await F.getDoc(F.doc(db, "codes", to)); return y.exists() ? Object.assign({ moved: to }, y.data()) : null; } // v17: an old profile code that now points to the account's code
+    return x; }
+  async function load(force) { if (!ME) return; await Promise.all((ME.friends || []).map(async c => { if (cache[c] && !force) return; try { cache[c] = (await lookup(c)) || { gone: 1 }; } catch (e) { cache[c] = { err: 1 }; } }));
+    // v17: follow moved codes and drop anything that is this same account
+    let ch = false; const L = [];
+    for (const c of ME.friends || []) { const f = cache[c]; if (f && ACCT && f.uid === ACCT.uid) { ch = true; continue; } const to = f && f.moved ? f.moved : c; if (to !== c) { cache[to] = f; ch = true; } if (!L.includes(to)) L.push(to); else ch = true; }
+    if (ch) { ME.friends = L; profSave(); } }
   return { ensureCode, publishSoon, publish, release, lookup, load, cache, norm: s => { const c = String(s || "").toUpperCase().replace(/[^A-Z0-9]/g, ""); return c.length === 8 ? c.slice(0, 4) + "-" + c.slice(4) : null; } };
 })();
 function friendsTabHtml() { return Social.tabHtml(); }
@@ -7473,10 +7650,10 @@ function homeInvRender() {
   box.innerHTML = `<div class="hihead"><b>STORAGE</b><small>${total} item${total === 1 ? "" : "s"} to place</small></div>
     <label class="hisort"><span>SORT</span><select id="hiSort">${HSORT.map(([k, l]) => `<option value="${k}" ${k === HV.isort ? "selected" : ""}>${l}</option>`).join("")}</select></label>
     <div class="hicats">${[["all", "ALL"]].concat(cats).map(([k, l]) => `<button data-hic="${k}" aria-pressed="${k === HV.icat}">${l}</button>`).join("")}</div>
-    <div class="hlist">${list.length ? list.map(x => `<button class="hitem" data-hp="${x.id}" aria-pressed="${HV.placing === x.id}"><canvas width="${x.w * TS}" height="${x.h * TS}" data-hc="${x.id}"></canvas><span><b>${x.name}</b><small>${catName(x.slot)} · ${x.w}×${x.h}${x.comfort ? ` · +${x.comfort} comfort` : ""}</small></span><em>×${spare(x.id)}</em></button>`).join("")
+    <div class="hlist">${list.length ? list.map(x => `<button class="hitem" data-hp="${x.id}" aria-pressed="${HV.placing === x.id}"><canvas width="${x.w * TS * FHI}" height="${x.h * TS * FHI}" data-hc="${x.id}"></canvas><span><b>${x.name}</b><small>${catName(x.slot)} · ${x.w}×${x.h}${x.comfort ? ` · +${x.comfort} comfort` : ""}</small></span><em>×${spare(x.id)}</em></button>`).join("")
       : `<p class="hiempty">${all.length ? "Nothing of this type in storage." : "Storage is empty. Press + BUY MORE, or visit the Flat-Pack Home Store in Town."}</p>`}</div>
     <p class="hitip">${touch ? "Tap an item, then tap the floor. Or drag it onto the floor." : "Drag an item onto the floor, or click it and then click the floor. Drag furniture in the room to move it."}</p>`;
-  box.querySelectorAll("[data-hc]").forEach(c => c.getContext("2d").drawImage(itemSprite(c.dataset.hc, 0), 0, 0));
+  box.querySelectorAll("[data-hc]").forEach(c => { const g = c.getContext("2d"); g.imageSmoothingEnabled = false; g.drawImage(itemSprite(c.dataset.hc, 0), 0, 0, c.width, c.height); });
   const nl = box.querySelector(".hlist"); nl.scrollTop = y;
   $("hiSort").onchange = e => { HV.isort = e.target.value; homeInvRender(); box.querySelector(".hlist").scrollTop = 0; };
   box.querySelectorAll("[data-hic]").forEach(b => b.onclick = () => { HV.icat = b.dataset.hic; homeInvRender(); box.querySelector(".hlist").scrollTop = 0; });
@@ -7573,13 +7750,13 @@ const Social = (() => {
     if (!live()) throw new Error("offline"); if (code === ME.code) throw new Error("self");
     const theirs = S.reqs.find(r => r.from === code); if (theirs) return accept(theirs);
     const F = F_();
-    await F.setDoc(F.doc(DB(), "inbox", code, "items", "req_" + ME.code), { type: "req", from: ME.code, fromName: ME.name, uid: ACCT.uid, at: Date.now() });
+    await F.setDoc(F.doc(DB(), "inbox", code, "items", "req_" + ME.code), { type: "req", from: ME.code, fromName: acctName(ME), uid: ACCT.uid, at: Date.now() });
     ME.sent = (ME.sent || []).filter(c => c !== code).concat(code).slice(-100); profSave(); return "sent";
   }
   async function accept(r, quiet) {
     addFriend(r.from); try { await Friends.publish(); } catch (e) {}
     const F = F_();
-    try { await F.setDoc(F.doc(DB(), "inbox", r.from, "items", "acc_" + ME.code), { type: "acc", from: ME.code, fromName: ME.name, uid: ACCT.uid, at: Date.now() }); } catch (e) { console.warn("accept", e); }
+    try { await F.setDoc(F.doc(DB(), "inbox", r.from, "items", "acc_" + ME.code), { type: "acc", from: ME.code, fromName: acctName(ME), uid: ACCT.uid, at: Date.now() }); } catch (e) { console.warn("accept", e); }
     del(r.id); S.reqs = S.reqs.filter(x => x.id !== r.id); ME.sent = (ME.sent || []).filter(c => c !== r.from); profSave();
     if (!quiet) { SFX("win"); toast(`YOU AND ${nm(r)} ARE NOW FRIENDS`); } refresh(); return "friends";
   }
@@ -7589,7 +7766,7 @@ const Social = (() => {
     if (code) { const f = await Friends.lookup(code); if (f) { out.push(Object.assign({ code }, f)); return out; } }
     const s = String(q).toLowerCase().replace(/\s+/g, " ").trim().slice(0, 16); if (!s) return out;
     const snap = await F.getDocs(F.query(F.collection(DB(), "codes"), F.where("nameLower", ">=", s), F.where("nameLower", "<=", s + ""), F.limit(12)));
-    snap.forEach(d => out.push(Object.assign({ code: d.id }, d.data()))); return out;
+    snap.forEach(d => { const x = d.data() || {}; if (!(typeof x.pid === "string" && x.pid[0] === "=")) out.push(Object.assign({ code: d.id }, x)); }); return out;
   }
 
   /* ---- staff gifts ---- */
@@ -7639,7 +7816,7 @@ const Social = (() => {
     const t = String(text || "").replace(/\s+/g, " ").trim().slice(0, 300); if (!t || !live()) return false;
     const F = F_(), at = Date.now();
     await F.addDoc(F.collection(DB(), "chats", cid(ME.code, code), "m"), { from: ME.code, uid: ACCT.uid, t, at });
-    F.addDoc(box(code), { type: "msg", from: ME.code, fromName: ME.name, uid: ACCT.uid, t: t.slice(0, 80), at }).catch(e => console.warn("ping", e));
+    F.addDoc(box(code), { type: "msg", from: ME.code, fromName: acctName(ME), uid: ACCT.uid, t: t.slice(0, 80), at }).catch(e => console.warn("ping", e));
     return true;
   }
 
@@ -7706,10 +7883,10 @@ const Social = (() => {
   function tabHtml() {
     if (!ACCT) return `<div class="fcode"><span>Friends need an account. Sign out of offline play and log in with Google or a username.</span></div>`;
     const list = ME.friends || [], res = S.results;
-    return `<div class="fcode"><span>YOUR FRIEND CODE</span><b id="myCode">${ME.code || "MAKING..."}</b><button class="btn" id="fCopy">COPY</button></div>
+    return `<div class="fcode"><span>YOUR FRIEND CODE · ${escH(acctName(ME))} · SHARED BY ALL YOUR PROFILES</span><b id="myCode">${ME.code || "MAKING..."}</b><button class="btn" id="fCopy">COPY</button></div>
       <form class="fadd" id="fFind"><input class="namefield" id="fIn" maxlength="16" placeholder="PLAYER NAME OR FRIEND CODE" value="${escH(S.q)}" spellcheck="false" autocomplete="off" aria-label="Search for a player"><button class="btn gold" type="submit">SEARCH</button></form>
       <p class="err" id="fErr" aria-live="polite" style="margin:0;color:var(--coral)">${escH(S.err)}</p>
-      ${res ? `<p class="tsec">SEARCH RESULTS</p><div class="flist">${res.length ? res.map(resultCard).join("") : `<p style="color:var(--muted);margin:0">No players found. Type the start of their profile name, or their friend code.</p>`}</div>` : ""}
+      ${res ? `<p class="tsec">SEARCH RESULTS</p><div class="flist">${res.length ? res.map(resultCard).join("") : `<p style="color:var(--muted);margin:0">No players found. Type the start of their username, or their friend code.</p>`}</div>` : ""}
       ${S.reqs.length ? `<p class="tsec">FRIEND REQUESTS (${S.reqs.length})</p><div class="flist">${S.reqs.map((r, i) => `<div class="fcard"><svg width="44" height="56" viewBox="0 0 14 18" data-rlook="${r.from}"></svg><b>${escH(nm(r))}</b><span>wants to be your friend · ${r.from}</span><span class="fbtns"><button class="gold" data-racc="${i}">ACCEPT</button><button data-rdec="${i}">DECLINE</button><button data-fview="${r.from}">VIEW</button></span></div>`).join("")}</div>` : ""}
       <p class="tsec">FRIENDS (${list.length})</p>
       <div class="flist" id="fList">${list.length ? list.map(friendCard).join("") : `<p style="color:var(--muted);margin:0">No friends yet. Search for a player above and send a request. They get a notification and can accept it.</p>`}</div>`;
@@ -10861,7 +11038,7 @@ const myRooms = () => (ME.rooms = ME.rooms || []);
 function rememberRoom(r) { const L = myRooms(), i = L.findIndex(x => x.code === r.code); if (i >= 0) L.splice(i, 1); L.unshift({ code: r.code, mode: r.mode, pace: r.pace, at: Date.now() }); ME.rooms = L.slice(0, 12); profSave(); }
 function mpLobby(msg) { Net.stop(); ROOM = null; window.__mpc = null; LOB.code = null; if (msg != null) LOB.msg = msg;
   const ghosts = []; if (ME.ghost && (ME.ghost.trail || []).length) ghosts.push({ name: ME.ghost.name + " (YOUR LAST LIFE)", g: ME.ghost });
-  (ME.friends || []).forEach(c => { const f = Friends.cache[c]; if (f && f.life && f.life.trail && f.life.trail.length) { let cn = {}; try { cn = JSON.parse(f.life.cn || "{}"); } catch (e) {} ghosts.push({ name: f.name, g: { name: f.name, trail: f.life.trail, cn } }); } });
+  (ME.friends || []).forEach(c => { const f = Friends.cache[c]; if (f && !(ACCT && f.uid === ACCT.uid) && f.life && f.life.trail && f.life.trail.length) { let cn = {}; try { cn = JSON.parse(f.life.cn || "{}"); } catch (e) {} ghosts.push({ name: f.name, g: { name: f.name, trail: f.life.trail, cn } }); } });
   openModal(`<div class="mhead"><div><h2>${LOB.grp === "group" ? "3 TO 6 PLAYERS · ESTATE ROOMS" : "2 PLAYERS · COUPLE ROOMS"}</h2><p>Each player uses their own device. ${Net.online() ? "Rooms are saved to your account, so you can leave and come back any time." : "<b>You are playing without an online account</b>, so a room only reaches other tabs of this browser. Log in with an account to play across devices."}</p></div></div>
     ${LOB.msg ? `<div class="result">${LOB.msg}</div>` : ""}<div class="mpbody">
     <span class="section-label">START A ROOM</span><div class="acts mpmodes">${Object.entries(MODES).filter(([k, m]) => (LOB.grp === "group") === (m.max > 2)).map(([k, m]) => `<button class="act" data-mk="${k}" aria-pressed="${LOB.mode === k}"><b>${m.n}</b><small>${m.d}</small><small class="pc">${m.min === m.max ? m.min : m.min + " to " + m.max} players</small></button>`).join("")}</div>
@@ -10895,6 +11072,47 @@ function roomLobby() { if (!ROOM) return; const r = ROOM, M = MODES[r.mode], ids
   M.insertAdjacentHTML("beforeend", `<button class="mode mpmode" data-mpg="couple"><b>2 PLAYERS · COUPLE</b><span>Online, each on your own device. Build one household together, or race each other with the same luck.</span></button><button class="mode mpmode" data-mpg="group"><b>3–6 PLAYERS · ESTATE</b><span>Online, each on your own device. Share one estate: scarce flats, a live market, loans, a business and ang bao.</span></button>`);
   M.querySelectorAll("[data-mpg]").forEach(b => b.onclick = () => { SFX("click"); LOB.grp = b.dataset.mpg; LOB.mode = LOB.pace = null; mpLobby(""); }); }
 
+
+/* ==================== v17 ==================== */
+/* ---------- v17: friends belong to the account (main username), shared by every profile ---------- */
+const acctName = p => String((ACCT && ACCT.name) || (p && p.name) || "PLAYER").slice(0, 24);
+function acctLink() {
+  if (!PROFS.acct) { const coded = PROFS.list.filter(p => p.code).sort((a, b) => (b.last || 0) - (a.last || 0));
+    PROFS.acct = { code: coded.length ? coded[0].code : null, friends: [], sent: [], legacy: [] }; }
+  const A = PROFS.acct; A.friends = A.friends || []; A.sent = A.sent || []; A.legacy = A.legacy || [];
+  for (const p of PROFS.list) {
+    const d = Object.getOwnPropertyDescriptor(p, "friends"); if (d && d.get) continue;
+    if (p.code && p.code !== A.code && !A.legacy.includes(p.code)) { if (!A.code) A.code = p.code; else { A.legacy.push(p.code); A.aliased = 0; } }
+    for (const c of p.friends || []) if (!A.friends.includes(c)) A.friends.push(c);
+    for (const c of p.sent || []) if (!A.sent.includes(c)) A.sent.push(c);
+    for (const k of ["code", "friends", "sent"]) { delete p[k]; Object.defineProperty(p, k, { get: () => PROFS.acct[k], set: v => { PROFS.acct[k] = v; }, enumerable: false, configurable: true }); }
+  }
+  const own = new Set([A.code].concat(A.legacy)); A.friends = A.friends.filter(c => c && !own.has(c)); A.sent = A.sent.filter(c => c && !own.has(c));
+}
+// the old per-profile codes now point friends to the account's code
+async function acctAlias() {
+  const A = PROFS.acct; if (!window.FB || !ACCT || !ME || !A || !A.code || !A.legacy.length || A.aliased) return; const { F, db } = window.FB;
+  for (const c of A.legacy) { try { await F.setDoc(F.doc(db, "codes", c), { uid: ACCT.uid, pid: "=" + A.code, name: acctName(ME), nameLower: "", ach: 0, lives: 0, best: 0, bestNw: 0, friends: [A.code], updated: Date.now() }); } catch (e) { console.warn("alias", e); } }
+  A.aliased = 1; profSave();
+}
+/* ---------- v17: delete a profile from the selection page ---------- */
+function deleteProfile(p) {
+  const id = p.id, keys = []; try { for (let i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i)); } catch (e) {}
+  keys.filter(k => k && (k.startsWith(SAVE_KEY + ":" + id) || k === PARTY_KEY + ":" + id)).forEach(LSd);
+  PROFS.list = PROFS.list.filter(x => x.id !== id); if (PROFS.cur === id) PROFS.cur = null; profSave();
+}
+/* ---------- v17: Lucky Pools as a full screen ---------- */
+function poolsShow(b, html) {
+  closeModalSilent(); const scr = $("scr-pools"), first = scr.hidden, y = first ? 0 : scr.scrollTop;
+  $("poolBody").innerHTML = html; paintIcons($("poolBody"));
+  const n = G.lotto.won - G.lotto.spent;
+  $("poolTag").innerHTML = `CASH ${money(G.cash)} · NET ${n >= 0 ? "+" : "-"}${money(Math.abs(n))}`;
+  if (first) show("pools");
+  const cv = $("poolCv"); if (cv && !cv.dataset.done) { cv.width = b.w * 4; cv.height = b.h * 4; const ctx = cv.getContext("2d"); ctx.imageSmoothingEnabled = false; ctx.scale(4, 4); CTX = ctx; try { b.draw(mkR(ctx)); } catch (e) {} CTX = null; cv.dataset.done = 1; }
+  $("poolBack").onclick = () => { SFX("click"); curB = null; enterHub(); };
+  scr.scrollTop = y; const f = scr.querySelector("[data-tab][aria-selected=true]"); if (first && f) f.focus();
+}
+addEventListener("keydown", e => { if (e.key === "Escape" && !$("scr-pools").hidden && $("modal").hidden && $("cut").hidden) { curB = null; enterHub(); } });
 
 authBoot();
 })();
