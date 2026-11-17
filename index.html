@@ -1766,6 +1766,332 @@ button.mode:hover, .mode.multi:hover { border-color: var(--gold); box-shadow: 0 
 .petjump b { font: 8px/1.6 var(--pixel); font-weight: normal; color: #C9A8F5; display: block; } .petjump i { font: 8px/1 var(--pixel); font-style: normal; color: var(--gold); white-space: nowrap; margin-left: auto; } .petjump span { flex: 1; min-width: 0; }
 @media (max-width: 720px) { .petsec { grid-template-columns: 1fr 1fr; } .petsec button.mine { grid-column: 1 / -1; } .petsec button svg { display: none; } .petjump { flex-wrap: wrap; } .petjump i { margin-left: 0; } }
 
+
+/* ==================== v18: phones, desktop fit, Ms Lim's bubbles, juice ==================== */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html, body { overflow-x: clip; max-width: 100%; }
+body { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+img, canvas, svg { max-width: 100%; }
+.stage canvas.layer, .stage svg, .bld canvas { max-width: none; }
+.mbox, .phone, .pbody, .dk-body, .dk-lim, .sidebody, #townPan, .cslist { overscroll-behavior: contain; }
+
+/* ---------- Ms Lim always fits ---------- */
+.dk-lim > * { flex-shrink: 0; }
+.dk-lim { scrollbar-width: thin; }
+.dk-say { min-height: 0; height: auto; overflow: visible; overflow-wrap: anywhere; cursor: pointer; animation: limIn .35s steps(4) both; }
+.dk-say.typing::after { content: "▼"; position: absolute; right: 8px; bottom: 4px; font: 8px var(--pixel); color: #b8932f; animation: limNext .6s steps(1) infinite; }
+@keyframes limNext { 50% { opacity: 0; } }
+@keyframes limIn { from { transform: translateY(6px); opacity: 0; } }
+.dk-tips h4 { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.dk-tips li { overflow-wrap: anywhere; animation: tipIn .3s steps(3) both; animation-delay: calc(var(--i, 0) * 60ms); }
+@keyframes tipIn { from { transform: translateX(10px); opacity: 0; } }
+.tutbox p, .st-text, .evtext, .rq span, .hmsg { overflow-wrap: anywhere; }
+.tutbox { max-height: calc(100dvh - 24px); overflow: auto; }
+
+/* ---------- buttons feel physical ---------- */
+.btn, .chip, .card, .act, .lrow, .carc, .cscard, .inscard, .cacc, .libcard, .pick, .nb, .ibtn, .sidetab, .tabs2 button, .arrow, .stp button, .pback, .opt, .sw, .setout, .bld, .hA {
+  transition: transform .09s steps(2), box-shadow .12s steps(2), border-color .12s steps(2), background-color .12s steps(2), filter .12s steps(2);
+}
+@media (hover: hover) {
+  .btn:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 6px 0 #0b0e1c; }
+  .btn.gold:not(:disabled):hover { box-shadow: 0 6px 0 var(--gold-dk), 0 0 18px rgba(232,194,90,.45); }
+  .card:hover, .act:not(:disabled):hover, .carc:hover, .inscard:hover, .cacc:hover, .pick:hover, .cscard:hover { transform: translateY(-3px); box-shadow: 0 4px 0 rgba(0,0,0,.35); }
+  .lrow:hover { transform: translateX(3px); }
+  .chip:not(:disabled):hover, .tabs2 button:hover { border-color: var(--gold); color: var(--gold); }
+}
+.btn:not(:disabled):active { transform: translateY(3px) !important; box-shadow: 0 1px 0 #0b0e1c !important; }
+.btn.gold:not(:disabled):active { box-shadow: 0 1px 0 var(--gold-dk) !important; }
+.card:active, .act:not(:disabled):active, .lrow:active, .carc:active, .inscard:active, .cacc:active, .chip:not(:disabled):active, .pick:active, .nb:active, .ibtn:active, .sidetab:active, .cscard:active, .stp button:active, .tabs2 button:active, .arrow:active, .opt:active { transform: scale(.97) !important; filter: brightness(1.15); }
+.btn.gold:not(:disabled) { position: relative; overflow: hidden; }
+.btn.gold:not(:disabled)::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 30%; background: rgba(255,255,255,.3); transform: translateX(-150%) skewX(-20deg); animation: shine 4s ease-in-out infinite; pointer-events: none; will-change: transform; }
+@keyframes shine { 0%, 75% { transform: translateX(-150%) skewX(-20deg); } 100% { transform: translateX(420%) skewX(-20deg); } }
+.v18burst { position: fixed; z-index: 95; width: 4px; height: 4px; margin: -2px 0 0 -2px; pointer-events: none; background: var(--c, #E8C25A); animation: burst .42s steps(6) forwards; }
+@keyframes burst { to { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
+
+/* ---------- screens slide in ---------- */
+@keyframes scrIn { from { opacity: 0; transform: translateY(10px); } }
+.phone:not([hidden]) { animation: phoneUp .22s cubic-bezier(.2,.8,.3,1) both; }
+@keyframes phoneUp { from { transform: translateY(60px); opacity: 0; } }
+.modal:not([hidden]) { animation: fadeIn .18s steps(3) both; }
+@keyframes fadeIn { from { opacity: 0; } }
+#v18wipe { position: fixed; inset: 0; z-index: 70; pointer-events: none; display: grid; grid-template-columns: repeat(8, 1fr); }
+#v18wipe i { background: #0B0F22; transform-origin: top; transform: scaleY(0); }
+#v18wipe.go i { animation: wipe .5s steps(5) both; animation-delay: calc(var(--i) * 25ms); }
+@keyframes wipe { 0% { transform: scaleY(0); } 45%, 55% { transform: scaleY(1); } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* ---------- live numbers ---------- */
+.hstat .v.up, .dk-big b.up { animation: numUp .7s steps(4); }
+.hstat .v.down, .dk-big b.down { animation: numDown .7s steps(4); }
+@keyframes numUp { 30% { color: var(--mint); text-shadow: 0 0 8px rgba(91,211,138,.8); transform: scale(1.12); } }
+@keyframes numDown { 30% { color: var(--coral); text-shadow: 0 0 8px rgba(232,90,90,.8); transform: translateX(-2px); } 60% { transform: translateX(2px); } }
+.hstat .v { display: inline-block; transform-origin: left center; }
+.vbar i, .cbar i, .km-bar i, .kbar i, .lbar i { transition: width .6s steps(10); }
+.lbar i { animation: barGrow .6s steps(8) both; transform-origin: left; }
+@keyframes barGrow { from { transform: scaleX(0); } }
+
+/* range sliders get the pixel look */
+input[type=range] { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 10px; background: var(--night); border: 2px solid var(--border); }
+input[type=range]::-moz-range-track { height: 10px; background: var(--night); border: 2px solid var(--border); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; margin-top: -8px; background: var(--gold); border: 3px solid #141826; box-shadow: 0 3px 0 var(--gold-dk); }
+input[type=range]::-moz-range-thumb { width: 18px; height: 18px; background: var(--gold); border: 3px solid #141826; border-radius: 0; }
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
+
+/* ---------- the hub on a phone or a tall window: HUD on top, town you swipe through, buttons at the bottom ---------- */
+#townPan { position: relative; }
+.hudT, .hudB { display: none; }
+.hubwrap.port { position: fixed; inset: 0; max-width: none; margin: 0; z-index: 5; display: flex; flex-direction: column; background: #0B0F22; }
+.hubwrap.port #townPan { flex: 1 1 auto; min-height: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: var(--gold) #0B0F22; -webkit-overflow-scrolling: touch; }
+.hubwrap.port #stageBox { margin: 0 auto; }
+.hubwrap.port .stage { border: 0; }
+.hubwrap.port .hudT { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; position: relative; z-index: 7; padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 6px max(8px, env(safe-area-inset-left)); background: linear-gradient(#141a33, #0E1226); border-bottom: 2px solid var(--border); }
+.hubwrap.port .hudB { display: block; position: relative; z-index: 7; padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); background: rgba(14,18,38,.98); border-top: 2px solid var(--border); }
+.hubwrap.port .topbar { position: static; flex: 1 1 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; pointer-events: auto; }
+.hubwrap.port .leftgrp { display: contents; }
+.hubwrap.port .prof { min-width: 0; padding: 6px 8px 6px 6px; gap: 8px; }
+.hubwrap.port .portrait { width: 48px; height: 48px; flex: 0 0 auto; } .hubwrap.port .portrait svg { width: 44px; height: 37px; margin-top: 6px; }
+.hubwrap.port .pinfo { min-width: 0; gap: 4px; } .hubwrap.port .pname { font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hubwrap.port .ptitle { font-size: 7px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.hubwrap.port .vitals { font-size: 14px; gap: 6px; } .hubwrap.port .vbar { width: auto; min-width: 38px; }
+.hubwrap.port .vitals > span { flex: 1; min-width: 0; }
+.hubwrap.port .ptap { display: none; }
+.hubwrap.port .ibtn { width: 60px; height: auto; min-height: 60px; }
+.hubwrap.port .stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; }
+.hubwrap.port .hstat { min-width: 0; padding: 4px 5px; grid-template-columns: 18px minmax(0, 1fr); column-gap: 4px; }
+.hubwrap.port .hstat svg { width: 18px; height: 18px; }
+.hubwrap.port .hstat .k { font-size: 6px; } .hubwrap.port .hstat .v { font-size: 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.hubwrap.port .chapter, .hubwrap.port .areaBadge { position: static; font-size: 7px; line-height: 1.4; padding: 6px 8px; }
+.hubwrap.port .chapter { flex: 1 1 auto; min-width: 0; }
+.hubwrap.port .side { position: static; order: 5; }
+.hubwrap.port .sidetab { min-height: 44px; }
+.hubwrap.port .sidepanel { position: absolute; left: 8px; right: 8px; top: calc(100% + 6px); width: auto; max-height: min(470px, 62dvh); z-index: 9; box-shadow: 0 10px 0 rgba(0,0,0,.45); animation: scrIn .25s steps(4) both; }
+.hubwrap.port .bottombar { position: static; height: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hubwrap.port .bottombar .info { grid-column: 1 / -1; grid-row: 1; padding: 6px 10px; border-bottom: 2px solid var(--border); }
+.hubwrap.port .bottombar .info b { font-size: 8px; line-height: 1.4; } .hubwrap.port .bottombar .info span { font-size: 15px; }
+.hubwrap.port .bottombar .nb { min-height: 48px; padding: 0 4px; font-size: 8px; border-right: 2px solid var(--border); line-height: 1.4; }
+.hubwrap.port .bottombar .setout { grid-column: 1 / -1; min-height: 54px; font-size: 13px; }
+@keyframes setPulse { 50% { filter: brightness(1.12); box-shadow: inset 0 0 0 3px #FFE9A0; } }
+.panbtn { display: none; }
+.hubwrap.port .panbtn { display: grid; place-items: center; position: absolute; top: 50%; z-index: 6; width: 44px; height: 64px; margin-top: -32px; background: rgba(14,18,38,.82); border: 2px solid var(--gold); color: var(--gold); font: 14px var(--pixel); cursor: pointer; transition: opacity .2s steps(2); }
+.hubwrap.port .panbtn.l { left: 4px; } .hubwrap.port .panbtn.r { right: 4px; }
+.hubwrap.port .panbtn[disabled] { opacity: 0; pointer-events: none; }
+.hubwrap.port .panbtn:not([disabled]) { animation: panNudge 1.4s steps(4) infinite; }
+.hubwrap.port .panbtn.l:not([disabled]) { animation-name: panNudgeL; }
+@keyframes panNudge { 50% { transform: translateX(3px); } } @keyframes panNudgeL { 50% { transform: translateX(-3px); } }
+.panwrap { position: relative; flex: 1 1 auto; min-height: 0; display: flex; }
+.panwrap > #townPan { flex: 1 1 auto; }
+.hubwrap:not(.port) .panwrap { display: block; }
+.bld { touch-action: manipulation; }
+.bld:active canvas { transform: translateY(-2px) scale(.98); }
+
+/* ---------- phones and small tablets in general ---------- */
+@media (max-width: 760px) {
+  body { font-size: 19px; padding-left: max(10px, env(safe-area-inset-left, 0px)); padding-right: max(10px, env(safe-area-inset-right, 0px)); padding-top: max(10px, env(safe-area-inset-top, 0px)); padding-bottom: max(24px, env(safe-area-inset-bottom, 0px)); }
+  .panel { padding: 18px 14px 16px; gap: 16px; }
+  h1 { font-size: 14px; } h2 { font-size: 11px; }
+  .btn { min-height: 44px; padding: 13px 14px; font-size: 10px; line-height: 1.3; }
+  .chip, .tabs2 button { min-height: 40px; }
+  .arrow, .stp button { min-width: 44px; min-height: 44px; }
+  .stp b { min-width: 0; padding: 0 8px; }
+  .sw { width: 36px; height: 36px; }
+  .foot { gap: 8px; } .foot > .btn, .foot .right { flex: 1 1 auto; } .foot .right .btn { flex: 1 1 auto; }
+  .builder { grid-template-columns: 1fr; gap: 18px; }
+  .stagecard { min-height: 240px; }
+  .row { grid-template-columns: 1fr; gap: 8px; }
+  .namefield { max-width: none; font-size: 16px; }
+  .cards.three, .cards.four, .cards.five { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .picks { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .gacha { grid-template-columns: 1fr; gap: 16px; }
+  .modal { padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)); }
+  .mbox { padding: 16px 14px; max-height: calc(100dvh - 16px); gap: 12px; }
+  .mhead { flex-wrap: wrap; } .mhead canvas { max-width: 30%; height: auto; }
+  .act { font-size: 18px; padding: 12px; min-height: 52px; flex-wrap: wrap; }
+  .mfoot { position: sticky; bottom: -16px; background: var(--panel); padding: 8px 0 4px; margin-bottom: -4px; z-index: 2; }
+  .mfoot .btn { flex: 1 1 auto; }
+  .tbl { font-size: 17px; }
+  .details { padding: 12px; }
+  .timeline span { font-size: 6px; padding: 6px 3px; }
+  .phone { inset: 0; right: 0; bottom: 0; width: 100%; max-width: none; height: 100dvh; border-radius: 0; border: 0; padding: max(8px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom)); }
+  .phone .notch { display: none; }
+  .pstatus { padding: 10px 12px; } .pX { min-height: 36px; padding: 0 10px; }
+  .pback { min-height: 40px; min-width: 40px; }
+  .toast { font-size: 8px; padding: 10px 12px; bottom: max(88px, env(safe-area-inset-bottom)); pointer-events: none; }
+  .achtoast { top: max(8px, env(safe-area-inset-top)); right: 8px; width: calc(100vw - 16px); }
+  .tutbox { grid-template-columns: 48px 1fr; gap: 10px; padding: 10px 12px; bottom: max(10px, env(safe-area-inset-bottom)); }
+  .tutbox svg { width: 48px; height: 62px; } .tutbox p { font-size: 18px; }
+  .tutbtns { flex-wrap: wrap; gap: 6px; } .tutbtns .btn { min-height: 44px; }
+  .reqpop { right: 8px; width: calc(100vw - 16px); }
+  /* Ms Lim's desk */
+  .dk-head { flex-wrap: wrap; gap: 8px; padding: max(8px, env(safe-area-inset-top)) 10px 8px; }
+  .dk-head .btn { min-height: 40px; padding: 10px 12px; }
+  .dk-head h1 { font-size: 11px; flex: 1 1 auto; }
+  .dk-tag { flex: 1 1 100%; text-align: left; font-size: 7px; line-height: 1.6; }
+  .dk-lim { max-height: 46dvh; }
+  .dk-body { padding: 12px 10px calc(40px + env(safe-area-inset-bottom)); font-size: 18px; }
+  .dk-tips h4 { cursor: pointer; padding: 6px 0; min-height: 32px; }
+  .dk-tips h4::after { content: "+ SHOW"; color: var(--gold); font-size: 7px; border: 2px solid var(--border); padding: 6px 8px; }
+  .dk-tips.open h4::after { content: "- HIDE"; }
+  .dk-tips:not(.open) ul { display: none; }
+  .lctl { gap: 8px; } .lctl label { flex: 1 1 100%; justify-content: space-between; } .lctl .chips { gap: 6px; } .lctl .chip { min-height: 40px; }
+  .lrow { padding: 10px; }
+  .lcalc { font-size: 17px; }
+  .ldetail .tbl td:first-child { width: 40%; }
+  .mrow { flex-wrap: wrap; } .mrow .btn { flex: 1 1 100%; }
+  .dk-big { min-width: 0; flex: 1 1 140px; } .dk-big b { font-size: 15px; }
+  .insgrid { grid-template-columns: 1fr; }
+  .dk-strip > .covrow { flex: 1 1 100%; } .cov { flex: 1 1 calc(33% - 8px); min-width: 0; }
+  .logo, .head .logo { line-height: 1.7; }
+  .head { align-items: flex-start; }
+  .icf { flex-wrap: wrap; } .icf .btn { min-height: 40px; }
+  .cpfacc, .cpfact, .libtop { grid-template-columns: 1fr; }
+  .cbox .chip { min-height: 40px; }
+  /* car showroom: the strip of cars scrolls sideways inside itself */
+  .cslist { max-width: 100%; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
+  .cscard { scroll-snap-align: start; flex: 0 0 min(210px, 70vw) !important; min-width: 0; }
+  .cscard b, .cscard small { overflow-wrap: anywhere; }
+  #scr-cars .foot { position: sticky; bottom: 0; background: var(--panel); padding: 8px 0 max(4px, env(safe-area-inset-bottom)); z-index: 3; }
+  .opt { min-height: 44px; }
+  /* story mode */
+  .st-top { flex-wrap: wrap; gap: 6px; }
+  .st-btns .btn { min-height: 36px; padding: 8px; font-size: 7px; }
+  .st-choices { display: grid; gap: 8px; } .st-choices button { min-height: 48px; }
+  /* walkable home / hospital action buttons */
+  .hA { width: 64px; height: 64px; }
+}
+@media (max-width: 400px) {
+  .cards.three, .cards.four, .cards.five { grid-template-columns: 1fr; }
+  .btn { font-size: 9px; padding: 12px 10px; }
+  .hubwrap.port .bottombar .nb { font-size: 7px; }
+  .hubwrap.port .hstat .v { font-size: 8px; }
+}
+/* short landscape phones: the hub fills the screen, so tighten the HUD */
+@media (max-height: 500px) and (orientation: landscape) {
+  .dk-grid { grid-template-columns: minmax(0, 1fr) clamp(220px, 34vw, 300px); grid-template-rows: none; }
+  .dk-lim { order: 0; border-left: 3px solid var(--border); border-bottom: 0; max-height: none; padding: 8px 10px; }
+  .dk-limtop svg { width: 36px; height: 46px; } .dk-say { font-size: 17px; padding: 8px 10px; }
+  .dk-head { padding-top: 6px; padding-bottom: 6px; } .dk-head h1 { font-size: 11px; }
+  .mbox { max-height: calc(100dvh - 12px); }
+  .dk-lim { max-height: none; }
+  .phone { height: calc(100dvh - 16px); bottom: 8px; }
+}
+@supports (height: 100dvh) {
+  .mbox { max-height: calc(100dvh - 32px); }
+  .mbox.prof { height: min(940px, calc(100dvh - 32px)); }
+  .phone { height: min(660px, calc(100dvh - 32px)); }
+  .desk, .cut, .mg, .tut { height: 100dvh; }
+}
+@media (max-width: 760px) and (min-width: 0px) { @supports (height: 100dvh) { .mbox { max-height: calc(100dvh - 16px); } .mbox.prof { height: calc(100dvh - 16px); } .phone { height: 100dvh; } } }
+
+/* ---------- big desktop screens: use the room without stretching lines too long ---------- */
+@media (min-width: 1500px) {
+  .wrap { max-width: 1120px; }
+  .dk-grid { grid-template-columns: minmax(0, 1fr) clamp(320px, 24vw, 460px); }
+  .dk-body { padding: 18px 28px 40px; }
+}
+@media (min-width: 861px) and (max-width: 1100px) {
+  .dk-grid { grid-template-columns: minmax(0, 1fr) 300px; }
+  .lhead, .lrow { grid-template-columns: minmax(150px, 1.5fr) minmax(60px, 1fr) 64px 100px 110px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone:not([hidden]), .modal:not([hidden]), .dk-say, .dk-tips li, .lbar i, .btn.gold::after, .hubwrap.port .setout, .hubwrap.port .panbtn, #v18wipe.go i, .hstat .v.up, .hstat .v.down { animation: none !important; }
+}
+
+/* ---------- v18 cutscenes ---------- */
+.cj-shut { position: absolute; inset: 0; z-index: 2; display: grid; pointer-events: none; }
+.cj-shut i { background: #05060f; animation: cjShut .42s steps(4) both; }
+@keyframes cjShut { from { transform: scale(1); } to { transform: scale(0) rotate(45deg); } }
+.cj-sky { will-change: transform; position: absolute; left: 0; right: -10%; bottom: 30%; pointer-events: none; z-index: 0; image-rendering: pixelated; }
+.cj-sky.far { height: 46%; opacity: .3; background: #0a0e1e;
+  clip-path: polygon(0 40%, 6% 40%, 6% 15%, 13% 15%, 13% 55%, 18% 55%, 18% 25%, 27% 25%, 27% 45%, 33% 45%, 33% 5%, 40% 5%, 40% 50%, 47% 50%, 47% 30%, 56% 30%, 56% 10%, 62% 10%, 62% 45%, 70% 45%, 70% 20%, 78% 20%, 78% 50%, 84% 50%, 84% 0, 91% 0, 91% 35%, 100% 35%, 100% 100%, 0 100%); }
+.cj-sky.near { height: 30%; opacity: .45; background: repeating-linear-gradient(0deg, rgba(8,10,24,.95) 0 10px, rgba(255,226,140,.35) 10px 13px, rgba(8,10,24,.95) 13px 22px), #080a18;
+  clip-path: polygon(0 30%, 9% 30%, 9% 60%, 16% 60%, 16% 10%, 26% 10%, 26% 50%, 35% 50%, 35% 25%, 46% 25%, 46% 70%, 54% 70%, 54% 15%, 65% 15%, 65% 55%, 74% 55%, 74% 5%, 83% 5%, 83% 45%, 92% 45%, 92% 20%, 100% 20%, 100% 100%, 0 100%); }
+.cj-glow { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 60% 45% at 50% 62%, color-mix(in srgb, var(--c3, #fff) 45%, transparent), transparent 70%); opacity: .35; will-change: transform; }
+.cutactor, .cutpet, .cuticon { z-index: 1; }
+.cj-motes { position: absolute; inset: 0; pointer-events: none; z-index: 1; will-change: transform; }
+.cj-motes i { position: absolute; width: 4px; height: 4px; background: #FFF4C8; box-shadow: 0 0 6px #FFE27A; opacity: 0; animation: cjMote 6s ease-in-out infinite; will-change: transform, opacity; }
+@keyframes cjMote { 0% { transform: translate(0, 20px); opacity: 0; } 30%, 70% { opacity: .8; } 100% { transform: translate(24px, -60px); opacity: 0; } }
+.cj-shadow { position: absolute; left: 12%; right: 12%; bottom: -4%; height: 8%; background: radial-gradient(ellipse at center, rgba(0,0,0,.45), transparent 70%); z-index: -1; }
+.cj-dust { position: absolute; left: 50%; bottom: 0; width: 70%; height: 22%; transform: translateX(-50%); pointer-events: none; opacity: 0;
+  background: radial-gradient(circle at 15% 70%, #E8E2D2 0 8%, transparent 9%), radial-gradient(circle at 35% 55%, #E8E2D2 0 10%, transparent 11%), radial-gradient(circle at 65% 60%, #E8E2D2 0 9%, transparent 10%), radial-gradient(circle at 88% 72%, #E8E2D2 0 7%, transparent 8%);
+  animation: cjDust .6s steps(5) both; }
+@keyframes cjDust { 0% { opacity: .9; transform: translateX(-50%) scale(.5); } 100% { opacity: 0; transform: translateX(-50%) scale(1.5) translateY(-20%); } }
+.cj-rays { position: absolute; left: 50%; top: 45%; width: 160vmax; height: 160vmax; margin: -80vmax 0 0 -80vmax; z-index: 0; pointer-events: none; opacity: .22;
+  background: repeating-conic-gradient(from 0deg, #FFF4C8 0 6deg, transparent 6deg 18deg); -webkit-mask: radial-gradient(circle, #000 0 8%, transparent 45%); mask: radial-gradient(circle, #000 0 8%, transparent 45%);
+  animation: cjSpin 24s linear infinite; will-change: transform; }
+@keyframes cjSpin { to { transform: rotate(360deg); } }
+.cj-ring { position: absolute; left: 50%; top: 40%; width: 40px; height: 40px; margin: -20px 0 0 -20px; border: 6px solid #FFE27A; border-radius: 50%; z-index: 2; pointer-events: none; opacity: 0; animation: cjRing .9s cubic-bezier(.2,.7,.3,1) .85s both; }
+.cj-ring.r2 { border-color: #fff; animation-delay: 1s; }
+@keyframes cjRing { 0% { transform: scale(.2); opacity: 1; } 100% { transform: scale(18); opacity: 0; border-width: 1px; } }
+.cj-ch { display: inline-block; animation: cjDrop .5s cubic-bezier(.3,1.6,.5,1) both; }
+@keyframes cjDrop { from { transform: translateY(-60px) scale(1.6) rotate(-12deg); opacity: 0; } }
+.cj-shimmer { overflow: hidden; }
+.cj-shimmer::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 18%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); mix-blend-mode: overlay; transform: translateX(-150%); animation: cjShim 3s ease-in-out 1.6s infinite; pointer-events: none; }
+@keyframes cjShim { 0% { transform: translateX(-150%); } 50%, 100% { transform: translateX(650%); } }
+.cj-streaks { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.cj-streaks i { position: absolute; left: -30%; width: 30%; height: 2px; background: linear-gradient(90deg, transparent, #8EC5E8, #FFF); opacity: .6; animation: cjStreak 1.4s linear infinite; will-change: transform; }
+@keyframes cjStreak { to { transform: translateX(450%); } }
+.cj-sweep { position: absolute; top: 0; bottom: 0; left: 0; width: 25%; background: linear-gradient(100deg, transparent, rgba(255,240,200,.18), transparent); transform: translateX(-120%); animation: cjSweep 2.2s ease-in-out .6s both; pointer-events: none; }
+@keyframes cjSweep { to { transform: translateX(520%); } }
+.cut::after { content: ""; position: absolute; inset: 0; z-index: 7; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.08) 0 1px, transparent 1px 3px); }
+@media (prefers-reduced-motion: reduce) { .cj-shut, .cj-motes, .cj-rays, .cj-ring, .cj-streaks, .cj-sweep, .cj-dust { display: none; } .cj-ch { animation: none; } .cj-shimmer { animation: none; } }
+#cutBig.cj-shimmer { position: relative; }
+
+/* ---------- start screen and the estate behind the login / menu pages ---------- */
+#hsWrap { position: fixed; inset: 0; z-index: 0; pointer-events: none; display: none; }
+body.hs-on #hsWrap, body.hs-page #hsWrap { display: block; }
+body.hs-on #hsWrap { z-index: 90; pointer-events: auto; }
+#hsCv { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+.hs-shade { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 32% at 50% 48%, rgba(14,10,34,.72), rgba(14,10,34,.25) 70%, transparent), linear-gradient(rgba(14,18,38,.1), rgba(14,18,38,.05) 40%, rgba(14,18,38,.55)); }
+#hsWrap.bg .hs-shade { background: rgba(14,18,38,.55); }
+#hsWrap.bg .hs-title { display: none; }
+body.hs-page #sky { visibility: hidden; }
+.hs-title { position: absolute; left: 0; right: 0; top: 0; bottom: 0; display: grid; place-content: center; justify-items: center; gap: 18px; padding: 24px 16px max(24px, env(safe-area-inset-bottom)); text-align: center; }
+#hsWrap.leaving .hs-title { animation: hsOut .6s ease-in forwards; }
+@keyframes hsOut { to { transform: translateY(-40px) scale(1.06); opacity: 0; } }
+.hs-logo { font: clamp(40px, 11vw, 112px)/1 var(--pixel); color: var(--gold); text-shadow: 6px 6px 0 #6b3d0a, 10px 10px 0 rgba(0,0,0,.35); letter-spacing: .04em; white-space: nowrap; }
+.hs-logo span { display: inline-block; animation: hsDrop .7s cubic-bezier(.3,1.6,.5,1) both, hsBob 2.4s ease-in-out 1.2s infinite; }
+.hs-logo i.sp { display: inline-block; width: .5em; }
+@keyframes hsDrop { from { transform: translateY(-120px); opacity: 0; } }
+@keyframes hsBob { 50% { transform: translateY(-5px); } }
+.hs-tag { margin: 0; font: clamp(9px, 1.5vw, 13px)/1.9 var(--pixel); color: #FFF4DC; text-shadow: 2px 2px 0 #1a1033; }
+.hs-start { font-size: clamp(16px, 2.4vw, 22px); padding: 20px 46px; min-height: 64px; animation: hsPulse 1.4s ease-in-out infinite; }
+@keyframes hsPulse { 50% { transform: scale(1.06); } }
+.hs-start:hover { animation-play-state: paused; }
+.hs-hint { font: 8px/1 var(--pixel); color: #E8DCC4; opacity: .8; animation: limNext 1.2s steps(1) infinite; }
+/* the login and menu pages sit on the estate: slightly see-through panels */
+body.hs-page #scr-login, body.hs-page #scr-title { background: rgba(27,32,51,.74); }
+@media (prefers-reduced-motion: reduce) { .hs-logo span, .hs-start, .hs-hint { animation: none; } }
+
+/* ---------- legendary job celebration ---------- */
+.lj { position: fixed; inset: 0; z-index: 85; display: grid; place-items: center; padding: 16px; background: radial-gradient(circle at 50% 45%, rgba(120,80,10,.85), rgba(10,8,20,.94) 70%); overflow: hidden; animation: fadeIn .25s ease-out both; }
+.lj.out { animation: hsOut .3s ease-in forwards; }
+.lj-rays { position: absolute; left: 50%; top: 45%; width: 180vmax; height: 180vmax; margin: -90vmax 0 0 -90vmax; background: repeating-conic-gradient(#FFE27A 0 7deg, transparent 7deg 20deg); opacity: .28; -webkit-mask: radial-gradient(circle, #000 0 6%, transparent 50%); mask: radial-gradient(circle, #000 0 6%, transparent 50%); animation: cjSpin 18s linear infinite; will-change: transform; }
+.lj-flash { position: absolute; inset: 0; background: #FFF7D6; animation: ljFlash .5s ease-out both; pointer-events: none; }
+@keyframes ljFlash { from { opacity: .95; } to { opacity: 0; } }
+.lj-coins { position: absolute; inset: 0; pointer-events: none; }
+.lj-coins i { position: absolute; top: -20px; width: 14px; height: 14px; background: #FFD34A; border: 3px solid #B8862F; box-shadow: inset -3px -3px 0 #E8A82A; animation: ljCoin linear infinite; will-change: transform; }
+@keyframes ljCoin { to { transform: translateY(110vh) rotate(540deg); } }
+.lj-card { position: relative; width: min(460px, 100%); display: grid; justify-items: center; gap: 10px; text-align: center; padding: 26px 20px 22px; background: linear-gradient(#2B2140, #1B1530); border: 4px solid #E8C25A; box-shadow: 0 0 0 4px #6b3d0a, 0 0 60px rgba(255,210,90,.6), 0 12px 0 rgba(0,0,0,.5); animation: ljIn .7s cubic-bezier(.2,1.5,.4,1) .15s both; }
+@keyframes ljIn { from { transform: scale(.2) rotate(-8deg); opacity: 0; } }
+.lj-ico { width: 96px; height: 96px; display: grid; place-items: center; background: radial-gradient(circle, #FFF2B8, #E8C25A 60%, #B8862F); border: 4px solid #6b3d0a; animation: ljSpinIn 1s cubic-bezier(.2,1.4,.4,1) .4s both; }
+.lj-ico svg { shape-rendering: crispEdges; }
+@keyframes ljSpinIn { from { transform: rotateY(720deg) scale(0); } }
+.lj-kick { font: clamp(14px, 3.6vw, 20px)/1.3 var(--pixel); color: #FFE27A; text-shadow: 3px 3px 0 #6b3d0a; }
+.lj-kick span { display: inline-block; animation: cjDrop .45s cubic-bezier(.3,1.6,.5,1) both; }
+.lj-job { font: clamp(11px, 2.6vw, 14px)/1.5 var(--pixel); color: var(--ink); font-weight: normal; }
+.lj-card small { font-size: 18px; color: var(--muted); }
+.lj-pay { font: clamp(20px, 5vw, 30px)/1 var(--pixel); color: var(--mint); text-shadow: 3px 3px 0 #0b2a17; } .lj-pay span { font: inherit; }
+.lj-odds { margin: 0; font-size: 17px; color: #cfd5ea; }
+.lj-card .btn { min-width: 180px; }
+@media (prefers-reduced-motion: reduce) { .lj, .lj-rays, .lj-flash, .lj-card, .lj-ico, .lj-kick span { animation: none; } }
+
+/* small landscape phones: HUD counter-scaled inside the fitted stage (--hk set by fitStage18) */
+.hubwrap.hk .topbar { transform: scale(var(--hk)); transform-origin: top left; right: auto; width: calc((var(--sw) - 20px) / var(--hk)); }
+.hubwrap.hk .chapter { top: calc(104px * var(--hk)); transform: scale(var(--hk)); transform-origin: top left; }
+.hubwrap.hk .areaBadge { top: calc(104px * var(--hk)); transform: scale(var(--hk)); transform-origin: top right; }
+.hubwrap.hk .side { top: calc(144px * var(--hk)); transform: scale(var(--hk)); transform-origin: top left; }
+.hubwrap.hk .bottombar { transform: scale(var(--hk)); transform-origin: bottom left; right: auto; width: calc(var(--sw) / var(--hk)); }
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -2553,6 +2879,7 @@ $("apply").addEventListener("click", () => {
     $("offer").innerHTML = `<span class="rarity" style="--r:${RCOL[tier]}">${TNAME[tier]} OFFER</span><span class="job">${title.toLowerCase().replace(/^./, c => c.toUpperCase())} ${curOffer.where}</span><span class="pay">${money(pay)}/mth</span><span style="color:var(--muted);font-size:19px">${tix ? "Take it, or apply again and hope for better. Applying again throws this offer away." : "No applications left. Take this offer."}</span>`;
     $("apply").disabled = tix === 0; $("apply").textContent = tix ? "APPLY AGAIN ▸" : "NO APPLICATIONS";
     $("accept").disabled = false;
+    if (tier === "LEGEND") setTimeout(() => legendJobFx(curOffer), 350);
   }, 760);
 });
 function renderOdds(r, o) {
@@ -3031,7 +3358,8 @@ function travel(to) {
 }
 $("travelBtn").addEventListener("click", () => travel(G.area === "home" ? "town" : "home"));
 const STAT_DEF = [["cash", "CASH", "coin"], ["savings", "SAVINGS", "pig"], ["invest", "INVESTED", "chart"], ["cpf", "CPF", "shield"], ["knowledge", "KNOWLEDGE", "book"], ["energy", "ENERGY", "bolt"]];
-function renderHUD() {
+function renderHUD() { renderHUD0(); if (G) hudCount(); }
+function renderHUD0() {
   if (!G) return;
   drawSprite($("portrait"), G.look);
   $("hName").textContent = (G.look.name || "PLAYER") + (PARTY ? ` · P${(G.pid || 0) + 1}` : "");
@@ -3049,7 +3377,8 @@ function renderHUD() {
   $("setOut").innerHTML = G.resume ? "CONTINUE STORY &gt;" : "SET OUT &gt;";
   $("setOut").style.boxShadow = G.energy === 0 || G.resume ? "0 0 22px rgba(232,194,90,.9)" : "";
 }
-function floaty(k, dv) {
+function floaty(k, dv) { return floaty18(k, dv); }
+function floatyOld(k, dv) {
   const el = document.querySelector(`.hstat[data-k="${k}"]`); if (!el) return;
   const st = $("stage").getBoundingClientRect(), r = el.getBoundingClientRect(), sc = st.width / 1280 || 1;
   const f = document.createElement("span"); f.className = "floaty";
@@ -3059,7 +3388,8 @@ function floaty(k, dv) {
   $("stage").appendChild(f); setTimeout(() => f.remove(), 1500);
 }
 let BW = 320, SW = 1280, SH = 720;
-function fitStage() {
+function fitStage() { return fitStage18(); }
+function fitStageOld() {
   const hub = $("scr-hub"); if (hub.hidden) return;
   const vw = innerWidth, vh = innerHeight, fill = vw >= 700 && vw / vh >= 1.2;
   hub.classList.toggle("fill", fill);
@@ -4090,7 +4420,8 @@ function ending() {
 $("again").addEventListener("click", () => { if (PARTY && PARTY.players.some(p => !p.done)) { hubNext("NEXT PLAYER"); return; } G = null; PARTY = null; clearSave(); $("continue").hidden = true; $("tContinue").hidden = true; show("title"); });
 
 /* ================= NAV ================= */
-function show(id) {
+function show(id) { show0(id); show18(id); }
+function show0(id) {
   document.querySelectorAll(".scr").forEach(s => s.hidden = s.id !== "scr-" + id);
   $("flow").hidden = id === "hub";
   if (id !== "hub") $("phone").hidden = true;
@@ -5894,6 +6225,7 @@ function tutTarget() { const s = TUT.steps[TUT.i]; if (!s || !s.el) return null;
 function tutShow() {
   const s = TUT.steps[TUT.i]; if (!s) return tutEnd();
   if (s.before) s.before();
+  tutReveal(s);
   typeInto($("tutSay"), val(s.say), "lim");
   $("tutNext").hidden = !!s.click; $("tutNext").textContent = s.btn || "NEXT ▸";
   $("tutHint").hidden = !s.click; $("tutHint").textContent = s.click ? "CLICK THE HIGHLIGHTED BUTTON" : "";
@@ -5943,28 +6275,17 @@ const hs = k => `#stats .hstat[data-k="${k}"]`;
 function tutIntro() {
   const nm = (G.look.name || "there").split(" ")[0];
   tutRun([
-    { say: `Hi ${nm}! I'm <b>Ms Lim</b>, a financial adviser. You've just turned 18, so let me show you around before life gets busy.` },
-    { el: "#stats", say: "Top right is your money dashboard. Let's go through it one by one." },
-    { el: hs("cash"), say: "<b>CASH</b> is money in your pocket. You need it to buy things. In your story, surprise bills come out of cash first, so keep a buffer." },
-    { el: hs("savings"), say: "<b>SAVINGS</b> sit in the bank and earn interest. This is your safety net for bad days." },
-    { el: hs("invest"), say: "<b>INVESTED</b> is money in funds and stocks. It can grow a lot over time, and it can also drop." },
-    { el: hs("cpf"), say: "<b>CPF</b> is your retirement, housing and health savings. Part of your pay goes in automatically, and your employer adds more." },
-    { el: hs("knowledge"), say: "<b>KNOWLEDGE</b> raises your pay and your chances in every risky story choice. Each chapter has a recommended level. Build it at the Library in Town." },
-    { el: hs("energy"), say: "<b>ENERGY</b>: you get 15 each chapter. Most buildings cost Energy. The bank and the MRT are free." },
-    { el: "#phoneBtn", say: "Your <b>PHONE</b> has your bank, mail, messages with friends, your bag and more. After this tour you can ask me money questions in its <b>ADVISER</b> app." },
-    { el: "#sideTab", say: "<b>QUESTS & GOALS</b> shows what to do next and your life goals. Finish quests for rewards." },
-    { el: () => bld("play"), say: "This is the <b>PET SHOP</b>. It has two sections: the <b>ADOPTION CENTRE</b> for everyday pets, and the <b>EGG HATCHERY</b> for 25 exotic ones. Pets help you through your story." },
-    { el: () => bld("hawker"), say: "The <b>HAWKER CENTRE</b>: cheap food, side hustles and budgeting tips." },
-    { el: () => bld("clinic"), say: "The <b>HOSPITAL</b>: check-ups, and someone to talk to when stress builds up. If stress hits 100 in your story, you wake up here." },
-    { el: () => bld("cc"), say: "The <b>COMMUNITY CENTRE</b> runs clubs and free money talks." },
-    { el: () => bld("mrt"), say: "And the <b>MRT STATION</b> takes you to Town." },
-    { el: "#travelBtn", click: true, say: "Let's ride the MRT to Town together. <b>Don't worry, I'm paying for it!</b>" },
-    { delay: 3000, el: () => bld("ins"), say: "Welcome to Town! This is the <b>INSURANCE OFFICE</b>. Insurance turns a huge surprise bill into a small monthly one." },
-    { el: () => bld("cpf"), say: "The <b>CPF OFFICE</b>: check your three CPF accounts and top up for retirement." },
-    { el: () => bld("hdb"), say: "The <b>PROPERTY HUB</b> is where you'll hunt for a home one day. It stays locked until you're 21." },
-    { el: () => bld("bank"), say: "The <b>NEIGHBOURHOOD BANK</b>: save, invest, and check your balance log. Credit cards unlock at 21 with S$30,000 income." },
-    { el: () => bld("job"), say: "The <b>JOB OFFICE</b> has side gigs and new jobs." },
-    { el: "#setOut", say: `That's the tour! When you're ready, press <b>SET OUT</b> to start your journey and begin your life. You can spend your Energy at buildings first. ${G.student ? "Your first internship is waiting!" : "Your first day at work is waiting!"}`, btn: "LET'S GO ▸", after: () => { G.tut = "battle"; save(); } }
+    { say: `Hi ${nm}! I'm <b>Ms Lim</b>, a financial adviser. You've just turned 18, so let me show you the places that matter most for your money.` },
+    { el: () => bld("play"), say: "The <b>PET SHOP</b>: adopt an everyday pet, or hatch one of 25 exotic eggs. Pets cost money every month, but they help you through stressful chapters." },
+    { el: () => bld("registry"), say: "The <b>REGISTRY & FAMILY CENTRE</b>: dating, the marriage registry, family planning and wills. Marriage also opens the door to HDB flats." },
+    { el: "#travelBtn", click: true, say: "The important offices are in Town. Let's ride the MRT there. <b>Don't worry, I'm paying!</b>" },
+    { delay: 3000, el: () => bld("learn"), say: "Welcome to Town! The <b>LIBRARY</b> builds your Knowledge. More Knowledge means better pay and better odds in every risky choice." },
+    { el: () => bld("job"), say: "The <b>JOB OFFICE</b>: new jobs, side gigs and pay rises." },
+    { el: () => bld("bank"), say: "The <b>BANK</b>: save, invest, check your balance log, and compare loans at the Loan Desk. Credit cards unlock at 21." },
+    { el: () => bld("cpf"), say: "The <b>CPF OFFICE</b>: your three CPF accounts for housing, retirement and healthcare. Part of every pay cheque goes in automatically." },
+    { el: () => bld("ins"), say: "The <b>INSURANCE OFFICE</b>: insurance turns one huge surprise bill into a small monthly one." },
+    { el: () => bld("hdb"), say: "The <b>PROPERTY HUB</b>: resale flats, BTO launches and housing grants. It opens when you turn 21." },
+    { el: "#setOut", say: `That's the tour! Most buildings cost Energy, and you get 15 each chapter. When you're ready, press <b>SET OUT</b> to begin. ${G.student ? "Your first internship is waiting!" : "Your first day at work is waiting!"}`, btn: "LET'S GO ▸", after: () => { G.tut = "battle"; save(); } }
   ], () => { if (G.tut === "intro") { G.tut = "battle"; save(); } renderHUD(); });
 }
 function tutBattle() {
@@ -6488,7 +6809,7 @@ function playCutscene(frames, done) {
     st.querySelectorAll(".cutdigits span, .cutballs span, .cutcard span").forEach((el, k) => A(el, [{ transform: "rotateX(90deg) scale(.6)", opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 420, delay: 500 + k * 260, easing: "steps(5)", fill: "backwards" }));
     const big = st.querySelector(".cutbig"); if (big) A(big, [{ transform: "scale(4)", opacity: 0 }, { transform: "scale(.9)", opacity: 1, offset: .7 }, { transform: "scale(1)" }], { duration: 700, delay: 600, easing: "ease-out", fill: "backwards" });
     st.querySelectorAll(".cutpet").forEach((el, k) => { const p = f.pets[k]; if (p.from) A(el, [{ transform: `translateX(calc(-50% + ${p.from * 45}vw))` }, { transform: "translateX(-50%)" }], { duration: 1400, delay: 200, easing: "ease-out", fill: "backwards" }); else if (p.rise) A(el, [{ transform: "translateX(-50%) translateY(60vh)" }, { transform: "translateX(-50%)" }], { duration: 2200, delay: 300, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" }); });
-    paintIcons(st); if (f.onDraw) { try { f.onDraw(st); } catch (e) {} }
+    paintIcons(st); if (f.onDraw) { try { f.onDraw(st); } catch (e) {} } try { cutJuice(st, f, i); } catch (e) {}
     $("cutDots").innerHTML = frames.length > 1 ? frames.map((_, k) => `<i class="${k === i ? "on" : ""}"></i>`).join("") : "";
     if (f.reveal) { const rp = st.querySelector(".rvpet"); A(rp, [{ transform: "scale(0)", filter: "brightness(8)" }, { transform: "scale(1.15)", filter: "brightness(3)", offset: .6 }, { transform: "scale(1)", filter: "brightness(1)" }], { duration: 1500, delay: 400, easing: "ease-out", fill: "backwards" });
       st.querySelectorAll(".rvtier, .rvname").forEach((el, k) => A(el, [{ opacity: 0, letterSpacing: "1em" }, { opacity: 1 }], { duration: 900, delay: 1500 + k * 500, easing: "ease-out", fill: "backwards" })); }
@@ -7083,7 +7404,8 @@ const Music = (() => {
 document.addEventListener("click", e => { if (e.target.closest("[data-set]")) return;
   const btn = e.target.closest("button"); if (!btn || btn.disabled || btn.dataset.quiet !== undefined) return;
   Music.sfx(/BACK|CANCEL|CLOSE|LEAVE|^<|EXIT/.test(btn.textContent.trim()) ? "back" : "click"); }, true);
-const SFX = (n, a) => { try { Music.sfx(n, a); } catch (e) {} };
+let SFX_T = 0;
+const SFX = (n, a) => { try { SFX_T = performance.now(); Music.sfx(n, a); } catch (e) {} };
 /* ---- settings menu (replaces the old music on/off button) ---- */
 (function () {
   const M = $("setModal"), out = () => { $("setMVolO").textContent = $("setMVol").value + "%"; $("setSVolO").textContent = $("setSVol").value + "%"; };
@@ -8034,7 +8356,8 @@ function deskOpen(id, title, tag, back) {
 }
 function deskTag(tag) { $("dkTag").innerHTML = tag || ""; }
 // Ms Lim speaks: types the line only when it changes, then lists her pointers
-function limSay(html, tips, title) {
+function limSay(html, tips, title) { return limSay18(html, tips, title); }
+function limSay0(html, tips, title) {
   const el = $("dkSay");
   if (DK.said !== html) { DK.said = html; typeInto(el, html, "lim"); }
   $("dkTipsT").textContent = title || "WHAT TO THINK ABOUT";
@@ -8291,10 +8614,7 @@ function renderLoans() {
       ${mine.map((l, i) => `<div class="mrow"><span><b>${l.n}</b><small>${money(l.mo)}/mth · ${l.left} months left · ${(l.rate * 100).toFixed(1)}% EIR</small></span><b>${money(l.bal)}</b><button class="btn" data-lpay="${i}" ${G.cash + G.savings < l.bal ? "disabled" : ""}>REPAY IN FULL</button></div>`).join("")}
       ${!mine.length && !G.loan && !G.debt && !(G.props || []).some(p => p.loan > 0) ? `<p class="dk-note">You owe nothing. Nice.</p>` : ""}</div>
     ${carNow ? `<h3 class="dk-h">MY CAR</h3><div class="mine"><div class="mrow"><span><b>${carNow.n}</b><small>Worth about ${money(carNow.value)} today. Cars are bought, sold and renewed at the <b>Car Showroom</b> in Town.</small></span></div></div>` : `<p class="dk-note">Looking for a car? Car loans are arranged at the new <b>Car Showroom</b> in Town, where you can view the car first.</p>`}
-    ${"" ? "" : ""}${false && carNow ? `<div class="mine"><div class="mrow"><span><b>YOUR CAR · ${carNow.n}</b><small>Worth about ${money(carNow.value)} today (bought for ${money(carNow.price)}) · running costs ${money(carNow.run)}/mth</small></span><button class="btn" id="carSell">SELL FOR ${money(carNow.value)}</button></div></div>`
-      : `<div class="cars">${CARS.map(c => `<button class="carc" data-car="${c.id}" aria-pressed="${c.id === LN.car}">${iconSvg("car", 40)}<b>${c.n}</b><small>${c.sub}</small><span>${money(c.price)}</span><small>${money(c.run)}/mth to run</small></button>`).join("")}</div>
-      <div class="ldetail"><div class="lcalc"><span>Down payment <b>${money(cDown)}</b> (${Math.round((1 - car.ltv) * 100)}% in cash)</span><span>Loan <b>${money(cLoan)}</b> over <span class="stp"><button data-cy="-1">−</button><b>${LN.carYrs} YRS</b><button data-cy="1">+</button></span></span><span>Instalment <b>${money(cq.mo)}/mth</b></span><span>Interest <b class="neg">${money(cq.interest)}</b></span><span>All-in each month <b>${money(cq.mo + car.run + 120)}</b> with running costs and insurance</span></div>
-      <ul class="chk">${cchk.map(c => `<li class="${c[0] ? "y" : "n"}">${c[1]}</li>`).join("")}</ul><button class="btn gold" id="carBuy" ${cchk.every(c => c[0]) ? "" : "disabled"}>BUY THIS CAR ON A ${LN.carYrs}-YEAR LOAN</button></div>`}`;
+`;
   paintIcons($("dkBody"));
   const B = $("dkBody"), re = () => renderLoans();
   B.querySelectorAll("[data-la]").forEach(b => b.onclick = () => { LN.amt = clamp(LN.amt + +b.dataset.la, 5000, 500000); re(); });
@@ -8302,8 +8622,7 @@ function renderLoans() {
   B.querySelectorAll("[data-cy]").forEach(b => b.onclick = () => { LN.carYrs = clamp(LN.carYrs + +b.dataset.cy, 1, 7); re(); });
   B.querySelectorAll("[data-lc]").forEach(b => b.onclick = () => { LN.cat = b.dataset.lc; re(); });
   B.querySelectorAll("[data-ln]").forEach(b => b.onclick = () => { LN.sel = LN.sel === b.dataset.ln ? null : b.dataset.ln; LN.msg = ""; re(); });
-  B.querySelectorAll("[data-car]").forEach(b => b.onclick = () => { LN.car = b.dataset.car; LN.sel = "car"; re(); });
-  const tk = $("lnTake"); if (tk) tk.onclick = () => { const y = yrsFor(L);
+    const tk = $("lnTake"); if (tk) tk.onclick = () => { const y = yrsFor(L);
     if (tk.dataset.ok !== "1") { tk.dataset.ok = "1"; tk.textContent = "TAP AGAIN TO SIGN THE LOAN"; return; }
     if (L.k === "bt") { const q = loanTake("bt", LN.amt, 1); G.debt -= LN.amt; G.debt += q.fee; LN.msg = `Moved ${money(LN.amt)} off your card for a ${money(q.fee)} fee. You now repay ${money(q.mo)} a month at 0% for 12 months.`; }
     else { const q = loanTake(L.k, LN.amt, y); why(`Loan: ${L.n.toLowerCase()}`); G.cash += LN.amt; LN.msg = `${money(LN.amt)} is in your purse. You repay ${money(q.mo)} a month for ${y} year${y > 1 ? "s" : ""}: ${money(q.interest)} in interest altogether.`; }
@@ -11113,6 +11432,248 @@ function poolsShow(b, html) {
   scr.scrollTop = y; const f = scr.querySelector("[data-tab][aria-selected=true]"); if (first && f) f.focus();
 }
 addEventListener("keydown", e => { if (e.key === "Escape" && !$("scr-pools").hidden && $("modal").hidden && $("cut").hidden) { curB = null; enterHub(); } });
+
+/* ==================== v18: phones, desktop fit, Ms Lim's bubbles, juice ==================== */
+// --- hub HUD moves out of the scaled stage on phones and tall windows, so it stays readable and the town can be swiped ---
+function hudMove(port) {
+  const hub = $("scr-hub"), st = $("stage"), box = $("stageBox");
+  let T = $("hudT"), B = $("hudB"), P = $("townPan");
+  if (!P) {
+    P = document.createElement("div"); P.id = "townPan"; box.parentNode.insertBefore(P, box); P.appendChild(box);
+    const W = document.createElement("div"); W.className = "panwrap"; P.parentNode.insertBefore(W, P); W.appendChild(P);
+    W.insertAdjacentHTML("beforeend", `<button class="panbtn l" id="panL" aria-label="Look left">◀</button><button class="panbtn r" id="panR" aria-label="Look right">▶</button>`);
+    const step = d => { P.scrollBy({ left: d * P.clientWidth * .6, behavior: RM ? "auto" : "smooth" }); SFX("click"); };
+    $("panL").onclick = () => step(-1); $("panR").onclick = () => step(1);
+    P.addEventListener("scroll", panArrows, { passive: true });
+    T = document.createElement("div"); T.id = "hudT"; T.className = "hudT"; hub.insertBefore(T, W);
+    B = document.createElement("div"); B.id = "hudB"; B.className = "hudB"; hub.appendChild(B);
+  }
+  const tb = st.querySelector(".topbar") || T.querySelector(".topbar"), bb = st.querySelector(".bottombar") || B.querySelector(".bottombar");
+  if (port && tb.parentNode !== T) { T.append(tb, $("chapterTag"), $("areaBadge"), $("side")); B.append(bb); }
+  else if (!port && tb.parentNode !== st) st.append(tb, $("side"), $("chapterTag"), $("areaBadge"), bb);
+}
+function panArrows() { const P = $("townPan"); if (!P) return; const max = P.scrollWidth - P.clientWidth; $("panL").disabled = P.scrollLeft < 8; $("panR").disabled = P.scrollLeft > max - 8; }
+function fitStage18() {
+  const hub = $("scr-hub"); if (hub.hidden) return;
+  const vw = innerWidth, vh = innerHeight, fill = vw >= 700 && vw / vh >= 1.2, port = !fill;
+  hub.classList.toggle("fill", fill); hub.classList.toggle("port", port); hudMove(port);
+  let s, w = 1280, h = 720;
+  if (fill) { s = Math.min(vw / 1280, vh / 720); w = vw / s; h = vh / s; }
+  else { const P = $("townPan"), avail = Math.max(220, P.clientHeight || vh - $("hudT").offsetHeight - $("hudB").offsetHeight); s = Math.min(avail / 720, 1.6); if (1280 * s < vw) { s = Math.min(vw / 1280, avail / 720 * 1.0); } }
+  SW = Math.round(w); SH = Math.round(h);
+  const st = $("stage"); st.style.width = SW + "px"; st.style.height = SH + "px"; st.style.transform = `scale(${s})`; st.style.setProperty("--sw", SW + "px");
+  const box = $("stageBox"); box.style.width = (SW * s) + "px"; box.style.height = (SH * s) + "px";
+  const nb = Math.round(180 * SW / SH);
+  if (nb !== BW) { BW = nb; ["bgHome", "bgTown", "trainLayer"].forEach(id => $(id).width = BW); drawHomeBg(); drawTownBg(); }
+  // small landscape screens: grow the HUD back to a readable size inside the scaled stage
+  const hk = fill && s < .8 ? Math.max(1, Math.min(.88 / s, (SW - 20) / 1220, 1.7)) : 1; st.style.setProperty("--hk", hk.toFixed(3)); hub.classList.toggle("hk", hk > 1);
+  layoutBlds();
+  if (port) { const P = $("townPan"), key = (G && G.area || "home") + ":" + Math.round(s * 100); if (P.dataset.k !== key) { P.dataset.k = key; P.scrollLeft = (P.scrollWidth - P.clientWidth) / 2; } panArrows(); }
+}
+// money pop-ups float from the stat wherever the HUD lives now
+function floaty18(k, dv) {
+  const el = document.querySelector(`.hstat[data-k="${k}"]`); if (!el || !el.offsetParent) return;
+  const r = el.getBoundingClientRect(), f = document.createElement("span"); f.className = "floaty";
+  f.style.cssText = `position:fixed;z-index:60;left:${r.left + 10}px;top:${r.bottom + 4}px;color:${dv > 0 ? "var(--mint)" : "var(--coral)"}`;
+  f.textContent = (dv > 0 ? "+" : "-") + (["knowledge", "energy"].includes(k) ? Math.abs(dv) : money(Math.abs(dv)));
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1500);
+}
+addEventListener("orientationchange", () => setTimeout(fitStage, 250));
+if (window.visualViewport) visualViewport.addEventListener("resize", () => { clearTimeout(fitStage._t); fitStage._t = setTimeout(fitStage, 120); });
+
+// --- numbers count up or down instead of jumping ---
+const V18N = { last: {} };
+const numOf = t => { const m = String(t).replace(/[^0-9.\-]/g, ""); return m && !isNaN(+m) ? +m : null; };
+function countTo(el, from, to, fmt) {
+  if (RM || from === to || from == null) return;
+  el.classList.remove("up", "down"); void el.offsetWidth; el.classList.add(to > from ? "up" : "down");
+  const t0 = performance.now(), dur = Math.min(900, 300 + Math.log10(Math.abs(to - from) + 1) * 120), fin = el.textContent;
+  const step = now => { const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3); if (!el.isConnected) return;
+    el.textContent = p >= 1 ? fin : fmt(from + (to - from) * e); if (p < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+const fmtCash = v => (v < 0 ? "-" : "") + "$" + Math.round(Math.abs(v)).toLocaleString("en-US");
+function hudCount() {
+    try { document.querySelectorAll(".hstat").forEach(h => { const k = h.dataset.k, v = h.querySelector(".v"); if (!v || k === "energy") return;
+      const n = numOf(v.textContent), was = V18N.last[k]; V18N.last[k] = n;
+      if (was != null && n != null && was !== n) countTo(v, was, n, k === "knowledge" ? x => String(Math.round(x)) : fmtCash); }); } catch (e) {}
+}
+
+// --- Ms Lim: the bubble is sized for her whole line before she types it, tap it to finish, tips fold away on phones ---
+function limSay18(html, tips, title) {
+    const el = $("dkSay"), changed = DK.said !== html;
+    if (changed) { el.style.minHeight = ""; el.innerHTML = html; const h = el.offsetHeight; if (h) el.style.minHeight = h + "px"; el.style.animation = "none"; void el.offsetWidth; el.style.animation = ""; }
+    limSay0(html, tips, title);
+    $("dkTips").querySelectorAll("li").forEach((li, i) => li.style.setProperty("--i", i));
+}
+{
+  $("dkSay").addEventListener("click", () => { const el = $("dkSay"); if (el._tw) el._tw.finish(); });
+  $("dkTipsT").addEventListener("click", () => { $("dkTipsBox").classList.toggle("open"); SFX("click"); });
+  addEventListener("resize", () => { const el = $("dkSay"); if (el && !el._tw) el.style.minHeight = ""; });
+}
+
+// --- every screen change slides in; leaving for the town plays a quick pixel wipe ---
+function show18(id) {
+    try { hsSync(id); } catch (e) {}
+    // a short opacity-only fade: cheap for the GPU, no layout work, and skipped for the hub (it redraws its own canvases)
+    const s = $("scr-" + id); if (s && !RM && id !== "hub" && s.animate) s.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 140, easing: "ease-out" });
+}
+function v18wipe() { if (RM) return; let w = $("v18wipe"); if (!w) { w = document.createElement("div"); w.id = "v18wipe"; w.setAttribute("aria-hidden", "true"); w.innerHTML = Array.from({ length: 8 }, (_, i) => `<i style="--i:${i}"></i>`).join(""); document.body.appendChild(w); }
+  w.classList.remove("go"); void w.offsetWidth; w.classList.add("go"); clearTimeout(w._t); w._t = setTimeout(() => w.classList.remove("go"), 800); }
+$("travelBtn").addEventListener("click", v18wipe, true);
+
+// --- tap feedback: a tiny burst of pixels and a soft click if the button made no sound of its own ---
+{ const pop = (x, y, c) => { if (RM) return; for (let i = 0; i < 6; i++) { const p = document.createElement("i"), a = i / 6 * Math.PI * 2 + Math.random() * .5, d = 14 + Math.random() * 12;
+    p.className = "v18burst"; p.style.cssText = `left:${x}px;top:${y}px;--dx:${Math.cos(a) * d}px;--dy:${Math.sin(a) * d}px;--c:${c}`; document.body.appendChild(p); setTimeout(() => p.remove(), 460); } };
+  const SEL = "button, [role=button], .card, .lrow, .act, .carc";
+  document.addEventListener("pointerdown", e => { const b = e.target.closest(SEL); if (!b || b.disabled) return; pop(e.clientX, e.clientY, b.classList.contains("gold") ? "#FFE9A0" : "#E8C25A"); }, { passive: true });
+  document.addEventListener("click", e => { const b = e.target.closest(SEL); if (!b || b.disabled || b.closest(".mg, .cut")) return; const t = performance.now(); setTimeout(() => { if (SFX_T < t - 5) SFX("click"); }, 0); });
+}
+
+// --- on phones, keep focused inputs in view above the keyboard ---
+document.addEventListener("focusin", e => { if (innerWidth < 760 && e.target.matches("input, textarea")) setTimeout(() => { try { e.target.scrollIntoView({ block: "center", behavior: "smooth" }); } catch (x) {} }, 300); });
+
+// --- story mode: the chapter path always sits just under the top bar, however tall it wraps ---
+if (window.ResizeObserver) { const top = document.querySelector("#scr-story .st-top"), path = $("stPath");
+  if (top && path) new ResizeObserver(() => { path.style.top = (top.offsetHeight + 6) + "px"; }).observe(top); }
+
+// --- tutorial: on a phone the town scrolls, so bring the building Ms Lim is talking about into view ---
+function tutReveal(s) {
+  const go = () => { const P = $("townPan"); if (!P || !$("scr-hub").classList.contains("port") || !s.el) return; const e = typeof s.el === "function" ? s.el() : document.querySelector(s.el);
+    if (e && P.contains(e)) { const r = e.getBoundingClientRect(), pr = P.getBoundingClientRect(); P.scrollTo({ left: P.scrollLeft + r.left + r.width / 2 - pr.left - pr.width / 2, behavior: RM ? "auto" : "smooth" }); } };
+  go(); setTimeout(go, 60);
+}
+
+// --- cutscenes: parallax skyline, light, dust, particles, letter-by-letter titles, pixel shutter between shots ---
+function cutJuice(st, f, i) {
+  if (RM || !st) return;
+  const A = (el, k, o) => el && el.animate ? el.animate(k, o) : null;
+  const add = html => st.insertAdjacentHTML("beforeend", html);
+  const scene = !f.chapter && !f.reveal;
+  // pixel shutter: a grid of blocks that snaps away diagonally as the new shot opens
+  { const n = innerWidth < 700 ? 6 : 10, rows = Math.ceil(n * innerHeight / innerWidth);
+    const sh = document.createElement("div"); sh.className = "cj-shut"; sh.style.gridTemplateColumns = `repeat(${n},1fr)`;
+    for (let y = 0; y < rows; y++) for (let x = 0; x < n; x++) { const b = document.createElement("i"); b.style.animationDelay = ((x + y) * 28) + "ms"; sh.appendChild(b); }
+    st.appendChild(sh); setTimeout(() => sh.remove(), 1100); }
+  if (scene) {
+    // two layers of HDB blocks behind the actors, drifting at different speeds
+    st.insertAdjacentHTML("afterbegin", `<div class="cj-sky far"></div><div class="cj-sky near"></div>`);
+    A(st.querySelector(".cj-sky.far"), [{ transform: "translateX(0)" }, { transform: "translateX(-3%)" }], { duration: 9000, easing: "linear", fill: "forwards" });
+    A(st.querySelector(".cj-sky.near"), [{ transform: "translateX(0)" }, { transform: "translateX(-7%)" }], { duration: 9000, easing: "linear", fill: "forwards" });
+    // floating motes of light
+    add(`<div class="cj-motes">${Array.from({ length: innerWidth < 700 ? 6 : 10 }, (_, k) => `<i style="left:${(k * 53 + i * 17) % 100}%;top:${20 + (k * 29) % 60}%;animation-delay:${-(k * 0.37).toFixed(2)}s;animation-duration:${5 + (k % 4)}s"></i>`).join("")}</div>`);
+    // soft shadows and a dust puff when each actor lands
+    st.querySelectorAll(".cutactor").forEach((el, k) => { el.insertAdjacentHTML("afterbegin", `<span class="cj-shadow"></span>`);
+      const a = f.actors[k], from = a.from != null ? a.from : (a.x < 50 ? -1 : 1);
+      if (from) { const p = document.createElement("span"); p.className = "cj-dust"; p.style.animationDelay = (1150 + k * 220) + "ms"; el.appendChild(p); } });
+    if (f.big || f.title || /rays|sparks/.test((f.fx || []).join(" "))) add(`<div class="cj-rays"></div>`);
+  }
+  if (f.chapter) add(`<div class="cj-streaks">${Array.from({ length: 14 }, (_, k) => `<i style="top:${(k * 37) % 100}%;animation-delay:${(k * 0.21).toFixed(2)}s"></i>`).join("")}</div><div class="cj-sweep"></div>`);
+  // titles drop in letter by letter with a gold shimmer
+  st.querySelectorAll(".cuttitle, .cutbig, #cutBig").forEach(el => {
+    if (el.dataset.cj || el.children.length) return; el.dataset.cj = 1; const txt = el.textContent; el.setAttribute("aria-label", txt);
+    el.innerHTML = [...txt].map((c, k) => c === " " ? " " : `<span class="cj-ch" style="animation-delay:${(el.classList.contains("cutbig") ? 650 : 250) + k * 45}ms">${escH(c)}</span>`).join("");
+    el.classList.add("cj-shimmer"); });
+  // a shockwave ring behind big words
+  if (f.big || f.word) add(`<div class="cj-ring"></div><div class="cj-ring r2"></div>`);
+}
+
+// --- start screen: an HDB estate at dusk with a big START button, before the login / profile page; the estate stays behind the login and menu pages ---
+const HSX = { cv: null, g: null, bg: null, W: 0, H: 0, P: 4, raf: 0, last: 0, t: 0, wins: [], stars: [], live: false };
+function hsBuild() {
+  const P = HSX.P = innerWidth < 700 ? 3 : 4, W = HSX.W = Math.ceil(innerWidth / P), H = HSX.H = Math.ceil(innerHeight / P);
+  HSX.cv.width = W; HSX.cv.height = H;
+  const bg = HSX.bg = document.createElement("canvas"); bg.width = W; bg.height = H; const g = bg.getContext("2d");
+  let seed = 18; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const hz = Math.round(H * .72);
+  ["#140F33", "#1F1748", "#2E1F5C", "#4A2A6E", "#7A3A78", "#B5507A", "#E27A6E", "#F5A766"].forEach((c, i, a) => { g.fillStyle = c; const y0 = Math.floor(hz * i / a.length); g.fillRect(0, y0, W, Math.ceil(hz / a.length) + 1); });
+  HSX.stars = Array.from({ length: Math.round(W * H / 260) }, () => [Math.floor(rnd() * W), Math.floor(rnd() * hz * .45), rnd() * 6]);
+  // sun sinking behind the estate
+  g.fillStyle = "#FFD27A"; const sx = Math.round(W * .72), sy = Math.round(hz * .82), sr = Math.max(8, Math.round(Math.min(W, H) * .07));
+  for (let y = -sr; y <= sr; y++) { const w = Math.round(Math.sqrt(sr * sr - y * y)); g.fillRect(sx - w, sy + y, w * 2, 1); }
+  g.fillStyle = "rgba(255,210,122,.35)"; for (let k = 0; k < 4; k++) g.fillRect(sx - sr - 6, sy + 3 + k * 4, sr * 2 + 12, 1);
+  // far blocks
+  let x = -4; while (x < W) { const w = 10 + Math.floor(rnd() * 14), h = Math.round(hz * (.18 + rnd() * .22)); g.fillStyle = "#2A1F4E"; g.fillRect(x, hz - h, w, h);
+    g.fillStyle = "rgba(255,214,140,.35)"; for (let yy = hz - h + 3; yy < hz - 2; yy += 4) for (let xx = x + 2; xx < x + w - 2; xx += 3) if (rnd() < .25) g.fillRect(xx, yy, 1, 2); x += w + 1 + Math.floor(rnd() * 3); }
+  // MRT viaduct
+  const ty = hz - Math.round(H * .1); g.fillStyle = "#3A2F5E"; g.fillRect(0, ty, W, 3); for (let px = 6; px < W; px += 26) g.fillRect(px, ty + 3, 3, hz - ty - 3); HSX.ty = ty;
+  // near HDB slab blocks: cream walls, coloured crowns, corridors, a block number
+  HSX.wins = []; x = Math.round(-6 + rnd() * 6); const crowns = ["#2FA39A", "#D6544E", "#3F7FC4", "#E8A23A", "#7E5BC4"]; let b = 0;
+  while (x < W) { const w = 34 + Math.floor(rnd() * 26), h = Math.round(H * (.42 + rnd() * .2)), top = hz + Math.round(H * .08) - h, c = crowns[b++ % crowns.length];
+    g.fillStyle = "#0E0B22"; g.fillRect(x - 1, top - 1, w + 2, h + 2);
+    g.fillStyle = "#E9DEC6"; g.fillRect(x, top, w, h); g.fillStyle = "#D2C4A6"; g.fillRect(x + w - 4, top, 4, h);
+    g.fillStyle = c; g.fillRect(x, top, w, 5); g.fillRect(x + Math.floor(w / 2) - 5, top - 4, 10, 4);
+    g.fillStyle = "#F4F1EA"; g.fillRect(x + Math.floor(w / 2) - 4, top - 3, 8, 2);
+    for (let yy = top + 8; yy < top + h - 10; yy += 6) { g.fillStyle = "#C9B994"; g.fillRect(x, yy + 4, w - 4, 1);
+      for (let xx = x + 3; xx < x + w - 6; xx += 5) { g.fillStyle = "#3B3552"; g.fillRect(xx, yy, 3, 3); HSX.wins.push([xx, yy, rnd() < .55, rnd()]); } }
+    g.fillStyle = "#2A2440"; for (let px = x + 2; px < x + w - 2; px += 6) g.fillRect(px, top + h - 9, 2, 9);
+    x += w + 6 + Math.floor(rnd() * 10); }
+  // ground, trees, path
+  const gy = hz + Math.round(H * .08); g.fillStyle = "#2C5A3A"; g.fillRect(0, gy, W, H - gy); g.fillStyle = "#24492F"; for (let px = 0; px < W; px += 4) g.fillRect(px, gy + ((px / 4) % 3), 2, 1);
+  g.fillStyle = "#8A8274"; g.fillRect(0, gy + Math.round((H - gy) * .45), W, Math.max(4, Math.round((H - gy) * .18)));
+  for (let px = 8; px < W; px += 22 + Math.floor(rnd() * 16)) { const r = 4 + Math.floor(rnd() * 4), cy = gy - r + 2; g.fillStyle = "#4A3020"; g.fillRect(px, cy, 2, r + 2);
+    g.fillStyle = "#2F7A44"; for (let yy = -r; yy <= r; yy++) { const ww = Math.round(Math.sqrt(r * r - yy * yy)); g.fillRect(px + 1 - ww, cy - r + yy, ww * 2, 1); } g.fillStyle = "#4FA05E"; g.fillRect(px - 1, cy - r * 2 + 1, 3, 2); }
+  HSX.g = HSX.cv.getContext("2d"); HSX.g.imageSmoothingEnabled = false;
+}
+function hsFrame(now) {
+  if (!HSX.live) return; HSX.raf = requestAnimationFrame(hsFrame);
+  if (now - HSX.last < 66) return; HSX.last = now; HSX.t += 1;
+  const g = HSX.g, W = HSX.W; g.drawImage(HSX.bg, 0, 0);
+  for (const s of HSX.stars) { const a = .35 + .65 * Math.abs(Math.sin(HSX.t * .08 + s[2])); g.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`; g.fillRect(s[0], s[1], 1, 1); }
+  for (const w of HSX.wins) { if (!RM && Math.random() < .0015) w[2] = !w[2]; if (w[2]) { g.fillStyle = w[3] > .8 ? "#9FD8FF" : "#FFD98A"; g.fillRect(w[0], w[1], 3, 3); } }
+  // a train glides along the viaduct every few seconds
+  const cyc = 160, p = (HSX.t % cyc) / cyc, tx = Math.round(-90 + p * (W + 180));
+  if (!RM) { g.fillStyle = "#D9DEE8"; g.fillRect(tx, HSX.ty - 6, 84, 6); g.fillStyle = "#C8414B"; g.fillRect(tx, HSX.ty - 2, 84, 1);
+    g.fillStyle = "#FFE9A0"; for (let k = 0; k < 84; k += 6) if ((k / 6) % 7 !== 6) g.fillRect(tx + k + 2, HSX.ty - 5, 3, 2); }
+}
+function hsRun(on) { if (on === HSX.live) return; HSX.live = on; cancelAnimationFrame(HSX.raf); if (on) { if (!HSX.bg) hsBuild(); HSX.raf = requestAnimationFrame(hsFrame); } }
+function startScreen() {
+  const d = document.createElement("div"); d.id = "hsWrap"; d.innerHTML = `<canvas id="hsCv" aria-hidden="true"></canvas><div class="hs-shade"></div>
+    <div class="hs-title" id="hsTitle"><div class="hs-logo" aria-label="HDB Life">${[..."HDB LIFE"].map((c, k) => c === " " ? "<i class=sp></i>" : `<span style="animation-delay:${k * 80}ms">${c}</span>`).join("")}</div>
+    <p class="hs-tag">GROW UP, GET A JOB, BUY A FLAT.<br>MAKE EVERY DOLLAR COUNT.</p>
+    <button class="btn gold hs-start" id="hsStart">▶ START</button><small class="hs-hint">TAP START OR PRESS ENTER</small></div>`;
+  document.body.prepend(d); HSX.cv = $("hsCv");
+  if (window.__noStart) d.classList.add("bg"); else document.body.classList.add("hs-on");
+  hsRun(true);
+  const go = () => { if (d.classList.contains("bg")) return; landscapeLock(); SFX("coin"); JINGLE("fanfare"); d.classList.add("leaving"); document.body.classList.remove("hs-on"); setTimeout(() => { d.classList.remove("leaving"); d.classList.add("bg"); }, RM ? 0 : 650); };
+  $("hsStart").onclick = go;
+  addEventListener("keydown", e => { if (!d.classList.contains("bg") && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); go(); } });
+  addEventListener("resize", () => { clearTimeout(HSX.rt); HSX.rt = setTimeout(() => { HSX.bg = null; if (HSX.live) { hsBuild(); } }, 200); });
+}
+// the estate shows behind the login and menu pages only; it pauses everywhere else
+function hsSync(id) { if (!HSX.cv) return; const on = id === "login" || id === "title"; document.body.classList.toggle("hs-page", on); hsRun(on || document.body.classList.contains("hs-on")); }
+setTimeout(() => { try { startScreen(); hsSync(document.querySelector(".scr:not([hidden])") ? document.querySelector(".scr:not([hidden])").id.replace("scr-", "") : "login"); } catch (e) { console.warn(e); } }, 0);
+
+// --- legendary job: a golden full-screen celebration on top of the job board ---
+function legendJobFx(o) {
+  if (!o) return; JINGLE("fanfare");
+  const d = document.createElement("div"); d.className = "lj"; d.setAttribute("role", "dialog"); d.setAttribute("aria-label", "Legendary job offer");
+  d.innerHTML = `<div class="lj-rays"></div><div class="lj-flash"></div>
+    <div class="lj-coins">${RM ? "" : Array.from({ length: innerWidth < 700 ? 16 : 28 }, (_, k) => `<i style="left:${(k * 37) % 100}%;animation-delay:${(k % 9) * 0.12}s;animation-duration:${1.6 + (k % 5) * .25}s"></i>`).join("")}</div>
+    <div class="lj-card"><div class="lj-ico">${iconSvg(o.icon || "star", 72)}</div>
+      <div class="lj-kick">${[..."LEGENDARY OFFER"].map((c, k) => c === " " ? " " : `<span style="animation-delay:${600 + k * 50}ms">${c}</span>`).join("")}</div>
+      <b class="lj-job">${escH(o.name)}</b><small>${escH(o.where || "")}</small>
+      <div class="lj-pay"><span id="ljPay">S$0</span>/mth</div>
+      <p class="lj-odds">Only about 1 in 100 applications lands one of these.</p>
+      <button class="btn gold" id="ljOk">NICE! ▸</button></div>`;
+  document.body.appendChild(d); paintIcons(d); SFX("win");
+  const close = () => { d.classList.add("out"); setTimeout(() => d.remove(), 300); };
+  d.querySelector("#ljOk").onclick = close; d.addEventListener("click", e => { if (e.target === d) close(); });
+  const el = d.querySelector("#ljPay"), t0 = performance.now() + (RM ? 0 : 1200), to = o.pay;
+  const step = now => { const p = Math.max(0, Math.min(1, (now - t0) / 1100)); el.textContent = money(Math.round(to * (1 - Math.pow(1 - p, 3)) / 10) * 10); if (p < 1 && d.isConnected) requestAnimationFrame(step); else { el.textContent = money(to); if (d.isConnected) SFX("coin"); } };
+  requestAnimationFrame(step);
+  setTimeout(() => { const b = d.querySelector("#ljOk"); if (b) b.focus(); }, 400);
+}
+
+// --- phones: START goes full screen and locks to landscape where the browser allows it (Android Chrome, Samsung Internet).
+//     iPhone Safari does not let websites lock orientation, so there the game keeps its portrait layout. ---
+function landscapeLock() {
+  const touch = matchMedia("(pointer: coarse)").matches, small = Math.min(screen.width, screen.height) < 820;
+  if (!touch || !small) return;
+  const el = document.documentElement, fs = el.requestFullscreen || el.webkitRequestFullscreen;
+  const lock = () => { try { const p = screen.orientation && screen.orientation.lock && screen.orientation.lock("landscape"); if (p && p.catch) p.catch(() => {}); } catch (e) {} };
+  try { const p = fs && fs.call(el, { navigationUI: "hide" }); if (p && p.then) p.then(lock, lock); else lock(); } catch (e) { lock(); }
+}
 
 authBoot();
 })();

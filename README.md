@@ -4,6 +4,18 @@ A pixel-art life sim set in a Singapore HDB estate that teaches young adults abo
 
 Play it at **https://trinigtrader.github.io/MajorProject---Finance-Sim/** (GitHub Pages, from `main`).
 
+## What's new in v18
+
+- **Plays properly on phones**: on a phone (or any tall window) the hub puts your profile and money at the top, the town in the middle (swipe it, or tap the ◀ ▶ arrows), and Phone, Settings, Travel and a big SET OUT button at the bottom. No more sideways scrolling or zoomed-out pages. Buttons are at least about 44px tall, the phone app fills the screen, pop-ups fit, and notches and home bars are respected. Checked at 360x740, 390x844, 1280x800, 1366x768 and 1920x1080.
+- **Ms Lim's words always fit**: her speech bubble at the Loan Desk, Insurance, CPF, Library, Property Hub and Registry grows to fit the whole line before she starts typing, so it never spills over the tips below. Tap the bubble to finish her sentence. On phones her tips fold away behind a SHOW button.
+- **No more buying cars at the Loan Desk**: the desk still compares car loans, but cars are bought, sold and financed only at the Car Showroom.
+- **Landscape on phones**: tapping START on a phone goes full screen and locks the game to landscape where the browser allows it (Android Chrome, Samsung Internet). iPhone Safari does not let websites lock the screen, so on iPhones the game keeps the portrait layout until the phone is turned. In landscape the hub's top bar and buttons are scaled up to stay readable, and Ms Lim's desk puts her beside the content instead of above it.
+- **New start screen**: the game opens on a pixel HDB estate at dusk (lit windows, a passing MRT train, twinkling stars) with a big START button. The estate stays behind the login and menu pages.
+- **Legendary job celebration**: landing a LEGENDARY job offer plays a golden full-screen moment with spinning light, falling coins, the job and the pay counting up.
+- **Shorter tutorial**: Ms Lim's tour now covers only the buildings that matter: Pet Shop, Registry & Family Centre, then in Town the Library, Job Office, Bank, CPF Office, Insurance Office and Property Hub. On phones the town scrolls to each building as she talks about it.
+- **Cooler cutscenes**: a parallax HDB skyline behind every shot, floating motes of light, actor shadows and dust puffs when they land, spinning light rays on big moments, shockwave rings behind big words, titles that drop in letter by letter with a shine, light streaks on chapter cards, a pixel shutter between shots and a soft scanline filter. They still run at 60 fps.
+- **Livelier UI**: screens fade in quickly, the town plays a pixel wipe when you travel, buttons lift on hover and press down with a little burst of pixels and a click sound, money and knowledge in the HUD count up or down (green or red flash), loan rate bars grow in, gold buttons shine, and the settings sliders have a pixel look. Everything respects the "reduce motion" setting.
+
 ## What's new in v17
 
 - **More detailed furniture**: every piece is now drawn at twice the detail (pillows, cushions, books, wood grain, fish in the tank and so on). The mahjong table is redrawn from scratch with four stools, a felt top, the four walls of tiles, each player's hand, discards and dice.
