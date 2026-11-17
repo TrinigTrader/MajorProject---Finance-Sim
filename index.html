@@ -1883,8 +1883,6 @@ input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 .hubwrap:not(.port) .panwrap { display: block; }
 .bld { touch-action: manipulation; }
 .bld:active canvas { transform: translateY(-2px) scale(.98); }
-.bld .plaque { animation: plaqueIn .5s steps(4) both; }
-@keyframes plaqueIn { from { transform: translateY(-6px); opacity: 0; } }
 
 /* ---------- phones and small tablets in general ---------- */
 @media (max-width: 760px) {
@@ -1993,7 +1991,7 @@ input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .phone:not([hidden]), .modal:not([hidden]), .dk-say, .dk-tips li, .lbar i, .bld .plaque, .btn.gold::after, .hubwrap.port .setout, .hubwrap.port .panbtn, #v18wipe.go i, .hstat .v.up, .hstat .v.down { animation: none !important; }
+  .phone:not([hidden]), .modal:not([hidden]), .dk-say, .dk-tips li, .lbar i, .btn.gold::after, .hubwrap.port .setout, .hubwrap.port .panbtn, #v18wipe.go i, .hstat .v.up, .hstat .v.down { animation: none !important; }
 }
 
 /* ---------- v18 cutscenes ---------- */
@@ -2035,6 +2033,55 @@ input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 .cut::after { content: ""; position: absolute; inset: 0; z-index: 7; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.08) 0 1px, transparent 1px 3px); }
 @media (prefers-reduced-motion: reduce) { .cj-shut, .cj-motes, .cj-rays, .cj-ring, .cj-streaks, .cj-sweep, .cj-dust { display: none; } .cj-ch { animation: none; } .cj-shimmer { animation: none; } }
 #cutBig.cj-shimmer { position: relative; }
+
+/* ---------- start screen and the estate behind the login / menu pages ---------- */
+#hsWrap { position: fixed; inset: 0; z-index: 0; pointer-events: none; display: none; }
+body.hs-on #hsWrap, body.hs-page #hsWrap { display: block; }
+body.hs-on #hsWrap { z-index: 90; pointer-events: auto; }
+#hsCv { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+.hs-shade { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 32% at 50% 48%, rgba(14,10,34,.72), rgba(14,10,34,.25) 70%, transparent), linear-gradient(rgba(14,18,38,.1), rgba(14,18,38,.05) 40%, rgba(14,18,38,.55)); }
+#hsWrap.bg .hs-shade { background: rgba(14,18,38,.55); }
+#hsWrap.bg .hs-title { display: none; }
+body.hs-page #sky { visibility: hidden; }
+.hs-title { position: absolute; left: 0; right: 0; top: 0; bottom: 0; display: grid; place-content: center; justify-items: center; gap: 18px; padding: 24px 16px max(24px, env(safe-area-inset-bottom)); text-align: center; }
+#hsWrap.leaving .hs-title { animation: hsOut .6s ease-in forwards; }
+@keyframes hsOut { to { transform: translateY(-40px) scale(1.06); opacity: 0; } }
+.hs-logo { font: clamp(40px, 11vw, 112px)/1 var(--pixel); color: var(--gold); text-shadow: 6px 6px 0 #6b3d0a, 10px 10px 0 rgba(0,0,0,.35); letter-spacing: .04em; white-space: nowrap; }
+.hs-logo span { display: inline-block; animation: hsDrop .7s cubic-bezier(.3,1.6,.5,1) both, hsBob 2.4s ease-in-out 1.2s infinite; }
+.hs-logo i.sp { display: inline-block; width: .5em; }
+@keyframes hsDrop { from { transform: translateY(-120px); opacity: 0; } }
+@keyframes hsBob { 50% { transform: translateY(-5px); } }
+.hs-tag { margin: 0; font: clamp(9px, 1.5vw, 13px)/1.9 var(--pixel); color: #FFF4DC; text-shadow: 2px 2px 0 #1a1033; }
+.hs-start { font-size: clamp(16px, 2.4vw, 22px); padding: 20px 46px; min-height: 64px; animation: hsPulse 1.4s ease-in-out infinite; }
+@keyframes hsPulse { 50% { transform: scale(1.06); } }
+.hs-start:hover { animation-play-state: paused; }
+.hs-hint { font: 8px/1 var(--pixel); color: #E8DCC4; opacity: .8; animation: limNext 1.2s steps(1) infinite; }
+/* the login and menu pages sit on the estate: slightly see-through panels */
+body.hs-page #scr-login, body.hs-page #scr-title { background: rgba(27,32,51,.74); }
+@media (prefers-reduced-motion: reduce) { .hs-logo span, .hs-start, .hs-hint { animation: none; } }
+
+/* ---------- legendary job celebration ---------- */
+.lj { position: fixed; inset: 0; z-index: 85; display: grid; place-items: center; padding: 16px; background: radial-gradient(circle at 50% 45%, rgba(120,80,10,.85), rgba(10,8,20,.94) 70%); overflow: hidden; animation: fadeIn .25s ease-out both; }
+.lj.out { animation: hsOut .3s ease-in forwards; }
+.lj-rays { position: absolute; left: 50%; top: 45%; width: 180vmax; height: 180vmax; margin: -90vmax 0 0 -90vmax; background: repeating-conic-gradient(#FFE27A 0 7deg, transparent 7deg 20deg); opacity: .28; -webkit-mask: radial-gradient(circle, #000 0 6%, transparent 50%); mask: radial-gradient(circle, #000 0 6%, transparent 50%); animation: cjSpin 18s linear infinite; will-change: transform; }
+.lj-flash { position: absolute; inset: 0; background: #FFF7D6; animation: ljFlash .5s ease-out both; pointer-events: none; }
+@keyframes ljFlash { from { opacity: .95; } to { opacity: 0; } }
+.lj-coins { position: absolute; inset: 0; pointer-events: none; }
+.lj-coins i { position: absolute; top: -20px; width: 14px; height: 14px; background: #FFD34A; border: 3px solid #B8862F; box-shadow: inset -3px -3px 0 #E8A82A; animation: ljCoin linear infinite; will-change: transform; }
+@keyframes ljCoin { to { transform: translateY(110vh) rotate(540deg); } }
+.lj-card { position: relative; width: min(460px, 100%); display: grid; justify-items: center; gap: 10px; text-align: center; padding: 26px 20px 22px; background: linear-gradient(#2B2140, #1B1530); border: 4px solid #E8C25A; box-shadow: 0 0 0 4px #6b3d0a, 0 0 60px rgba(255,210,90,.6), 0 12px 0 rgba(0,0,0,.5); animation: ljIn .7s cubic-bezier(.2,1.5,.4,1) .15s both; }
+@keyframes ljIn { from { transform: scale(.2) rotate(-8deg); opacity: 0; } }
+.lj-ico { width: 96px; height: 96px; display: grid; place-items: center; background: radial-gradient(circle, #FFF2B8, #E8C25A 60%, #B8862F); border: 4px solid #6b3d0a; animation: ljSpinIn 1s cubic-bezier(.2,1.4,.4,1) .4s both; }
+.lj-ico svg { shape-rendering: crispEdges; }
+@keyframes ljSpinIn { from { transform: rotateY(720deg) scale(0); } }
+.lj-kick { font: clamp(14px, 3.6vw, 20px)/1.3 var(--pixel); color: #FFE27A; text-shadow: 3px 3px 0 #6b3d0a; }
+.lj-kick span { display: inline-block; animation: cjDrop .45s cubic-bezier(.3,1.6,.5,1) both; }
+.lj-job { font: clamp(11px, 2.6vw, 14px)/1.5 var(--pixel); color: var(--ink); font-weight: normal; }
+.lj-card small { font-size: 18px; color: var(--muted); }
+.lj-pay { font: clamp(20px, 5vw, 30px)/1 var(--pixel); color: var(--mint); text-shadow: 3px 3px 0 #0b2a17; } .lj-pay span { font: inherit; }
+.lj-odds { margin: 0; font-size: 17px; color: #cfd5ea; }
+.lj-card .btn { min-width: 180px; }
+@media (prefers-reduced-motion: reduce) { .lj, .lj-rays, .lj-flash, .lj-card, .lj-ico, .lj-kick span { animation: none; } }
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -2822,6 +2869,7 @@ $("apply").addEventListener("click", () => {
     $("offer").innerHTML = `<span class="rarity" style="--r:${RCOL[tier]}">${TNAME[tier]} OFFER</span><span class="job">${title.toLowerCase().replace(/^./, c => c.toUpperCase())} ${curOffer.where}</span><span class="pay">${money(pay)}/mth</span><span style="color:var(--muted);font-size:19px">${tix ? "Take it, or apply again and hope for better. Applying again throws this offer away." : "No applications left. Take this offer."}</span>`;
     $("apply").disabled = tix === 0; $("apply").textContent = tix ? "APPLY AGAIN ▸" : "NO APPLICATIONS";
     $("accept").disabled = false;
+    if (tier === "LEGEND") setTimeout(() => legendJobFx(curOffer), 350);
   }, 760);
 });
 function renderOdds(r, o) {
@@ -11454,6 +11502,7 @@ function limSay18(html, tips, title) {
 
 // --- every screen change slides in; leaving for the town plays a quick pixel wipe ---
 function show18(id) {
+    try { hsSync(id); } catch (e) {}
     // a short opacity-only fade: cheap for the GPU, no layout work, and skipped for the hub (it redraws its own canvases)
     const s = $("scr-" + id); if (s && !RM && id !== "hub" && s.animate) s.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 140, easing: "ease-out" });
 }
@@ -11515,6 +11564,93 @@ function cutJuice(st, f, i) {
     el.classList.add("cj-shimmer"); });
   // a shockwave ring behind big words
   if (f.big || f.word) add(`<div class="cj-ring"></div><div class="cj-ring r2"></div>`);
+}
+
+// --- start screen: an HDB estate at dusk with a big START button, before the login / profile page; the estate stays behind the login and menu pages ---
+const HSX = { cv: null, g: null, bg: null, W: 0, H: 0, P: 4, raf: 0, last: 0, t: 0, wins: [], stars: [], live: false };
+function hsBuild() {
+  const P = HSX.P = innerWidth < 700 ? 3 : 4, W = HSX.W = Math.ceil(innerWidth / P), H = HSX.H = Math.ceil(innerHeight / P);
+  HSX.cv.width = W; HSX.cv.height = H;
+  const bg = HSX.bg = document.createElement("canvas"); bg.width = W; bg.height = H; const g = bg.getContext("2d");
+  let seed = 18; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const hz = Math.round(H * .72);
+  ["#140F33", "#1F1748", "#2E1F5C", "#4A2A6E", "#7A3A78", "#B5507A", "#E27A6E", "#F5A766"].forEach((c, i, a) => { g.fillStyle = c; const y0 = Math.floor(hz * i / a.length); g.fillRect(0, y0, W, Math.ceil(hz / a.length) + 1); });
+  HSX.stars = Array.from({ length: Math.round(W * H / 260) }, () => [Math.floor(rnd() * W), Math.floor(rnd() * hz * .45), rnd() * 6]);
+  // sun sinking behind the estate
+  g.fillStyle = "#FFD27A"; const sx = Math.round(W * .72), sy = Math.round(hz * .82), sr = Math.max(8, Math.round(Math.min(W, H) * .07));
+  for (let y = -sr; y <= sr; y++) { const w = Math.round(Math.sqrt(sr * sr - y * y)); g.fillRect(sx - w, sy + y, w * 2, 1); }
+  g.fillStyle = "rgba(255,210,122,.35)"; for (let k = 0; k < 4; k++) g.fillRect(sx - sr - 6, sy + 3 + k * 4, sr * 2 + 12, 1);
+  // far blocks
+  let x = -4; while (x < W) { const w = 10 + Math.floor(rnd() * 14), h = Math.round(hz * (.18 + rnd() * .22)); g.fillStyle = "#2A1F4E"; g.fillRect(x, hz - h, w, h);
+    g.fillStyle = "rgba(255,214,140,.35)"; for (let yy = hz - h + 3; yy < hz - 2; yy += 4) for (let xx = x + 2; xx < x + w - 2; xx += 3) if (rnd() < .25) g.fillRect(xx, yy, 1, 2); x += w + 1 + Math.floor(rnd() * 3); }
+  // MRT viaduct
+  const ty = hz - Math.round(H * .1); g.fillStyle = "#3A2F5E"; g.fillRect(0, ty, W, 3); for (let px = 6; px < W; px += 26) g.fillRect(px, ty + 3, 3, hz - ty - 3); HSX.ty = ty;
+  // near HDB slab blocks: cream walls, coloured crowns, corridors, a block number
+  HSX.wins = []; x = Math.round(-6 + rnd() * 6); const crowns = ["#2FA39A", "#D6544E", "#3F7FC4", "#E8A23A", "#7E5BC4"]; let b = 0;
+  while (x < W) { const w = 34 + Math.floor(rnd() * 26), h = Math.round(H * (.42 + rnd() * .2)), top = hz + Math.round(H * .08) - h, c = crowns[b++ % crowns.length];
+    g.fillStyle = "#0E0B22"; g.fillRect(x - 1, top - 1, w + 2, h + 2);
+    g.fillStyle = "#E9DEC6"; g.fillRect(x, top, w, h); g.fillStyle = "#D2C4A6"; g.fillRect(x + w - 4, top, 4, h);
+    g.fillStyle = c; g.fillRect(x, top, w, 5); g.fillRect(x + Math.floor(w / 2) - 5, top - 4, 10, 4);
+    g.fillStyle = "#F4F1EA"; g.fillRect(x + Math.floor(w / 2) - 4, top - 3, 8, 2);
+    for (let yy = top + 8; yy < top + h - 10; yy += 6) { g.fillStyle = "#C9B994"; g.fillRect(x, yy + 4, w - 4, 1);
+      for (let xx = x + 3; xx < x + w - 6; xx += 5) { g.fillStyle = "#3B3552"; g.fillRect(xx, yy, 3, 3); HSX.wins.push([xx, yy, rnd() < .55, rnd()]); } }
+    g.fillStyle = "#2A2440"; for (let px = x + 2; px < x + w - 2; px += 6) g.fillRect(px, top + h - 9, 2, 9);
+    x += w + 6 + Math.floor(rnd() * 10); }
+  // ground, trees, path
+  const gy = hz + Math.round(H * .08); g.fillStyle = "#2C5A3A"; g.fillRect(0, gy, W, H - gy); g.fillStyle = "#24492F"; for (let px = 0; px < W; px += 4) g.fillRect(px, gy + ((px / 4) % 3), 2, 1);
+  g.fillStyle = "#8A8274"; g.fillRect(0, gy + Math.round((H - gy) * .45), W, Math.max(4, Math.round((H - gy) * .18)));
+  for (let px = 8; px < W; px += 22 + Math.floor(rnd() * 16)) { const r = 4 + Math.floor(rnd() * 4), cy = gy - r + 2; g.fillStyle = "#4A3020"; g.fillRect(px, cy, 2, r + 2);
+    g.fillStyle = "#2F7A44"; for (let yy = -r; yy <= r; yy++) { const ww = Math.round(Math.sqrt(r * r - yy * yy)); g.fillRect(px + 1 - ww, cy - r + yy, ww * 2, 1); } g.fillStyle = "#4FA05E"; g.fillRect(px - 1, cy - r * 2 + 1, 3, 2); }
+  HSX.g = HSX.cv.getContext("2d"); HSX.g.imageSmoothingEnabled = false;
+}
+function hsFrame(now) {
+  if (!HSX.live) return; HSX.raf = requestAnimationFrame(hsFrame);
+  if (now - HSX.last < 66) return; HSX.last = now; HSX.t += 1;
+  const g = HSX.g, W = HSX.W; g.drawImage(HSX.bg, 0, 0);
+  for (const s of HSX.stars) { const a = .35 + .65 * Math.abs(Math.sin(HSX.t * .08 + s[2])); g.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`; g.fillRect(s[0], s[1], 1, 1); }
+  for (const w of HSX.wins) { if (!RM && Math.random() < .0015) w[2] = !w[2]; if (w[2]) { g.fillStyle = w[3] > .8 ? "#9FD8FF" : "#FFD98A"; g.fillRect(w[0], w[1], 3, 3); } }
+  // a train glides along the viaduct every few seconds
+  const cyc = 160, p = (HSX.t % cyc) / cyc, tx = Math.round(-90 + p * (W + 180));
+  if (!RM) { g.fillStyle = "#D9DEE8"; g.fillRect(tx, HSX.ty - 6, 84, 6); g.fillStyle = "#C8414B"; g.fillRect(tx, HSX.ty - 2, 84, 1);
+    g.fillStyle = "#FFE9A0"; for (let k = 0; k < 84; k += 6) if ((k / 6) % 7 !== 6) g.fillRect(tx + k + 2, HSX.ty - 5, 3, 2); }
+}
+function hsRun(on) { if (on === HSX.live) return; HSX.live = on; cancelAnimationFrame(HSX.raf); if (on) { if (!HSX.bg) hsBuild(); HSX.raf = requestAnimationFrame(hsFrame); } }
+function startScreen() {
+  const d = document.createElement("div"); d.id = "hsWrap"; d.innerHTML = `<canvas id="hsCv" aria-hidden="true"></canvas><div class="hs-shade"></div>
+    <div class="hs-title" id="hsTitle"><div class="hs-logo" aria-label="HDB Life">${[..."HDB LIFE"].map((c, k) => c === " " ? "<i class=sp></i>" : `<span style="animation-delay:${k * 80}ms">${c}</span>`).join("")}</div>
+    <p class="hs-tag">GROW UP, GET A JOB, BUY A FLAT.<br>MAKE EVERY DOLLAR COUNT.</p>
+    <button class="btn gold hs-start" id="hsStart">▶ START</button><small class="hs-hint">TAP START OR PRESS ENTER</small></div>`;
+  document.body.prepend(d); HSX.cv = $("hsCv");
+  if (window.__noStart) d.classList.add("bg"); else document.body.classList.add("hs-on");
+  hsRun(true);
+  const go = () => { if (d.classList.contains("bg")) return; SFX("coin"); JINGLE("fanfare"); d.classList.add("leaving"); document.body.classList.remove("hs-on"); setTimeout(() => { d.classList.remove("leaving"); d.classList.add("bg"); }, RM ? 0 : 650); };
+  $("hsStart").onclick = go;
+  addEventListener("keydown", e => { if (!d.classList.contains("bg") && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); go(); } });
+  addEventListener("resize", () => { clearTimeout(HSX.rt); HSX.rt = setTimeout(() => { HSX.bg = null; if (HSX.live) { hsBuild(); } }, 200); });
+}
+// the estate shows behind the login and menu pages only; it pauses everywhere else
+function hsSync(id) { if (!HSX.cv) return; const on = id === "login" || id === "title"; document.body.classList.toggle("hs-page", on); hsRun(on || document.body.classList.contains("hs-on")); }
+setTimeout(() => { try { startScreen(); hsSync(document.querySelector(".scr:not([hidden])") ? document.querySelector(".scr:not([hidden])").id.replace("scr-", "") : "login"); } catch (e) { console.warn(e); } }, 0);
+
+// --- legendary job: a golden full-screen celebration on top of the job board ---
+function legendJobFx(o) {
+  if (!o) return; JINGLE("fanfare");
+  const d = document.createElement("div"); d.className = "lj"; d.setAttribute("role", "dialog"); d.setAttribute("aria-label", "Legendary job offer");
+  d.innerHTML = `<div class="lj-rays"></div><div class="lj-flash"></div>
+    <div class="lj-coins">${RM ? "" : Array.from({ length: innerWidth < 700 ? 16 : 28 }, (_, k) => `<i style="left:${(k * 37) % 100}%;animation-delay:${(k % 9) * 0.12}s;animation-duration:${1.6 + (k % 5) * .25}s"></i>`).join("")}</div>
+    <div class="lj-card"><div class="lj-ico">${iconSvg(o.icon || "star", 72)}</div>
+      <div class="lj-kick">${[..."LEGENDARY OFFER"].map((c, k) => c === " " ? " " : `<span style="animation-delay:${600 + k * 50}ms">${c}</span>`).join("")}</div>
+      <b class="lj-job">${escH(o.name)}</b><small>${escH(o.where || "")}</small>
+      <div class="lj-pay"><span id="ljPay">S$0</span>/mth</div>
+      <p class="lj-odds">Only about 1 in 100 applications lands one of these.</p>
+      <button class="btn gold" id="ljOk">NICE! ▸</button></div>`;
+  document.body.appendChild(d); paintIcons(d); SFX("win");
+  const close = () => { d.classList.add("out"); setTimeout(() => d.remove(), 300); };
+  d.querySelector("#ljOk").onclick = close; d.addEventListener("click", e => { if (e.target === d) close(); });
+  const el = d.querySelector("#ljPay"), t0 = performance.now() + (RM ? 0 : 1200), to = o.pay;
+  const step = now => { const p = Math.max(0, Math.min(1, (now - t0) / 1100)); el.textContent = money(Math.round(to * (1 - Math.pow(1 - p, 3)) / 10) * 10); if (p < 1 && d.isConnected) requestAnimationFrame(step); else { el.textContent = money(to); if (d.isConnected) SFX("coin"); } };
+  requestAnimationFrame(step);
+  setTimeout(() => { const b = d.querySelector("#ljOk"); if (b) b.focus(); }, 400);
 }
 
 authBoot();
