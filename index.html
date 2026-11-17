@@ -1966,7 +1966,10 @@ input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 }
 /* short landscape phones: the hub fills the screen, so tighten the HUD */
 @media (max-height: 500px) and (orientation: landscape) {
-  .hubwrap.fill .topbar { transform: scale(.9); transform-origin: top left; width: 111%; }
+  .dk-grid { grid-template-columns: minmax(0, 1fr) clamp(220px, 34vw, 300px); grid-template-rows: none; }
+  .dk-lim { order: 0; border-left: 3px solid var(--border); border-bottom: 0; max-height: none; padding: 8px 10px; }
+  .dk-limtop svg { width: 36px; height: 46px; } .dk-say { font-size: 17px; padding: 8px 10px; }
+  .dk-head { padding-top: 6px; padding-bottom: 6px; } .dk-head h1 { font-size: 11px; }
   .mbox { max-height: calc(100dvh - 12px); }
   .dk-lim { max-height: none; }
   .phone { height: calc(100dvh - 16px); bottom: 8px; }
@@ -2082,6 +2085,13 @@ body.hs-page #scr-login, body.hs-page #scr-title { background: rgba(27,32,51,.74
 .lj-odds { margin: 0; font-size: 17px; color: #cfd5ea; }
 .lj-card .btn { min-width: 180px; }
 @media (prefers-reduced-motion: reduce) { .lj, .lj-rays, .lj-flash, .lj-card, .lj-ico, .lj-kick span { animation: none; } }
+
+/* small landscape phones: HUD counter-scaled inside the fitted stage (--hk set by fitStage18) */
+.hubwrap.hk .topbar { transform: scale(var(--hk)); transform-origin: top left; right: auto; width: calc((var(--sw) - 20px) / var(--hk)); }
+.hubwrap.hk .chapter { top: calc(104px * var(--hk)); transform: scale(var(--hk)); transform-origin: top left; }
+.hubwrap.hk .areaBadge { top: calc(104px * var(--hk)); transform: scale(var(--hk)); transform-origin: top right; }
+.hubwrap.hk .side { top: calc(144px * var(--hk)); transform: scale(var(--hk)); transform-origin: top left; }
+.hubwrap.hk .bottombar { transform: scale(var(--hk)); transform-origin: bottom left; right: auto; width: calc(var(--sw) / var(--hk)); }
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -11455,6 +11465,8 @@ function fitStage18() {
   const box = $("stageBox"); box.style.width = (SW * s) + "px"; box.style.height = (SH * s) + "px";
   const nb = Math.round(180 * SW / SH);
   if (nb !== BW) { BW = nb; ["bgHome", "bgTown", "trainLayer"].forEach(id => $(id).width = BW); drawHomeBg(); drawTownBg(); }
+  // small landscape screens: grow the HUD back to a readable size inside the scaled stage
+  const hk = fill && s < .8 ? Math.max(1, Math.min(.88 / s, (SW - 20) / 1220, 1.7)) : 1; st.style.setProperty("--hk", hk.toFixed(3)); hub.classList.toggle("hk", hk > 1);
   layoutBlds();
   if (port) { const P = $("townPan"), key = (G && G.area || "home") + ":" + Math.round(s * 100); if (P.dataset.k !== key) { P.dataset.k = key; P.scrollLeft = (P.scrollWidth - P.clientWidth) / 2; } panArrows(); }
 }
@@ -11623,7 +11635,7 @@ function startScreen() {
   document.body.prepend(d); HSX.cv = $("hsCv");
   if (window.__noStart) d.classList.add("bg"); else document.body.classList.add("hs-on");
   hsRun(true);
-  const go = () => { if (d.classList.contains("bg")) return; SFX("coin"); JINGLE("fanfare"); d.classList.add("leaving"); document.body.classList.remove("hs-on"); setTimeout(() => { d.classList.remove("leaving"); d.classList.add("bg"); }, RM ? 0 : 650); };
+  const go = () => { if (d.classList.contains("bg")) return; landscapeLock(); SFX("coin"); JINGLE("fanfare"); d.classList.add("leaving"); document.body.classList.remove("hs-on"); setTimeout(() => { d.classList.remove("leaving"); d.classList.add("bg"); }, RM ? 0 : 650); };
   $("hsStart").onclick = go;
   addEventListener("keydown", e => { if (!d.classList.contains("bg") && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); go(); } });
   addEventListener("resize", () => { clearTimeout(HSX.rt); HSX.rt = setTimeout(() => { HSX.bg = null; if (HSX.live) { hsBuild(); } }, 200); });
@@ -11651,6 +11663,16 @@ function legendJobFx(o) {
   const step = now => { const p = Math.max(0, Math.min(1, (now - t0) / 1100)); el.textContent = money(Math.round(to * (1 - Math.pow(1 - p, 3)) / 10) * 10); if (p < 1 && d.isConnected) requestAnimationFrame(step); else { el.textContent = money(to); if (d.isConnected) SFX("coin"); } };
   requestAnimationFrame(step);
   setTimeout(() => { const b = d.querySelector("#ljOk"); if (b) b.focus(); }, 400);
+}
+
+// --- phones: START goes full screen and locks to landscape where the browser allows it (Android Chrome, Samsung Internet).
+//     iPhone Safari does not let websites lock orientation, so there the game keeps its portrait layout. ---
+function landscapeLock() {
+  const touch = matchMedia("(pointer: coarse)").matches, small = Math.min(screen.width, screen.height) < 820;
+  if (!touch || !small) return;
+  const el = document.documentElement, fs = el.requestFullscreen || el.webkitRequestFullscreen;
+  const lock = () => { try { const p = screen.orientation && screen.orientation.lock && screen.orientation.lock("landscape"); if (p && p.catch) p.catch(() => {}); } catch (e) {} };
+  try { const p = fs && fs.call(el, { navigationUI: "hide" }); if (p && p.then) p.then(lock, lock); else lock(); } catch (e) { lock(); }
 }
 
 authBoot();
