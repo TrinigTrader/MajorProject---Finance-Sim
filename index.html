@@ -1766,6 +1766,238 @@ button.mode:hover, .mode.multi:hover { border-color: var(--gold); box-shadow: 0 
 .petjump b { font: 8px/1.6 var(--pixel); font-weight: normal; color: #C9A8F5; display: block; } .petjump i { font: 8px/1 var(--pixel); font-style: normal; color: var(--gold); white-space: nowrap; margin-left: auto; } .petjump span { flex: 1; min-width: 0; }
 @media (max-width: 720px) { .petsec { grid-template-columns: 1fr 1fr; } .petsec button.mine { grid-column: 1 / -1; } .petsec button svg { display: none; } .petjump { flex-wrap: wrap; } .petjump i { margin-left: 0; } }
 
+
+/* ==================== v18: phones, desktop fit, Ms Lim's bubbles, juice ==================== */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html, body { overflow-x: clip; max-width: 100%; }
+body { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+img, canvas, svg { max-width: 100%; }
+.stage canvas.layer, .stage svg, .bld canvas { max-width: none; }
+.mbox, .phone, .pbody, .dk-body, .dk-lim, .sidebody, #townPan, .cslist { overscroll-behavior: contain; }
+
+/* ---------- Ms Lim always fits ---------- */
+.dk-lim > * { flex-shrink: 0; }
+.dk-lim { scrollbar-width: thin; }
+.dk-say { min-height: 0; height: auto; overflow: visible; overflow-wrap: anywhere; cursor: pointer; animation: limIn .35s steps(4) both; }
+.dk-say.typing::after { content: "▼"; position: absolute; right: 8px; bottom: 4px; font: 8px var(--pixel); color: #b8932f; animation: limNext .6s steps(1) infinite; }
+@keyframes limNext { 50% { opacity: 0; } }
+@keyframes limIn { from { transform: translateY(6px); opacity: 0; } }
+.dk-tips h4 { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.dk-tips li { overflow-wrap: anywhere; animation: tipIn .3s steps(3) both; animation-delay: calc(var(--i, 0) * 60ms); }
+@keyframes tipIn { from { transform: translateX(10px); opacity: 0; } }
+.tutbox p, .st-text, .evtext, .rq span, .hmsg { overflow-wrap: anywhere; }
+.tutbox { max-height: calc(100dvh - 24px); overflow: auto; }
+
+/* ---------- buttons feel physical ---------- */
+.btn, .chip, .card, .act, .lrow, .carc, .cscard, .inscard, .cacc, .libcard, .pick, .nb, .ibtn, .sidetab, .tabs2 button, .arrow, .stp button, .pback, .opt, .sw, .setout, .bld, .hA {
+  transition: transform .09s steps(2), box-shadow .12s steps(2), border-color .12s steps(2), background-color .12s steps(2), filter .12s steps(2);
+}
+@media (hover: hover) {
+  .btn:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 6px 0 #0b0e1c; }
+  .btn.gold:not(:disabled):hover { box-shadow: 0 6px 0 var(--gold-dk), 0 0 18px rgba(232,194,90,.45); }
+  .card:hover, .act:not(:disabled):hover, .carc:hover, .inscard:hover, .cacc:hover, .pick:hover, .cscard:hover { transform: translateY(-3px); box-shadow: 0 4px 0 rgba(0,0,0,.35); }
+  .lrow:hover { transform: translateX(3px); }
+  .chip:not(:disabled):hover, .tabs2 button:hover { border-color: var(--gold); color: var(--gold); }
+}
+.btn:not(:disabled):active { transform: translateY(3px) !important; box-shadow: 0 1px 0 #0b0e1c !important; }
+.btn.gold:not(:disabled):active { box-shadow: 0 1px 0 var(--gold-dk) !important; }
+.card:active, .act:not(:disabled):active, .lrow:active, .carc:active, .inscard:active, .cacc:active, .chip:not(:disabled):active, .pick:active, .nb:active, .ibtn:active, .sidetab:active, .cscard:active, .stp button:active, .tabs2 button:active, .arrow:active, .opt:active { transform: scale(.97) !important; filter: brightness(1.15); }
+.btn.gold:not(:disabled) { position: relative; overflow: hidden; }
+.btn.gold:not(:disabled)::after { content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 24%; background: rgba(255,255,255,.35); transform: skewX(-20deg); animation: shine 3.6s steps(14) infinite; pointer-events: none; }
+@keyframes shine { 0%, 70% { left: -40%; } 100% { left: 130%; } }
+.v18burst { position: fixed; z-index: 95; width: 4px; height: 4px; margin: -2px 0 0 -2px; pointer-events: none; background: var(--c, #E8C25A); animation: burst .42s steps(6) forwards; }
+@keyframes burst { to { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
+
+/* ---------- screens slide in ---------- */
+.scr.v18in, .desk.v18in { animation: scrIn .32s steps(5) both; }
+@keyframes scrIn { from { opacity: 0; transform: translateY(14px); } }
+.phone:not([hidden]) { animation: phoneUp .3s steps(5) both; }
+@keyframes phoneUp { from { transform: translateY(60px); opacity: 0; } }
+.modal:not([hidden]) { animation: fadeIn .18s steps(3) both; }
+@keyframes fadeIn { from { opacity: 0; } }
+#v18wipe { position: fixed; inset: 0; z-index: 70; pointer-events: none; display: grid; grid-template-columns: repeat(8, 1fr); }
+#v18wipe i { background: #0B0F22; transform-origin: top; transform: scaleY(0); }
+#v18wipe.go i { animation: wipe .5s steps(5) both; animation-delay: calc(var(--i) * 25ms); }
+@keyframes wipe { 0% { transform: scaleY(0); } 45%, 55% { transform: scaleY(1); } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* ---------- live numbers ---------- */
+.hstat .v.up, .dk-big b.up { animation: numUp .7s steps(4); }
+.hstat .v.down, .dk-big b.down { animation: numDown .7s steps(4); }
+@keyframes numUp { 30% { color: var(--mint); text-shadow: 0 0 8px rgba(91,211,138,.8); transform: scale(1.12); } }
+@keyframes numDown { 30% { color: var(--coral); text-shadow: 0 0 8px rgba(232,90,90,.8); transform: translateX(-2px); } 60% { transform: translateX(2px); } }
+.hstat .v { display: inline-block; transform-origin: left center; }
+.xpbar i, .vbar i, .cbar i, .km-bar i, .kbar i, .lbar i { transition: width .6s steps(10); }
+.lbar i { animation: barGrow .6s steps(8) both; transform-origin: left; }
+@keyframes barGrow { from { transform: scaleX(0); } }
+.xpbar { overflow: hidden; } .xpbar i { position: relative; } .xpbar i::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent); animation: xpShine 2.6s steps(10) infinite; }
+@keyframes xpShine { from { transform: translateX(-100%); } to { transform: translateX(200%); } }
+
+/* range sliders get the pixel look */
+input[type=range] { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 10px; background: var(--night); border: 2px solid var(--border); }
+input[type=range]::-moz-range-track { height: 10px; background: var(--night); border: 2px solid var(--border); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; margin-top: -8px; background: var(--gold); border: 3px solid #141826; box-shadow: 0 3px 0 var(--gold-dk); }
+input[type=range]::-moz-range-thumb { width: 18px; height: 18px; background: var(--gold); border: 3px solid #141826; border-radius: 0; }
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
+
+/* ---------- the hub on a phone or a tall window: HUD on top, town you swipe through, buttons at the bottom ---------- */
+#townPan { position: relative; }
+.hudT, .hudB { display: none; }
+.hubwrap.port { position: fixed; inset: 0; max-width: none; margin: 0; z-index: 5; display: flex; flex-direction: column; background: #0B0F22; }
+.hubwrap.port #townPan { flex: 1 1 auto; min-height: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: var(--gold) #0B0F22; -webkit-overflow-scrolling: touch; }
+.hubwrap.port #stageBox { margin: 0 auto; }
+.hubwrap.port .stage { border: 0; }
+.hubwrap.port .hudT { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; position: relative; z-index: 7; padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 6px max(8px, env(safe-area-inset-left)); background: linear-gradient(#141a33, #0E1226); border-bottom: 2px solid var(--border); }
+.hubwrap.port .hudB { display: block; position: relative; z-index: 7; padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); background: rgba(14,18,38,.98); border-top: 2px solid var(--border); }
+.hubwrap.port .topbar { position: static; flex: 1 1 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; pointer-events: auto; }
+.hubwrap.port .leftgrp { display: contents; }
+.hubwrap.port .prof { min-width: 0; padding: 6px 8px 6px 6px; gap: 8px; }
+.hubwrap.port .portrait { width: 48px; height: 48px; flex: 0 0 auto; } .hubwrap.port .portrait svg { width: 44px; height: 37px; margin-top: 6px; }
+.hubwrap.port .pinfo { min-width: 0; gap: 4px; } .hubwrap.port .pname { font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hubwrap.port .ptitle { font-size: 7px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.hubwrap.port .vitals { font-size: 14px; gap: 6px; } .hubwrap.port .vbar { width: auto; min-width: 38px; }
+.hubwrap.port .vitals > span { flex: 1; min-width: 0; }
+.hubwrap.port .ptap { display: none; }
+.hubwrap.port .ibtn { width: 60px; height: auto; min-height: 60px; }
+.hubwrap.port .stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; }
+.hubwrap.port .hstat { min-width: 0; padding: 4px 5px; grid-template-columns: 18px minmax(0, 1fr); column-gap: 4px; }
+.hubwrap.port .hstat svg { width: 18px; height: 18px; }
+.hubwrap.port .hstat .k { font-size: 6px; } .hubwrap.port .hstat .v { font-size: 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.hubwrap.port .chapter, .hubwrap.port .areaBadge { position: static; font-size: 7px; line-height: 1.4; padding: 6px 8px; }
+.hubwrap.port .chapter { flex: 1 1 auto; min-width: 0; }
+.hubwrap.port .side { position: static; order: 5; }
+.hubwrap.port .sidetab { min-height: 44px; }
+.hubwrap.port .sidepanel { position: absolute; left: 8px; right: 8px; top: calc(100% + 6px); width: auto; max-height: min(470px, 62dvh); z-index: 9; box-shadow: 0 10px 0 rgba(0,0,0,.45); animation: scrIn .25s steps(4) both; }
+.hubwrap.port .bottombar { position: static; height: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hubwrap.port .bottombar .info { grid-column: 1 / -1; grid-row: 1; padding: 6px 10px; border-bottom: 2px solid var(--border); }
+.hubwrap.port .bottombar .info b { font-size: 8px; line-height: 1.4; } .hubwrap.port .bottombar .info span { font-size: 15px; }
+.hubwrap.port .bottombar .nb { min-height: 48px; padding: 0 4px; font-size: 8px; border-right: 2px solid var(--border); line-height: 1.4; }
+.hubwrap.port .bottombar .setout { grid-column: 1 / -1; min-height: 54px; font-size: 13px; animation: setPulse 2.4s steps(6) infinite; }
+@keyframes setPulse { 50% { filter: brightness(1.12); box-shadow: inset 0 0 0 3px #FFE9A0; } }
+.panbtn { display: none; }
+.hubwrap.port .panbtn { display: grid; place-items: center; position: absolute; top: 50%; z-index: 6; width: 44px; height: 64px; margin-top: -32px; background: rgba(14,18,38,.82); border: 2px solid var(--gold); color: var(--gold); font: 14px var(--pixel); cursor: pointer; transition: opacity .2s steps(2); }
+.hubwrap.port .panbtn.l { left: 4px; } .hubwrap.port .panbtn.r { right: 4px; }
+.hubwrap.port .panbtn[disabled] { opacity: 0; pointer-events: none; }
+.hubwrap.port .panbtn:not([disabled]) { animation: panNudge 1.4s steps(4) infinite; }
+.hubwrap.port .panbtn.l:not([disabled]) { animation-name: panNudgeL; }
+@keyframes panNudge { 50% { transform: translateX(3px); } } @keyframes panNudgeL { 50% { transform: translateX(-3px); } }
+.panwrap { position: relative; flex: 1 1 auto; min-height: 0; display: flex; }
+.panwrap > #townPan { flex: 1 1 auto; }
+.hubwrap:not(.port) .panwrap { display: block; }
+.bld { touch-action: manipulation; }
+.bld:active canvas { transform: translateY(-2px) scale(.98); }
+.bld .plaque { animation: plaqueIn .5s steps(4) both; }
+@keyframes plaqueIn { from { transform: translateY(-6px); opacity: 0; } }
+
+/* ---------- phones and small tablets in general ---------- */
+@media (max-width: 760px) {
+  body { font-size: 19px; padding-left: max(10px, env(safe-area-inset-left, 0px)); padding-right: max(10px, env(safe-area-inset-right, 0px)); padding-top: max(10px, env(safe-area-inset-top, 0px)); padding-bottom: max(24px, env(safe-area-inset-bottom, 0px)); }
+  .panel { padding: 18px 14px 16px; gap: 16px; }
+  h1 { font-size: 14px; } h2 { font-size: 11px; }
+  .btn { min-height: 44px; padding: 13px 14px; font-size: 10px; line-height: 1.3; }
+  .chip, .tabs2 button { min-height: 40px; }
+  .arrow, .stp button { min-width: 44px; min-height: 44px; }
+  .stp b { min-width: 0; padding: 0 8px; }
+  .sw { width: 36px; height: 36px; }
+  .foot { gap: 8px; } .foot > .btn, .foot .right { flex: 1 1 auto; } .foot .right .btn { flex: 1 1 auto; }
+  .builder { grid-template-columns: 1fr; gap: 18px; }
+  .stagecard { min-height: 240px; }
+  .row { grid-template-columns: 1fr; gap: 8px; }
+  .namefield { max-width: none; font-size: 16px; }
+  .cards.three, .cards.four, .cards.five { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .picks { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .gacha { grid-template-columns: 1fr; gap: 16px; }
+  .modal { padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)); }
+  .mbox { padding: 16px 14px; max-height: calc(100dvh - 16px); gap: 12px; }
+  .mhead { flex-wrap: wrap; } .mhead canvas { max-width: 30%; height: auto; }
+  .act { font-size: 18px; padding: 12px; min-height: 52px; flex-wrap: wrap; }
+  .mfoot { position: sticky; bottom: -16px; background: var(--panel); padding: 8px 0 4px; margin-bottom: -4px; z-index: 2; }
+  .mfoot .btn { flex: 1 1 auto; }
+  .tbl { font-size: 17px; }
+  .details { padding: 12px; }
+  .timeline span { font-size: 6px; padding: 6px 3px; }
+  .phone { inset: 0; right: 0; bottom: 0; width: 100%; max-width: none; height: 100dvh; border-radius: 0; border: 0; padding: max(8px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom)); }
+  .phone .notch { display: none; }
+  .pstatus { padding: 10px 12px; } .pX { min-height: 36px; padding: 0 10px; }
+  .pback { min-height: 40px; min-width: 40px; }
+  .toast { font-size: 8px; padding: 10px 12px; bottom: max(88px, env(safe-area-inset-bottom)); pointer-events: none; }
+  .achtoast { top: max(8px, env(safe-area-inset-top)); right: 8px; width: calc(100vw - 16px); }
+  .tutbox { grid-template-columns: 48px 1fr; gap: 10px; padding: 10px 12px; bottom: max(10px, env(safe-area-inset-bottom)); }
+  .tutbox svg { width: 48px; height: 62px; } .tutbox p { font-size: 18px; }
+  .tutbtns { flex-wrap: wrap; gap: 6px; } .tutbtns .btn { min-height: 44px; }
+  .reqpop { right: 8px; width: calc(100vw - 16px); }
+  /* Ms Lim's desk */
+  .dk-head { flex-wrap: wrap; gap: 8px; padding: max(8px, env(safe-area-inset-top)) 10px 8px; }
+  .dk-head .btn { min-height: 40px; padding: 10px 12px; }
+  .dk-head h1 { font-size: 11px; flex: 1 1 auto; }
+  .dk-tag { flex: 1 1 100%; text-align: left; font-size: 7px; line-height: 1.6; }
+  .dk-lim { max-height: 46dvh; }
+  .dk-body { padding: 12px 10px calc(40px + env(safe-area-inset-bottom)); font-size: 18px; }
+  .dk-tips h4 { cursor: pointer; padding: 6px 0; min-height: 32px; }
+  .dk-tips h4::after { content: "+ SHOW"; color: var(--gold); font-size: 7px; border: 2px solid var(--border); padding: 6px 8px; }
+  .dk-tips.open h4::after { content: "- HIDE"; }
+  .dk-tips:not(.open) ul { display: none; }
+  .lctl { gap: 8px; } .lctl label { flex: 1 1 100%; justify-content: space-between; } .lctl .chips { gap: 6px; } .lctl .chip { min-height: 40px; }
+  .lrow { padding: 10px; }
+  .lcalc { font-size: 17px; }
+  .ldetail .tbl td:first-child { width: 40%; }
+  .mrow { flex-wrap: wrap; } .mrow .btn { flex: 1 1 100%; }
+  .dk-big { min-width: 0; flex: 1 1 140px; } .dk-big b { font-size: 15px; }
+  .insgrid { grid-template-columns: 1fr; }
+  .dk-strip > .covrow { flex: 1 1 100%; } .cov { flex: 1 1 calc(33% - 8px); min-width: 0; }
+  .logo, .head .logo { line-height: 1.7; }
+  .head { align-items: flex-start; }
+  .icf { flex-wrap: wrap; } .icf .btn { min-height: 40px; }
+  .cpfacc, .cpfact, .libtop { grid-template-columns: 1fr; }
+  .cbox .chip { min-height: 40px; }
+  /* car showroom: the strip of cars scrolls sideways inside itself */
+  .cslist { max-width: 100%; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
+  .cscard { scroll-snap-align: start; flex: 0 0 min(210px, 70vw) !important; min-width: 0; }
+  .cscard b, .cscard small { overflow-wrap: anywhere; }
+  #scr-cars .foot { position: sticky; bottom: 0; background: var(--panel); padding: 8px 0 max(4px, env(safe-area-inset-bottom)); z-index: 3; }
+  .opt { min-height: 44px; }
+  /* story mode */
+  .st-top { flex-wrap: wrap; gap: 6px; }
+  .st-btns .btn { min-height: 36px; padding: 8px; font-size: 7px; }
+  .st-choices { display: grid; gap: 8px; } .st-choices button { min-height: 48px; }
+  /* walkable home / hospital action buttons */
+  .hA { width: 64px; height: 64px; }
+}
+@media (max-width: 400px) {
+  .cards.three, .cards.four, .cards.five { grid-template-columns: 1fr; }
+  .btn { font-size: 9px; padding: 12px 10px; }
+  .hubwrap.port .bottombar .nb { font-size: 7px; }
+  .hubwrap.port .hstat .v { font-size: 8px; }
+}
+/* short landscape phones: the hub fills the screen, so tighten the HUD */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hubwrap.fill .topbar { transform: scale(.9); transform-origin: top left; width: 111%; }
+  .mbox { max-height: calc(100dvh - 12px); }
+  .dk-lim { max-height: none; }
+  .phone { height: calc(100dvh - 16px); bottom: 8px; }
+}
+@supports (height: 100dvh) {
+  .mbox { max-height: calc(100dvh - 32px); }
+  .mbox.prof { height: min(940px, calc(100dvh - 32px)); }
+  .phone { height: min(660px, calc(100dvh - 32px)); }
+  .desk, .cut, .mg, .tut { height: 100dvh; }
+}
+@media (max-width: 760px) and (min-width: 0px) { @supports (height: 100dvh) { .mbox { max-height: calc(100dvh - 16px); } .mbox.prof { height: calc(100dvh - 16px); } .phone { height: 100dvh; } } }
+
+/* ---------- big desktop screens: use the room without stretching lines too long ---------- */
+@media (min-width: 1500px) {
+  .wrap { max-width: 1120px; }
+  .dk-grid { grid-template-columns: minmax(0, 1fr) clamp(320px, 24vw, 460px); }
+  .dk-body { padding: 18px 28px 40px; }
+}
+@media (min-width: 861px) and (max-width: 1100px) {
+  .dk-grid { grid-template-columns: minmax(0, 1fr) 300px; }
+  .lhead, .lrow { grid-template-columns: minmax(150px, 1.5fr) minmax(60px, 1fr) 64px 100px 110px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scr.v18in, .desk.v18in, .phone:not([hidden]), .modal:not([hidden]), .dk-say, .dk-tips li, .lbar i, .bld .plaque, .btn.gold::after, .xpbar i::after, .hubwrap.port .setout, .hubwrap.port .panbtn, #v18wipe.go i, .hstat .v.up, .hstat .v.down { animation: none !important; }
+}
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -3031,7 +3263,8 @@ function travel(to) {
 }
 $("travelBtn").addEventListener("click", () => travel(G.area === "home" ? "town" : "home"));
 const STAT_DEF = [["cash", "CASH", "coin"], ["savings", "SAVINGS", "pig"], ["invest", "INVESTED", "chart"], ["cpf", "CPF", "shield"], ["knowledge", "KNOWLEDGE", "book"], ["energy", "ENERGY", "bolt"]];
-function renderHUD() {
+function renderHUD() { renderHUD0(); if (G) hudCount(); }
+function renderHUD0() {
   if (!G) return;
   drawSprite($("portrait"), G.look);
   $("hName").textContent = (G.look.name || "PLAYER") + (PARTY ? ` · P${(G.pid || 0) + 1}` : "");
@@ -3049,7 +3282,8 @@ function renderHUD() {
   $("setOut").innerHTML = G.resume ? "CONTINUE STORY &gt;" : "SET OUT &gt;";
   $("setOut").style.boxShadow = G.energy === 0 || G.resume ? "0 0 22px rgba(232,194,90,.9)" : "";
 }
-function floaty(k, dv) {
+function floaty(k, dv) { return floaty18(k, dv); }
+function floatyOld(k, dv) {
   const el = document.querySelector(`.hstat[data-k="${k}"]`); if (!el) return;
   const st = $("stage").getBoundingClientRect(), r = el.getBoundingClientRect(), sc = st.width / 1280 || 1;
   const f = document.createElement("span"); f.className = "floaty";
@@ -3059,7 +3293,8 @@ function floaty(k, dv) {
   $("stage").appendChild(f); setTimeout(() => f.remove(), 1500);
 }
 let BW = 320, SW = 1280, SH = 720;
-function fitStage() {
+function fitStage() { return fitStage18(); }
+function fitStageOld() {
   const hub = $("scr-hub"); if (hub.hidden) return;
   const vw = innerWidth, vh = innerHeight, fill = vw >= 700 && vw / vh >= 1.2;
   hub.classList.toggle("fill", fill);
@@ -4090,7 +4325,8 @@ function ending() {
 $("again").addEventListener("click", () => { if (PARTY && PARTY.players.some(p => !p.done)) { hubNext("NEXT PLAYER"); return; } G = null; PARTY = null; clearSave(); $("continue").hidden = true; $("tContinue").hidden = true; show("title"); });
 
 /* ================= NAV ================= */
-function show(id) {
+function show(id) { show0(id); show18(id); }
+function show0(id) {
   document.querySelectorAll(".scr").forEach(s => s.hidden = s.id !== "scr-" + id);
   $("flow").hidden = id === "hub";
   if (id !== "hub") $("phone").hidden = true;
@@ -7083,7 +7319,8 @@ const Music = (() => {
 document.addEventListener("click", e => { if (e.target.closest("[data-set]")) return;
   const btn = e.target.closest("button"); if (!btn || btn.disabled || btn.dataset.quiet !== undefined) return;
   Music.sfx(/BACK|CANCEL|CLOSE|LEAVE|^<|EXIT/.test(btn.textContent.trim()) ? "back" : "click"); }, true);
-const SFX = (n, a) => { try { Music.sfx(n, a); } catch (e) {} };
+let SFX_T = 0;
+const SFX = (n, a) => { try { SFX_T = performance.now(); Music.sfx(n, a); } catch (e) {} };
 /* ---- settings menu (replaces the old music on/off button) ---- */
 (function () {
   const M = $("setModal"), out = () => { $("setMVolO").textContent = $("setMVol").value + "%"; $("setSVolO").textContent = $("setSVol").value + "%"; };
@@ -8034,7 +8271,8 @@ function deskOpen(id, title, tag, back) {
 }
 function deskTag(tag) { $("dkTag").innerHTML = tag || ""; }
 // Ms Lim speaks: types the line only when it changes, then lists her pointers
-function limSay(html, tips, title) {
+function limSay(html, tips, title) { return limSay18(html, tips, title); }
+function limSay0(html, tips, title) {
   const el = $("dkSay");
   if (DK.said !== html) { DK.said = html; typeInto(el, html, "lim"); }
   $("dkTipsT").textContent = title || "WHAT TO THINK ABOUT";
@@ -8291,10 +8529,7 @@ function renderLoans() {
       ${mine.map((l, i) => `<div class="mrow"><span><b>${l.n}</b><small>${money(l.mo)}/mth · ${l.left} months left · ${(l.rate * 100).toFixed(1)}% EIR</small></span><b>${money(l.bal)}</b><button class="btn" data-lpay="${i}" ${G.cash + G.savings < l.bal ? "disabled" : ""}>REPAY IN FULL</button></div>`).join("")}
       ${!mine.length && !G.loan && !G.debt && !(G.props || []).some(p => p.loan > 0) ? `<p class="dk-note">You owe nothing. Nice.</p>` : ""}</div>
     ${carNow ? `<h3 class="dk-h">MY CAR</h3><div class="mine"><div class="mrow"><span><b>${carNow.n}</b><small>Worth about ${money(carNow.value)} today. Cars are bought, sold and renewed at the <b>Car Showroom</b> in Town.</small></span></div></div>` : `<p class="dk-note">Looking for a car? Car loans are arranged at the new <b>Car Showroom</b> in Town, where you can view the car first.</p>`}
-    ${"" ? "" : ""}${false && carNow ? `<div class="mine"><div class="mrow"><span><b>YOUR CAR · ${carNow.n}</b><small>Worth about ${money(carNow.value)} today (bought for ${money(carNow.price)}) · running costs ${money(carNow.run)}/mth</small></span><button class="btn" id="carSell">SELL FOR ${money(carNow.value)}</button></div></div>`
-      : `<div class="cars">${CARS.map(c => `<button class="carc" data-car="${c.id}" aria-pressed="${c.id === LN.car}">${iconSvg("car", 40)}<b>${c.n}</b><small>${c.sub}</small><span>${money(c.price)}</span><small>${money(c.run)}/mth to run</small></button>`).join("")}</div>
-      <div class="ldetail"><div class="lcalc"><span>Down payment <b>${money(cDown)}</b> (${Math.round((1 - car.ltv) * 100)}% in cash)</span><span>Loan <b>${money(cLoan)}</b> over <span class="stp"><button data-cy="-1">−</button><b>${LN.carYrs} YRS</b><button data-cy="1">+</button></span></span><span>Instalment <b>${money(cq.mo)}/mth</b></span><span>Interest <b class="neg">${money(cq.interest)}</b></span><span>All-in each month <b>${money(cq.mo + car.run + 120)}</b> with running costs and insurance</span></div>
-      <ul class="chk">${cchk.map(c => `<li class="${c[0] ? "y" : "n"}">${c[1]}</li>`).join("")}</ul><button class="btn gold" id="carBuy" ${cchk.every(c => c[0]) ? "" : "disabled"}>BUY THIS CAR ON A ${LN.carYrs}-YEAR LOAN</button></div>`}`;
+`;
   paintIcons($("dkBody"));
   const B = $("dkBody"), re = () => renderLoans();
   B.querySelectorAll("[data-la]").forEach(b => b.onclick = () => { LN.amt = clamp(LN.amt + +b.dataset.la, 5000, 500000); re(); });
@@ -8302,8 +8537,7 @@ function renderLoans() {
   B.querySelectorAll("[data-cy]").forEach(b => b.onclick = () => { LN.carYrs = clamp(LN.carYrs + +b.dataset.cy, 1, 7); re(); });
   B.querySelectorAll("[data-lc]").forEach(b => b.onclick = () => { LN.cat = b.dataset.lc; re(); });
   B.querySelectorAll("[data-ln]").forEach(b => b.onclick = () => { LN.sel = LN.sel === b.dataset.ln ? null : b.dataset.ln; LN.msg = ""; re(); });
-  B.querySelectorAll("[data-car]").forEach(b => b.onclick = () => { LN.car = b.dataset.car; LN.sel = "car"; re(); });
-  const tk = $("lnTake"); if (tk) tk.onclick = () => { const y = yrsFor(L);
+    const tk = $("lnTake"); if (tk) tk.onclick = () => { const y = yrsFor(L);
     if (tk.dataset.ok !== "1") { tk.dataset.ok = "1"; tk.textContent = "TAP AGAIN TO SIGN THE LOAN"; return; }
     if (L.k === "bt") { const q = loanTake("bt", LN.amt, 1); G.debt -= LN.amt; G.debt += q.fee; LN.msg = `Moved ${money(LN.amt)} off your card for a ${money(q.fee)} fee. You now repay ${money(q.mo)} a month at 0% for 12 months.`; }
     else { const q = loanTake(L.k, LN.amt, y); why(`Loan: ${L.n.toLowerCase()}`); G.cash += LN.amt; LN.msg = `${money(LN.amt)} is in your purse. You repay ${money(q.mo)} a month for ${y} year${y > 1 ? "s" : ""}: ${money(q.interest)} in interest altogether.`; }
@@ -11113,6 +11347,107 @@ function poolsShow(b, html) {
   scr.scrollTop = y; const f = scr.querySelector("[data-tab][aria-selected=true]"); if (first && f) f.focus();
 }
 addEventListener("keydown", e => { if (e.key === "Escape" && !$("scr-pools").hidden && $("modal").hidden && $("cut").hidden) { curB = null; enterHub(); } });
+
+/* ==================== v18: phones, desktop fit, Ms Lim's bubbles, juice ==================== */
+// --- hub HUD moves out of the scaled stage on phones and tall windows, so it stays readable and the town can be swiped ---
+function hudMove(port) {
+  const hub = $("scr-hub"), st = $("stage"), box = $("stageBox");
+  let T = $("hudT"), B = $("hudB"), P = $("townPan");
+  if (!P) {
+    P = document.createElement("div"); P.id = "townPan"; box.parentNode.insertBefore(P, box); P.appendChild(box);
+    const W = document.createElement("div"); W.className = "panwrap"; P.parentNode.insertBefore(W, P); W.appendChild(P);
+    W.insertAdjacentHTML("beforeend", `<button class="panbtn l" id="panL" aria-label="Look left">◀</button><button class="panbtn r" id="panR" aria-label="Look right">▶</button>`);
+    const step = d => { P.scrollBy({ left: d * P.clientWidth * .6, behavior: RM ? "auto" : "smooth" }); SFX("click"); };
+    $("panL").onclick = () => step(-1); $("panR").onclick = () => step(1);
+    P.addEventListener("scroll", panArrows, { passive: true });
+    T = document.createElement("div"); T.id = "hudT"; T.className = "hudT"; hub.insertBefore(T, W);
+    B = document.createElement("div"); B.id = "hudB"; B.className = "hudB"; hub.appendChild(B);
+  }
+  const tb = st.querySelector(".topbar") || T.querySelector(".topbar"), bb = st.querySelector(".bottombar") || B.querySelector(".bottombar");
+  if (port && tb.parentNode !== T) { T.append(tb, $("chapterTag"), $("areaBadge"), $("side")); B.append(bb); }
+  else if (!port && tb.parentNode !== st) st.append(tb, $("side"), $("chapterTag"), $("areaBadge"), bb);
+}
+function panArrows() { const P = $("townPan"); if (!P) return; const max = P.scrollWidth - P.clientWidth; $("panL").disabled = P.scrollLeft < 8; $("panR").disabled = P.scrollLeft > max - 8; }
+function fitStage18() {
+  const hub = $("scr-hub"); if (hub.hidden) return;
+  const vw = innerWidth, vh = innerHeight, fill = vw >= 700 && vw / vh >= 1.2, port = !fill;
+  hub.classList.toggle("fill", fill); hub.classList.toggle("port", port); hudMove(port);
+  let s, w = 1280, h = 720;
+  if (fill) { s = Math.min(vw / 1280, vh / 720); w = vw / s; h = vh / s; }
+  else { const P = $("townPan"), avail = Math.max(220, P.clientHeight || vh - $("hudT").offsetHeight - $("hudB").offsetHeight); s = Math.min(avail / 720, 1.6); if (1280 * s < vw) { s = Math.min(vw / 1280, avail / 720 * 1.0); } }
+  SW = Math.round(w); SH = Math.round(h);
+  const st = $("stage"); st.style.width = SW + "px"; st.style.height = SH + "px"; st.style.transform = `scale(${s})`; st.style.setProperty("--sw", SW + "px");
+  const box = $("stageBox"); box.style.width = (SW * s) + "px"; box.style.height = (SH * s) + "px";
+  const nb = Math.round(180 * SW / SH);
+  if (nb !== BW) { BW = nb; ["bgHome", "bgTown", "trainLayer"].forEach(id => $(id).width = BW); drawHomeBg(); drawTownBg(); }
+  layoutBlds();
+  if (port) { const P = $("townPan"), key = (G && G.area || "home") + ":" + Math.round(s * 100); if (P.dataset.k !== key) { P.dataset.k = key; P.scrollLeft = (P.scrollWidth - P.clientWidth) / 2; } panArrows(); }
+}
+// money pop-ups float from the stat wherever the HUD lives now
+function floaty18(k, dv) {
+  const el = document.querySelector(`.hstat[data-k="${k}"]`); if (!el || !el.offsetParent) return;
+  const r = el.getBoundingClientRect(), f = document.createElement("span"); f.className = "floaty";
+  f.style.cssText = `position:fixed;z-index:60;left:${r.left + 10}px;top:${r.bottom + 4}px;color:${dv > 0 ? "var(--mint)" : "var(--coral)"}`;
+  f.textContent = (dv > 0 ? "+" : "-") + (["knowledge", "energy"].includes(k) ? Math.abs(dv) : money(Math.abs(dv)));
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1500);
+}
+addEventListener("orientationchange", () => setTimeout(fitStage, 250));
+if (window.visualViewport) visualViewport.addEventListener("resize", () => { clearTimeout(fitStage._t); fitStage._t = setTimeout(fitStage, 120); });
+
+// --- numbers count up or down instead of jumping ---
+const V18N = { last: {} };
+const numOf = t => { const m = String(t).replace(/[^0-9.\-]/g, ""); return m && !isNaN(+m) ? +m : null; };
+function countTo(el, from, to, fmt) {
+  if (RM || from === to || from == null) return;
+  el.classList.remove("up", "down"); void el.offsetWidth; el.classList.add(to > from ? "up" : "down");
+  const t0 = performance.now(), dur = Math.min(900, 300 + Math.log10(Math.abs(to - from) + 1) * 120), fin = el.textContent;
+  const step = now => { const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3); if (!el.isConnected) return;
+    el.textContent = p >= 1 ? fin : fmt(from + (to - from) * e); if (p < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+const fmtCash = v => (v < 0 ? "-" : "") + "$" + Math.round(Math.abs(v)).toLocaleString("en-US");
+function hudCount() {
+    try { document.querySelectorAll(".hstat").forEach(h => { const k = h.dataset.k, v = h.querySelector(".v"); if (!v || k === "energy") return;
+      const n = numOf(v.textContent), was = V18N.last[k]; V18N.last[k] = n;
+      if (was != null && n != null && was !== n) countTo(v, was, n, k === "knowledge" ? x => String(Math.round(x)) : fmtCash); }); } catch (e) {}
+}
+
+// --- Ms Lim: the bubble is sized for her whole line before she types it, tap it to finish, tips fold away on phones ---
+function limSay18(html, tips, title) {
+    const el = $("dkSay"), changed = DK.said !== html;
+    if (changed) { el.style.minHeight = ""; el.innerHTML = html; const h = el.offsetHeight; if (h) el.style.minHeight = h + "px"; el.style.animation = "none"; void el.offsetWidth; el.style.animation = ""; }
+    limSay0(html, tips, title);
+    $("dkTips").querySelectorAll("li").forEach((li, i) => li.style.setProperty("--i", i));
+}
+{
+  $("dkSay").addEventListener("click", () => { const el = $("dkSay"); if (el._tw) el._tw.finish(); });
+  $("dkTipsT").addEventListener("click", () => { $("dkTipsBox").classList.toggle("open"); SFX("click"); });
+  addEventListener("resize", () => { const el = $("dkSay"); if (el && !el._tw) el.style.minHeight = ""; });
+}
+
+// --- every screen change slides in; leaving for the town plays a quick pixel wipe ---
+function show18(id) {
+    const s = $("scr-" + id); if (s && !RM) { s.classList.remove("v18in"); void s.offsetWidth; s.classList.add("v18in"); setTimeout(() => s.classList.remove("v18in"), 400); }
+    if (id === "hub") requestAnimationFrame(fitStage);
+}
+function v18wipe() { if (RM) return; let w = $("v18wipe"); if (!w) { w = document.createElement("div"); w.id = "v18wipe"; w.setAttribute("aria-hidden", "true"); w.innerHTML = Array.from({ length: 8 }, (_, i) => `<i style="--i:${i}"></i>`).join(""); document.body.appendChild(w); }
+  w.classList.remove("go"); void w.offsetWidth; w.classList.add("go"); clearTimeout(w._t); w._t = setTimeout(() => w.classList.remove("go"), 800); }
+$("travelBtn").addEventListener("click", v18wipe, true);
+
+// --- tap feedback: a tiny burst of pixels and a soft click if the button made no sound of its own ---
+{ const pop = (x, y, c) => { if (RM) return; for (let i = 0; i < 6; i++) { const p = document.createElement("i"), a = i / 6 * Math.PI * 2 + Math.random() * .5, d = 14 + Math.random() * 12;
+    p.className = "v18burst"; p.style.cssText = `left:${x}px;top:${y}px;--dx:${Math.cos(a) * d}px;--dy:${Math.sin(a) * d}px;--c:${c}`; document.body.appendChild(p); setTimeout(() => p.remove(), 460); } };
+  const SEL = "button, [role=button], .card, .lrow, .act, .carc";
+  document.addEventListener("pointerdown", e => { const b = e.target.closest(SEL); if (!b || b.disabled) return; pop(e.clientX, e.clientY, b.classList.contains("gold") ? "#FFE9A0" : "#E8C25A"); }, { passive: true });
+  document.addEventListener("click", e => { const b = e.target.closest(SEL); if (!b || b.disabled || b.closest(".mg, .cut")) return; const t = performance.now(); setTimeout(() => { if (SFX_T < t - 5) SFX("click"); }, 0); });
+}
+
+// --- on phones, keep focused inputs in view above the keyboard ---
+document.addEventListener("focusin", e => { if (innerWidth < 760 && e.target.matches("input, textarea")) setTimeout(() => { try { e.target.scrollIntoView({ block: "center", behavior: "smooth" }); } catch (x) {} }, 300); });
+
+// --- story mode: the chapter path always sits just under the top bar, however tall it wraps ---
+if (window.ResizeObserver) { const top = document.querySelector("#scr-story .st-top"), path = $("stPath");
+  if (top && path) new ResizeObserver(() => { path.style.top = (top.offsetHeight + 6) + "px"; }).observe(top); }
 
 authBoot();
 })();
