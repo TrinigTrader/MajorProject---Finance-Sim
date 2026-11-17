@@ -4,6 +4,15 @@ A pixel-art life sim set in a Singapore HDB estate that teaches young adults abo
 
 Play it at **https://trinigtrader.github.io/MajorProject---Finance-Sim/** (GitHub Pages, from `main`).
 
+## What's new in v19
+
+- **Live stock prices**: while you play, the market keeps moving. Every 3 seconds your stocks and index fund are repriced and the INVESTED number in the top bar updates with a green or red flash and a small +/- amount. It pauses during your life story, chapter reviews, the tutorial and when the tab is in the background, and the Stock Exchange's trade screen still ticks every 1.5 seconds. The moves are small (about a normal year of ups and downs over half a day of play) and have no built-in drift, so sitting in the hub doesn't make you rich. Limit orders can fill while you're elsewhere.
+- **Home editing on phones**: in portrait, storage is a swipeable drawer at the bottom (drag an item up onto the floor), the buttons sit in one slim row, and the floor plan gets the full width. In landscape the storage column is narrower and the tray is one row. The header is one line and the edit hint is shorter.
+- **Pet store on phones**: the three sections are one row of tabs, the chosen pet sits right under them with its picture beside its skill, and the pets are a tidy 3-wide grid. In landscape the list and the chosen pet sit side by side and scroll on their own. The Exotic Eggs page puts the egg and HATCH buttons first, with the odds after.
+- **Learn articles on phones**: the browser fills the whole screen with no outer frame, CLOSE moves into the address bar, and the text is sized for reading.
+- **Landscape phones in general**: full-page screens (Stock Exchange, Shopping Mall, Pet Store, Furniture Store and others) get a slimmer title and bottom bar. The Stock Exchange order ticket no longer spills off the right edge, and the Shopping Mall puts your character on the left and the racks on the right.
+- Fixed: the home editor's tray rows were drawn as boxed panels because they shared a style with the titles list.
+
 ## What's new in v18
 
 - **Plays properly on phones**: on a phone (or any tall window) the hub puts your profile and money at the top, the town in the middle (swipe it, or tap the ◀ ▶ arrows), and Phone, Settings, Travel and a big SET OUT button at the bottom. No more sideways scrolling or zoomed-out pages. Buttons are at least about 44px tall, the phone app fills the screen, pop-ups fit, and notches and home bars are respected. Checked at 360x740, 390x844, 1280x800, 1366x768 and 1920x1080.
